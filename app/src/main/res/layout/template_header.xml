@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardElevation="2dp">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/material_actionbar_size">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/gray_reyhoon"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/template_header_left_back_button"
+                style="@style/template_header_icons"
+                android:visibility="invisible" />
+            <!--android:fontFamily="@font/icons"-->
+            <!--android:text="@string/icon.arrow.left" -->
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/template_header_back_button"
+                style="@style/template_header_icons" />
+            <!--android:fontFamily="@font/icons"-->
+            <!--android:text="@string/icon.arrow.right" />-->
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/template_header_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:maxLength="30"
+            android:textColor="@color/colorPrimary" />
+    </FrameLayout>
+
+</android.support.v7.widget.CardView>
