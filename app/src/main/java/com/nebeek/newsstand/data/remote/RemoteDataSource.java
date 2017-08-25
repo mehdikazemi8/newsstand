@@ -3,10 +3,14 @@ package com.nebeek.newsstand.data.remote;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.nebeek.newsstand.data.DataSource;
+import com.nebeek.newsstand.data.remote.response.SearchResponse;
 
 import okhttp3.Credentials;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -53,10 +57,23 @@ public class RemoteDataSource extends DataSource {
         apiService = retrofit.create(ApiService.class);
     }
 
-
-
     @Override
     public void searchKeyword(String keyword, SearchKeywordCallback callback) {
+        Call<SearchResponse> call = apiService.searchKeyword(keyword);
+        call.enqueue(new Callback<SearchResponse>() {
+            @Override
+            public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
+                if (response.isSuccessful()) {
+                    callback.onResponse(response.body().getResults());
+                } else {
+                    callback.onFailure();
+                }
+            }
 
+            @Override
+            public void onFailure(Call<SearchResponse> call, Throwable t) {
+                callback.onFailure();
+            }
+        });
     }
 }

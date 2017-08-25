@@ -6,6 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.bluelinelabs.conductor.Router;
 import com.bluelinelabs.conductor.RouterTransaction;
@@ -13,14 +14,14 @@ import com.bluelinelabs.conductor.support.RouterPagerAdapter;
 import com.nebeek.newsstand.R;
 import com.nebeek.newsstand.controller.base.BaseBackStackController;
 import com.nebeek.newsstand.controller.base.BaseController;
-import com.nebeek.newsstand.controller.base.HeaderController;
 import com.nebeek.newsstand.data.DataRepository;
 import com.nebeek.newsstand.data.local.PreferenceManager;
 import com.nebeek.newsstand.ui.library.LibraryController;
+import com.nebeek.newsstand.ui.search.SearchController;
 
 import butterknife.BindView;
 
-public class MainController extends HeaderController implements MainContract.View {
+public class MainController extends BaseController implements MainContract.View {
 
     private String[] pageTitles = {"Read Later", "Explore", "Library", "For You"};
 
@@ -30,6 +31,8 @@ public class MainController extends HeaderController implements MainContract.Vie
     TabLayout tabLayout;
     @BindView(R.id.view_pager)
     ViewPager viewPager;
+    @BindView(R.id.search_view)
+    TextView searchView;
 
     public static MainController newInstance() {
         return new MainController();
@@ -84,15 +87,21 @@ public class MainController extends HeaderController implements MainContract.Vie
         return controllers[position];
     }
 
+    void showSearchUI() {
+        getRouter().pushController(RouterTransaction.with(SearchController.newInstance()));
+    }
+
     @Override
     protected void onViewBound(@NonNull View view) {
         super.onViewBound(view);
 
-        headerBackButton.setVisibility(View.INVISIBLE);
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
         viewPager.setCurrentItem(NUMBER_OF_TABS - 1);
         viewPager.setOffscreenPageLimit(NUMBER_OF_TABS - 1);
+        searchView.setOnClickListener(searchView -> {
+            showSearchUI();
+        });
 
         setActive(true);
         presenter = new MainPresenter(PreferenceManager.getInstance(getActivity()), DataRepository.getInstance(), this);
