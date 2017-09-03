@@ -12,6 +12,7 @@ import com.nebeek.newsstand.data.remote.response.SearchResponse;
 import okhttp3.Credentials;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -124,6 +125,26 @@ public class RemoteDataSource extends DataSource {
 
             @Override
             public void onFailure(Call<Keyword> call, Throwable t) {
+                callback.onFailure();
+            }
+        });
+    }
+
+    @Override
+    public void removeKeyword(Integer id, RemoveKeywordCallback callback) {
+        Call<ResponseBody> call = apiService.removeKeyword(id);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    callback.onSuccess();
+                } else {
+                    callback.onFailure();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
                 callback.onFailure();
             }
         });

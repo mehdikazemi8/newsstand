@@ -12,6 +12,7 @@ import java.util.List;
 public class SearchPresenter implements SearchContract.Presenter {
 
     private String keyword;
+    private Keyword keywordObject = null;
     private SearchContract.View searchView;
     private DataRepository dataRepository;
 
@@ -66,6 +67,7 @@ public class SearchPresenter implements SearchContract.Presenter {
                     return;
                 }
 
+                keywordObject = keyword;
                 searchView.changePlusToCheck();
             }
 
@@ -87,6 +89,33 @@ public class SearchPresenter implements SearchContract.Presenter {
 
     @Override
     public void removeFromLibrary() {
-        // todo
+        if (keywordObject == null) {
+            return;
+        }
+
+        dataRepository.removeKeyword(keywordObject.getId(), new DataSource.RemoveKeywordCallback() {
+            @Override
+            public void onSuccess() {
+                if (!searchView.isActive()) {
+                    return;
+                }
+
+                searchView.changeCheckToPlus();
+            }
+
+            @Override
+            public void onFailure() {
+                if (!searchView.isActive()) {
+                    return;
+                }
+            }
+
+            @Override
+            public void onNetworkFailure() {
+                if (!searchView.isActive()) {
+                    return;
+                }
+            }
+        });
     }
 }

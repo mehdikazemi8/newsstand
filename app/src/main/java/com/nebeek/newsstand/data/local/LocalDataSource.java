@@ -17,4 +17,9 @@ public class LocalDataSource extends DataSource {
     public void addKeyword(String keyword, AddKeywordCallback callback) {
 
     }
+
+    @Override
+    public void removeKeyword(Integer id, RemoveKeywordCallback callback) {
+
+    }
 }

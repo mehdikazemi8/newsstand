@@ -52,4 +52,13 @@ public class DataRepository extends DataSource {
             remoteDataSource.addKeyword(keyword, callback);
         }
     }
+
+    @Override
+    public void removeKeyword(Integer id, RemoveKeywordCallback callback) {
+        if (!networkHelper.isNetworkAvailable()) {
+            callback.onNetworkFailure();
+        } else {
+            remoteDataSource.removeKeyword(id, callback);
+        }
+    }
 }

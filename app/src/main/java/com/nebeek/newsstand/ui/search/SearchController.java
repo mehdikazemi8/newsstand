@@ -98,7 +98,7 @@ public class SearchController extends BaseController implements SearchContract.V
 
     @Override
     public void changePlusToCheck() {
-        addButton.setText("in");
+        addButton.setText("check");
     }
 
     @Override
