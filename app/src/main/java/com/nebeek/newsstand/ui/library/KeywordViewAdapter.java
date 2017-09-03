@@ -11,19 +11,23 @@ import com.bumptech.glide.Glide;
 import com.nebeek.newsstand.R;
 import com.nebeek.newsstand.data.models.Keyword;
 import com.nebeek.newsstand.util.customview.SquareImageView;
+import com.nebeek.newsstand.util.listener.OnItemSelectedListener;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class KeywordViewAdapter extends RecyclerView.Adapter<KeywordViewAdapter.ViewHolder> {
 
     private Context context;
     private List<Keyword> items;
+    private OnItemSelectedListener<Keyword> onItemSelectedListener;
 
-    public KeywordViewAdapter(List<Keyword> items) {
+    public KeywordViewAdapter(List<Keyword> items, OnItemSelectedListener<Keyword> onItemSelectedListener) {
         this.items = items;
+        this.onItemSelectedListener = onItemSelectedListener;
     }
 
     @Override
@@ -51,6 +55,11 @@ public class KeywordViewAdapter extends RecyclerView.Adapter<KeywordViewAdapter.
         SquareImageView photo;
         @BindView(R.id.content)
         TextView content;
+
+        @OnClick(R.id.root_view)
+        public void rootViewOnClick() {
+            onItemSelectedListener.onSelect(items.get(getAdapterPosition()));
+        }
 
         public ViewHolder(View itemView) {
             super(itemView);

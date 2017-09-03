@@ -118,4 +118,9 @@ public class SearchPresenter implements SearchContract.Presenter {
             }
         });
     }
+
+    @Override
+    public void setKeywordObject(Keyword keywordObject) {
+        this.keywordObject = keywordObject;
+    }
 }

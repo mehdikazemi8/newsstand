@@ -59,6 +59,11 @@ public class LibraryPresenter implements LibraryContract.Presenter {
 
             }
         });
+    }
 
+    @Override
+    public void onKeywordSelected(Keyword keyword) {
+        keyword.setInLibrary(true);
+        libraryView.showSearchUI(keyword);
     }
 }

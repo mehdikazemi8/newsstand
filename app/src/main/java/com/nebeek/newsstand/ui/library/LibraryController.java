@@ -9,10 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.bluelinelabs.conductor.RouterTransaction;
+import com.bluelinelabs.conductor.changehandler.FadeChangeHandler;
 import com.nebeek.newsstand.R;
 import com.nebeek.newsstand.controller.base.BaseBackStackController;
 import com.nebeek.newsstand.data.DataRepository;
 import com.nebeek.newsstand.data.models.Keyword;
+import com.nebeek.newsstand.ui.search.SearchController;
+import com.nebeek.newsstand.util.listener.OnItemSelectedListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,9 +36,21 @@ public class LibraryController extends BaseBackStackController implements Librar
 
     private void init() {
         keywords.setLayoutManager(new GridLayoutManager(getActivity(), 4));
-        adapter = new KeywordViewAdapter(keywordList);
+        adapter = new KeywordViewAdapter(keywordList, onItemSelectedListener);
         keywords.setAdapter(adapter);
     }
+
+    private OnItemSelectedListener<Keyword> onItemSelectedListener = new OnItemSelectedListener<Keyword>() {
+        @Override
+        public void onSelect(Keyword keyword) {
+            presenter.onKeywordSelected(keyword);
+        }
+
+        @Override
+        public void onDeselect(Keyword object) {
+
+        }
+    };
 
     @Override
     protected void onViewBound(@NonNull View view) {
@@ -73,5 +89,14 @@ public class LibraryController extends BaseBackStackController implements Librar
         this.keywordList.clear();
         this.keywordList.addAll(keywordList);
         this.adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showSearchUI(Keyword keyword) {
+        getParentController().getRouter().pushController(
+                RouterTransaction.with(SearchController.newInstance(keyword))
+                        .pushChangeHandler(new FadeChangeHandler())
+                        .popChangeHandler(new FadeChangeHandler())
+        );
     }
 }

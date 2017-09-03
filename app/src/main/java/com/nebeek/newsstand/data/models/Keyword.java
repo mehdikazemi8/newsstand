@@ -5,6 +5,15 @@ public class Keyword extends BaseModel {
     String content;
     String photoURL;
     Boolean receiveNotification;
+    Boolean inLibrary = false;
+
+    public Boolean getInLibrary() {
+        return inLibrary;
+    }
+
+    public void setInLibrary(Boolean inLibrary) {
+        this.inLibrary = inLibrary;
+    }
 
     public Integer getId() {
         return id;

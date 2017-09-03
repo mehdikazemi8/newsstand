@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.nebeek.newsstand.R;
 import com.nebeek.newsstand.controller.base.BaseController;
 import com.nebeek.newsstand.data.DataRepository;
+import com.nebeek.newsstand.data.models.Keyword;
 import com.nebeek.newsstand.data.models.Snippet;
 
 import java.util.ArrayList;
@@ -35,14 +36,34 @@ public class SearchController extends BaseController implements SearchContract.V
     private SearchContract.Presenter presenter;
     private SnippetViewAdapter snippetViewAdapter;
     private String keyword;
+    private Keyword keywordObject;
 
     public static SearchController newInstance(String keyword) {
         SearchController instance = new SearchController();
         instance.keyword = keyword;
+        instance.keywordObject = null;
         return instance;
     }
 
+    public static SearchController newInstance(Keyword keywordObject) {
+        SearchController instance = new SearchController();
+        instance.keyword = null;
+        instance.keywordObject = keywordObject;
+        return instance;
+    }
+
+    // todo, check and plus is hardcoded!
     private void initView() {
+        if (keyword == null) {
+            keyword = keywordObject.getContent();
+
+            if (keywordObject.getInLibrary()) {
+                addButton.setText("check");
+            } else {
+                addButton.setText("plus");
+            }
+        }
+
         keywordContent.setText(keyword);
         snippetViewAdapter = new SnippetViewAdapter(snippetList);
         snippets.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -57,6 +78,11 @@ public class SearchController extends BaseController implements SearchContract.V
 
         setActive(true);
         presenter = new SearchPresenter(keyword, this, DataRepository.getInstance());
+
+        if(keywordObject != null) {
+            presenter.setKeywordObject(keywordObject);
+        }
+
         presenter.start();
     }
 

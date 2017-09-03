@@ -15,9 +15,12 @@ public class LibraryContract {
         void hideLoading();
 
         void showKeywords(List<Keyword> keywordList);
+
+        void showSearchUI(Keyword keyword);
     }
 
     public interface Presenter extends BasePresenter {
 
+        void onKeywordSelected(Keyword keyword);
     }
 }
