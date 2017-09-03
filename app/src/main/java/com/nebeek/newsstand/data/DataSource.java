@@ -1,5 +1,6 @@
 package com.nebeek.newsstand.data;
 
+import com.nebeek.newsstand.data.models.Keyword;
 import com.nebeek.newsstand.data.models.Snippet;
 
 import java.util.List;
@@ -15,5 +16,16 @@ public abstract class DataSource {
         void onNetworkFailure();
     }
 
+    public interface GetKeywordsCallback {
+
+        void onResponse(List<Keyword> keywordList);
+
+        void onFailure();
+
+        void onNetworkFailure();
+    }
+
     public abstract void searchKeyword(String keyword, SearchKeywordCallback callback);
+
+    public abstract void getKeywords(GetKeywordsCallback callback);
 }

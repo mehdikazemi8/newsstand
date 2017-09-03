@@ -1,5 +1,7 @@
 package com.nebeek.newsstand.data;
 
+import android.util.Log;
+
 import com.nebeek.newsstand.util.NetworkHelper;
 
 public class DataRepository extends DataSource {
@@ -29,6 +31,16 @@ public class DataRepository extends DataSource {
             callback.onNetworkFailure();
         } else {
             remoteDataSource.searchKeyword(keyword, callback);
+        }
+    }
+
+    @Override
+    public void getKeywords(GetKeywordsCallback callback) {
+        if(!networkHelper.isNetworkAvailable()) {
+            callback.onNetworkFailure();
+        } else {
+            Log.d("TAG", "want to get keywords");
+            remoteDataSource.getKeywords(callback);
         }
     }
 }

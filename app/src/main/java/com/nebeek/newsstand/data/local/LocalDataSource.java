@@ -7,4 +7,9 @@ public class LocalDataSource extends DataSource {
     public void searchKeyword(String keyword, SearchKeywordCallback callback) {
 
     }
+
+    @Override
+    public void getKeywords(GetKeywordsCallback callback) {
+
+    }
 }

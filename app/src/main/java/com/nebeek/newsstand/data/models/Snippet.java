@@ -4,6 +4,7 @@ import java.util.List;
 
 public class Snippet {
 
+    private Integer id;
     private String title;
     private List<String> photoURLs = null;
     private String description;
@@ -13,6 +14,14 @@ public class Snippet {
     private Integer likeCount;
     private Integer dislikeCount;
     private List<Comment> comments = null;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;
