@@ -36,11 +36,20 @@ public class DataRepository extends DataSource {
 
     @Override
     public void getKeywords(GetKeywordsCallback callback) {
-        if(!networkHelper.isNetworkAvailable()) {
+        if (!networkHelper.isNetworkAvailable()) {
             callback.onNetworkFailure();
         } else {
             Log.d("TAG", "want to get keywords");
             remoteDataSource.getKeywords(callback);
+        }
+    }
+
+    @Override
+    public void addKeyword(String keyword, AddKeywordCallback callback) {
+        if (!networkHelper.isNetworkAvailable()) {
+            callback.onNetworkFailure();
+        } else {
+            remoteDataSource.addKeyword(keyword, callback);
         }
     }
 }

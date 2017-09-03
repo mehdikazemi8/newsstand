@@ -5,6 +5,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.nebeek.newsstand.data.DataSource;
+import com.nebeek.newsstand.data.models.Keyword;
 import com.nebeek.newsstand.data.remote.response.KeywordsResponse;
 import com.nebeek.newsstand.data.remote.response.SearchResponse;
 
@@ -103,6 +104,26 @@ public class RemoteDataSource extends DataSource {
             public void onFailure(Call<KeywordsResponse> call, Throwable t) {
                 Log.d("TAG", "onFailure " + t.getCause());
 
+                callback.onFailure();
+            }
+        });
+    }
+
+    @Override
+    public void addKeyword(String keyword, AddKeywordCallback callback) {
+        Call<Keyword> call = apiService.addKeyword(keyword);
+        call.enqueue(new Callback<Keyword>() {
+            @Override
+            public void onResponse(Call<Keyword> call, Response<Keyword> response) {
+                if (response.isSuccessful()) {
+                    callback.onResponse(response.body());
+                } else {
+                    callback.onFailure();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Keyword> call, Throwable t) {
                 callback.onFailure();
             }
         });

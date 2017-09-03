@@ -1,5 +1,6 @@
 package com.nebeek.newsstand.data.remote;
 
+import com.nebeek.newsstand.data.models.Keyword;
 import com.nebeek.newsstand.data.remote.response.KeywordsResponse;
 import com.nebeek.newsstand.data.remote.response.SearchResponse;
 
@@ -19,4 +20,7 @@ public interface ApiService {
     @GET("59aad27c270000ea0cef71fb")
     Call<KeywordsResponse> getKeywords();
 
+    @FormUrlEncoded
+    @POST("59ac2169100000570bf9c232")
+    Call<Keyword> addKeyword(@Field("keyword") String keyword);
 }

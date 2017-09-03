@@ -3,13 +3,14 @@ package com.nebeek.newsstand.ui.main;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.bluelinelabs.conductor.Router;
 import com.bluelinelabs.conductor.RouterTransaction;
+import com.bluelinelabs.conductor.changehandler.FadeChangeHandler;
 import com.bluelinelabs.conductor.support.RouterPagerAdapter;
 import com.nebeek.newsstand.R;
 import com.nebeek.newsstand.controller.base.BaseBackStackController;
@@ -32,7 +33,7 @@ public class MainController extends BaseController implements MainContract.View 
     @BindView(R.id.view_pager)
     ViewPager viewPager;
     @BindView(R.id.search_view)
-    TextView searchView;
+    SearchView searchView;
 
     public static MainController newInstance() {
         return new MainController();
@@ -87,10 +88,6 @@ public class MainController extends BaseController implements MainContract.View 
         return controllers[position];
     }
 
-    void showSearchUI() {
-        getRouter().pushController(RouterTransaction.with(SearchController.newInstance()));
-    }
-
     @Override
     protected void onViewBound(@NonNull View view) {
         super.onViewBound(view);
@@ -99,12 +96,13 @@ public class MainController extends BaseController implements MainContract.View 
         tabLayout.setupWithViewPager(viewPager);
         viewPager.setCurrentItem(NUMBER_OF_TABS - 1);
         viewPager.setOffscreenPageLimit(NUMBER_OF_TABS - 1);
-        searchView.setOnClickListener(searchView -> {
-            showSearchUI();
-        });
+//        searchView.setOnClickListener(searchView -> {
+//            showSearchUI();
+//        });
 
         setActive(true);
         presenter = new MainPresenter(PreferenceManager.getInstance(getActivity()), DataRepository.getInstance(), this);
+        searchView.setOnQueryTextListener(presenter);
         presenter.start();
     }
 
@@ -134,5 +132,14 @@ public class MainController extends BaseController implements MainContract.View 
         }
         tabLayout.setupWithViewPager(null);
         super.onDestroyView(view);
+    }
+
+    @Override
+    public void showSearchUI(String keyword) {
+        getRouter().pushController(
+                RouterTransaction.with(SearchController.newInstance(keyword))
+                        .pushChangeHandler(new FadeChangeHandler())
+                        .popChangeHandler(new FadeChangeHandler())
+        );
     }
 }

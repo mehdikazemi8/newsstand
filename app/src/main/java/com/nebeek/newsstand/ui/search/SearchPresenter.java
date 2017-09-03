@@ -4,30 +4,28 @@ import android.util.Log;
 
 import com.nebeek.newsstand.data.DataRepository;
 import com.nebeek.newsstand.data.DataSource;
+import com.nebeek.newsstand.data.models.Keyword;
 import com.nebeek.newsstand.data.models.Snippet;
 
 import java.util.List;
 
 public class SearchPresenter implements SearchContract.Presenter {
 
+    private String keyword;
     private SearchContract.View searchView;
     private DataRepository dataRepository;
 
-    public SearchPresenter(SearchContract.View searchView, DataRepository dataRepository) {
+    public SearchPresenter(String keyword, SearchContract.View searchView, DataRepository dataRepository) {
+        this.keyword = keyword;
         this.searchView = searchView;
         this.dataRepository = dataRepository;
     }
 
     @Override
     public void start() {
-        searchView.focusOnSearchView();
-    }
-
-    @Override
-    public boolean onQueryTextSubmit(String query) {
         searchView.showLoading();
 
-        dataRepository.searchKeyword(query, new DataSource.SearchKeywordCallback() {
+        dataRepository.searchKeyword(keyword, new DataSource.SearchKeywordCallback() {
             @Override
             public void onResponse(List<Snippet> snippetList) {
                 Log.d("TAG", "onResponse " + snippetList);
@@ -57,12 +55,38 @@ public class SearchPresenter implements SearchContract.Presenter {
                 searchView.hideLoading();
             }
         });
-        return false;
     }
 
     @Override
-    public boolean onQueryTextChange(String newText) {
-        Log.d("TAG", "newTExt " + newText);
-        return false;
+    public void addToLibrary() {
+        dataRepository.addKeyword(keyword, new DataSource.AddKeywordCallback() {
+            @Override
+            public void onResponse(Keyword keyword) {
+                if (!searchView.isActive()) {
+                    return;
+                }
+
+                searchView.changePlusToCheck();
+            }
+
+            @Override
+            public void onFailure() {
+                if (!searchView.isActive()) {
+                    return;
+                }
+            }
+
+            @Override
+            public void onNetworkFailure() {
+                if (!searchView.isActive()) {
+                    return;
+                }
+            }
+        });
+    }
+
+    @Override
+    public void removeFromLibrary() {
+        // todo
     }
 }

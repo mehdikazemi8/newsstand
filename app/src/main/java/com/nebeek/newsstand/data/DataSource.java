@@ -25,7 +25,18 @@ public abstract class DataSource {
         void onNetworkFailure();
     }
 
+    public interface AddKeywordCallback {
+
+        void onResponse(Keyword keyword);
+
+        void onFailure();
+
+        void onNetworkFailure();
+    }
+
     public abstract void searchKeyword(String keyword, SearchKeywordCallback callback);
 
     public abstract void getKeywords(GetKeywordsCallback callback);
+
+    public abstract void addKeyword(String keyword, AddKeywordCallback callback);
 }

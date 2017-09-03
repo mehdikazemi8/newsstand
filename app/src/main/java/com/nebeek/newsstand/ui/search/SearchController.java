@@ -3,11 +3,11 @@ package com.nebeek.newsstand.ui.search;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.nebeek.newsstand.R;
 import com.nebeek.newsstand.controller.base.BaseController;
@@ -18,25 +18,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class SearchController extends BaseController implements SearchContract.View {
 
-    @BindView(R.id.search_view)
-    SearchView searchView;
+    @BindView(R.id.keyword_content)
+    TextView keywordContent;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
     @BindView(R.id.snippets)
     RecyclerView snippets;
+    @BindView(R.id.add_button)
+    TextView addButton;
 
     private List<Snippet> snippetList = new ArrayList<>();
     private SearchContract.Presenter presenter;
     private SnippetViewAdapter snippetViewAdapter;
+    private String keyword;
 
-    public static SearchController newInstance() {
-        return new SearchController();
+    public static SearchController newInstance(String keyword) {
+        SearchController instance = new SearchController();
+        instance.keyword = keyword;
+        return instance;
     }
 
     private void initView() {
+        keywordContent.setText(keyword);
         snippetViewAdapter = new SnippetViewAdapter(snippetList);
         snippets.setLayoutManager(new LinearLayoutManager(getActivity()));
         snippets.setAdapter(snippetViewAdapter);
@@ -49,20 +56,13 @@ public class SearchController extends BaseController implements SearchContract.V
         initView();
 
         setActive(true);
-        presenter = new SearchPresenter(this, DataRepository.getInstance());
-        searchView.setOnQueryTextListener(presenter);
+        presenter = new SearchPresenter(keyword, this, DataRepository.getInstance());
         presenter.start();
     }
 
     @Override
     protected View inflateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container) {
         return inflater.inflate(R.layout.controller_search, container, false);
-    }
-
-    @Override
-    public void focusOnSearchView() {
-        // todo: doesn't work
-        searchView.focusSearch(View.FOCUS_DOWN);
     }
 
     @Override
@@ -79,6 +79,30 @@ public class SearchController extends BaseController implements SearchContract.V
     public void showSearchResults(List<Snippet> snippetList) {
         this.snippetList.clear();
         this.snippetList.addAll(snippetList);
-        snippetViewAdapter.notifyDataSetChanged();
+        this.snippetViewAdapter.notifyDataSetChanged();
+    }
+
+    @OnClick(R.id.back_button)
+    public void backOnClick() {
+        getRouter().popController(this);
+    }
+
+    @OnClick(R.id.add_button)
+    public void addOnClick() {
+        if (addButton.getText().toString().equals("plus")) {
+            presenter.addToLibrary();
+        } else {
+            presenter.removeFromLibrary();
+        }
+    }
+
+    @Override
+    public void changePlusToCheck() {
+        addButton.setText("in");
+    }
+
+    @Override
+    public void changeCheckToPlus() {
+        addButton.setText("plus");
     }
 }

@@ -12,4 +12,9 @@ public class LocalDataSource extends DataSource {
     public void getKeywords(GetKeywordsCallback callback) {
 
     }
+
+    @Override
+    public void addKeyword(String keyword, AddKeywordCallback callback) {
+
+    }
 }
