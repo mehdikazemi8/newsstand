@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.nebeek.newsstand.data.DataSource;
 import com.nebeek.newsstand.data.models.Keyword;
+import com.nebeek.newsstand.data.remote.request.FCMRequest;
 import com.nebeek.newsstand.data.remote.response.KeywordsResponse;
 import com.nebeek.newsstand.data.remote.response.SearchResponse;
 
@@ -148,5 +149,65 @@ public class RemoteDataSource extends DataSource {
                 callback.onFailure();
             }
         });
+    }
+
+    @Override
+    public void downloadPhoto(String photoURL, DownloadPhotoCallback callback) {
+        Call<ResponseBody> call = apiService.downloadPhoto(photoURL);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    callback.onResponse(response.body());
+                } else {
+                    callback.onFailure();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                callback.onFailure();
+            }
+        });
+    }
+
+    @Override
+    public void sendFcmIDToServer(String fcmID, SendFcmIDCallback callback) {
+        Call<ResponseBody> call = apiService.sendFcmIDToServer(FCMRequest.builder().fcmID(fcmID).build());
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    callback.onSuccess();
+                } else {
+                    callback.onFailure();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                callback.onFailure();
+            }
+        });
+    }
+
+    @Override
+    public void fakeRegister(String uniqueID, FakeRegisterCallback callback) {
+//        Call<ResponseBody> call = apiService.fakeRegister(uniqueID);
+//        call.enqueue(new Callback<ResponseBody>() {
+//            @Override
+//            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//                if (response.isSuccessful()) {
+//                    callback.onSuccess();
+//                } else {
+//                    callback.onFailure();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ResponseBody> call, Throwable t) {
+//                callback.onFailure();
+//            }
+//        });
     }
 }

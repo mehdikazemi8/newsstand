@@ -61,4 +61,31 @@ public class DataRepository extends DataSource {
             remoteDataSource.removeKeyword(id, callback);
         }
     }
+
+    @Override
+    public void downloadPhoto(String photoURL, DataSource.DownloadPhotoCallback callback) {
+        if (!networkHelper.isNetworkAvailable()) {
+            callback.onNetworkFailure();
+        } else {
+            remoteDataSource.downloadPhoto(photoURL, callback);
+        }
+    }
+
+    @Override
+    public void sendFcmIDToServer(String fcmID, SendFcmIDCallback callback) {
+        if (!networkHelper.isNetworkAvailable()) {
+            callback.onNetworkFailure();
+        } else {
+            remoteDataSource.sendFcmIDToServer(fcmID, callback);
+        }
+    }
+
+    @Override
+    public void fakeRegister(String uniqueID, FakeRegisterCallback callback) {
+        if(!networkHelper.isNetworkAvailable()) {
+            callback.onNetworkFailure();
+        } else {
+            remoteDataSource.fakeRegister(uniqueID, callback);
+        }
+    }
 }

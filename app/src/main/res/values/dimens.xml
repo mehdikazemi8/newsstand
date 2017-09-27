@@ -9,5 +9,11 @@
     <dimen name="material_actionbar_size">56dp</dimen>
 
     <dimen name="text_size_small">15sp</dimen>
+    <dimen name="text_size_normal">18sp</dimen>
+
+    <dimen name="icon_size_normal">20sp</dimen>
+    <dimen name="icon_size_large">25sp</dimen>
+
+    <dimen name="image_size_small">30dp</dimen>
 
 </resources>

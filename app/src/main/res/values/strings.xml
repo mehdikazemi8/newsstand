@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">Newsstand</string>
+
+    <string name="template_date_source" formatted="false">%s - %s</string>
+
+
+    <string name="icon_menu">A</string>
+    <string name="icon_share">B</string>
+    <string name="icon_arrow_right">C</string>
+    <string name="icon_arrow_left">D</string>
+    <string name="icon_three_dots">E</string>
+    <string name="icon_chevron_right">F</string>
+    <string name="icon_chevron_left">G</string>
+    <string name="icon_bookmark_full">H</string>
+    <string name="icon_bookmark_empty">I</string>
+    <string name="icon_check_circle">J</string>
+    <string name="icon_add_circle">K</string>
+    <string name="dash">-</string>
 </resources>

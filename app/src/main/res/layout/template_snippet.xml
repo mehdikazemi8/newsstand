@@ -24,20 +24,63 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/iransans"
-            android:padding="@dimen/space_8"
+            android:paddingBottom="@dimen/space_8"
+            android:paddingLeft="@dimen/space_8"
+            android:paddingRight="@dimen/space_8"
+            android:paddingTop="@dimen/space_8"
+            android:textSize="@dimen/text_size_normal"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/space_8"
-            android:visibility="gone" />
+            android:ellipsize="end"
+            android:fontFamily="@font/iransans"
+            android:maxLines="3"
+            android:paddingBottom="@dimen/space_8"
+            android:paddingLeft="@dimen/space_8"
+            android:paddingRight="@dimen/space_8"
+            android:visibility="visible" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/space_8"
+            android:paddingLeft="@dimen/space_8"
+            android:paddingRight="@dimen/space_8">
+
+            <TextView
+                style="@style/icon_style"
+                android:layout_gravity="center_vertical"
+                android:text="@string/icon_share" />
+
+            <TextView
+                style="@style/icon_style"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="@dimen/space_16"
+                android:paddingRight="@dimen/space_16"
+                android:text="@string/icon_bookmark_empty" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/source"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/iransans"
+                android:padding="@dimen/space_8" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/dash" />
 
             <TextView
                 android:id="@+id/date"
@@ -47,17 +90,11 @@
                 android:fontFamily="@font/iransans"
                 android:padding="@dimen/space_8" />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:background="@android:drawable/ic_menu_share"
-                android:padding="@dimen/space_8" />
+            <ImageView
+                android:id="@+id/source_photo"
+                android:layout_width="@dimen/image_size_small"
+                android:layout_height="@dimen/image_size_small"
+                android:layout_gravity="center_vertical" />
 
         </LinearLayout>
 

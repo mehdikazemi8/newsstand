@@ -58,9 +58,9 @@ public class SearchController extends BaseController implements SearchContract.V
             keyword = keywordObject.getContent();
 
             if (keywordObject.getInLibrary()) {
-                addButton.setText("check");
+                addButton.setText(getResources().getString(R.string.icon_check_circle));
             } else {
-                addButton.setText("plus");
+                addButton.setText(getResources().getString(R.string.icon_add_circle));
             }
         }
 
@@ -79,7 +79,7 @@ public class SearchController extends BaseController implements SearchContract.V
         setActive(true);
         presenter = new SearchPresenter(keyword, this, DataRepository.getInstance());
 
-        if(keywordObject != null) {
+        if (keywordObject != null) {
             presenter.setKeywordObject(keywordObject);
         }
 
@@ -115,7 +115,7 @@ public class SearchController extends BaseController implements SearchContract.V
 
     @OnClick(R.id.add_button)
     public void addOnClick() {
-        if (addButton.getText().toString().equals("plus")) {
+        if (addButton.getText().toString().equals(getResources().getString(R.string.icon_add_circle))) {
             presenter.addToLibrary();
         } else {
             presenter.removeFromLibrary();
@@ -124,11 +124,11 @@ public class SearchController extends BaseController implements SearchContract.V
 
     @Override
     public void changePlusToCheck() {
-        addButton.setText("check");
+        addButton.setText(getResources().getString(R.string.icon_check_circle));
     }
 
     @Override
     public void changeCheckToPlus() {
-        addButton.setText("plus");
+        addButton.setText(getResources().getString(R.string.icon_add_circle));
     }
 }

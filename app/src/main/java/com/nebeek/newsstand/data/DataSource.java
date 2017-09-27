@@ -5,6 +5,8 @@ import com.nebeek.newsstand.data.models.Snippet;
 
 import java.util.List;
 
+import okhttp3.ResponseBody;
+
 public abstract class DataSource {
 
     public interface SearchKeywordCallback {
@@ -43,6 +45,33 @@ public abstract class DataSource {
         void onNetworkFailure();
     }
 
+    public interface DownloadPhotoCallback {
+
+        void onResponse(ResponseBody response);
+
+        void onFailure();
+
+        void onNetworkFailure();
+    }
+
+    public interface SendFcmIDCallback {
+
+        void onSuccess();
+
+        void onFailure();
+
+        void onNetworkFailure();
+    }
+
+    public interface FakeRegisterCallback {
+
+        void onSuccess();
+
+        void onFailure();
+
+        void onNetworkFailure();
+    }
+
     public abstract void searchKeyword(String keyword, SearchKeywordCallback callback);
 
     public abstract void getKeywords(GetKeywordsCallback callback);
@@ -50,4 +79,10 @@ public abstract class DataSource {
     public abstract void addKeyword(String keyword, AddKeywordCallback callback);
 
     public abstract void removeKeyword(Integer id, RemoveKeywordCallback callback);
+
+    public abstract void downloadPhoto(String photoURL, DownloadPhotoCallback callback);
+
+    public abstract void sendFcmIDToServer(String fcmID, SendFcmIDCallback callback);
+
+    public abstract void fakeRegister(String uniqueID, FakeRegisterCallback callback);
 }

@@ -4,13 +4,19 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.nebeek.newsstand.data.models.BaseModel;
+import com.nebeek.newsstand.data.remote.request.FCMRequest;
+import com.nebeek.newsstand.data.remote.response.TokenResponse;
 
 import java.lang.reflect.Type;
+import java.util.UUID;
 
 // todo, for all operations use asynctask
 
 public class PreferenceManager {
     private enum Key {
+        TOKEN,
+        FCM_ID,
+        UNIQUE_ID
     }
 
     public static PreferenceManager getInstance(Context context) {
@@ -88,5 +94,55 @@ public class PreferenceManager {
         editor.remove(key.toString());
         editor.apply();
     }
+
+    //*************************************************************
+
+    public void putTokenResponse(TokenResponse tokenResponse) {
+        put(Key.TOKEN, tokenResponse);
+    }
+
+    public TokenResponse getTokenResponse() {
+        return get(Key.TOKEN, TokenResponse.class);
+    }
+
+    public void removeTokenResponse() {
+        remove(Key.TOKEN);
+    }
+
+    //*************************************************************
+
+    public String getAuthorization() {
+        TokenResponse tokenResponse = getTokenResponse();
+        if (tokenResponse == null) {
+            return null;
+        }
+        return tokenResponse.accessToken();
+    }
+
+    //*************************************************************
+
+    public void putFcmID(FCMRequest fcmRequest) {
+        put(Key.FCM_ID, fcmRequest);
+    }
+
+    public FCMRequest getFcmID() {
+        return get(Key.FCM_ID, FCMRequest.class);
+    }
+
+    //*************************************************************
+
+    public void putUniqueID(String uniqueID) {
+        put(Key.UNIQUE_ID, uniqueID);
+    }
+
+    public String getUniqueID() {
+        return get(Key.UNIQUE_ID, null);
+    }
+
+    public String generateUniqueID() {
+        return UUID.randomUUID().toString();
+    }
+
+    //*************************************************************
 }
 

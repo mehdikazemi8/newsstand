@@ -22,4 +22,19 @@ public class LocalDataSource extends DataSource {
     public void removeKeyword(Integer id, RemoveKeywordCallback callback) {
 
     }
+
+    @Override
+    public void downloadPhoto(String photoURL, DownloadPhotoCallback callback) {
+
+    }
+
+    @Override
+    public void sendFcmIDToServer(String fcmID, SendFcmIDCallback callback) {
+
+    }
+
+    @Override
+    public void fakeRegister(String uniqueID, FakeRegisterCallback callback) {
+
+    }
 }

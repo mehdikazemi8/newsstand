@@ -17,6 +17,7 @@ import com.nebeek.newsstand.controller.base.BaseBackStackController;
 import com.nebeek.newsstand.controller.base.BaseController;
 import com.nebeek.newsstand.data.DataRepository;
 import com.nebeek.newsstand.data.local.PreferenceManager;
+import com.nebeek.newsstand.ui.explore.ExploreController;
 import com.nebeek.newsstand.ui.library.LibraryController;
 import com.nebeek.newsstand.ui.search.SearchController;
 
@@ -68,15 +69,15 @@ public class MainController extends BaseController implements MainContract.View 
     private BaseController getPage(int position) {
         switch (position) {
             case 0:
-                controllers[0] = new LibraryController();
+                controllers[0] = new ExploreController();
                 break;
 
             case 1:
-                controllers[1] = new LibraryController();
+                controllers[1] = new ExploreController();
                 break;
 
             case 2:
-                controllers[2] = new LibraryController();
+                controllers[2] = new ExploreController();
                 break;
 
             default:

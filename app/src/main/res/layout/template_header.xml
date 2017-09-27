@@ -16,11 +16,8 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/template_header_left_back_button"
-                style="@style/template_header_icons"
-                android:visibility="invisible" />
-            <!--android:fontFamily="@font/icons"-->
-            <!--android:text="@string/icon.arrow.left" -->
+                android:id="@+id/template_header_back_button"
+                style="@style/template_header_icons" />
 
             <TextView
                 android:layout_width="0dp"
@@ -28,10 +25,9 @@
                 android:layout_weight="1" />
 
             <TextView
-                android:id="@+id/template_header_back_button"
-                style="@style/template_header_icons" />
-            <!--android:fontFamily="@font/icons"-->
-            <!--android:text="@string/icon.arrow.right" />-->
+                android:id="@+id/template_header_left_back_button"
+                style="@style/template_header_icons"
+                android:visibility="invisible" />
 
         </LinearLayout>
 

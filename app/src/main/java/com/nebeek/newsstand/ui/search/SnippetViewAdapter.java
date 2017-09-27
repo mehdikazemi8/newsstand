@@ -34,12 +34,30 @@ public class SnippetViewAdapter extends RecyclerView.Adapter<SnippetViewAdapter.
         return new ViewHolder(view);
     }
 
+    private String getSourceDate(Snippet snippet) {
+        return String.format(context.getString(R.string.template_date_source), snippet.getSource(), snippet.getDate());
+    }
+
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+
+        // todo remove
+
         holder.title.setText(items.get(position).getTitle());
+
         holder.date.setText(items.get(position).getDate());
+        holder.source.setText(items.get(position).getSource());
+
         holder.description.setText(items.get(position).getDescription());
-        Glide.with(context).load(items.get(position).getPhotoURLs().get(0)).into(holder.photo);
+
+        if (position % 2 == 0) {
+            holder.photo.setVisibility(View.VISIBLE);
+            Glide.with(context).load(items.get(position).getPhotoURLs().get(0)).into(holder.photo);
+        } else {
+            holder.photo.setVisibility(View.GONE);
+        }
+
+        Glide.with(context).load("http://lorempixel.com/output/sports-q-c-50-50-5.jpg").into(holder.sourcePhoto);
     }
 
     @Override
@@ -55,8 +73,12 @@ public class SnippetViewAdapter extends RecyclerView.Adapter<SnippetViewAdapter.
         TextView description;
         @BindView(R.id.date)
         TextView date;
+        @BindView(R.id.source)
+        TextView source;
         @BindView(R.id.photo)
         ImageView photo;
+        @BindView(R.id.source_photo)
+        ImageView sourcePhoto;
 
         public ViewHolder(View itemView) {
             super(itemView);
