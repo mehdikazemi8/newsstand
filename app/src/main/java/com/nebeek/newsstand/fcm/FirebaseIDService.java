@@ -46,23 +46,27 @@ public class FirebaseIDService extends FirebaseInstanceIdService {
                 fcmRequest = FCMRequest.builder().fcm(token).sendToServer(false).build();
                 preferenceManager.putFcmID(fcmRequest);
 
-                DataRepository.getInstance().sendFcmIDToServer(token, new DataSource.SendFcmIDCallback() {
-                    @Override
-                    public void onSuccess() {
-                        Log.d(TAG, "Refreshed token hhhh: " + token);
-                    }
-
-                    @Override
-                    public void onFailure() {
-
-                    }
-
-                    @Override
-                    public void onNetworkFailure() {
-
-                    }
-                });
+                callSendFCMApi(token);
             }
         }
+    }
+
+    void callSendFCMApi(String token) {
+        DataRepository.getInstance().sendFcmIDToServer(token, new DataSource.SendFcmIDCallback() {
+            @Override
+            public void onSuccess() {
+                Log.d(TAG, "Refreshed token hhhh: " + token);
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+
+            @Override
+            public void onNetworkFailure() {
+
+            }
+        });
     }
 }

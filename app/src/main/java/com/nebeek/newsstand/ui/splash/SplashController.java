@@ -33,6 +33,7 @@ public class SplashController extends BaseController implements SplashContract.V
     protected void onAttach(@NonNull View view) {
         super.onAttach(view);
         setActive(true);
+
         presenter = new SplashPresenter(DataRepository.getInstance(), PreferenceManager.getInstance(getActivity()), this);
         presenter.start();
     }

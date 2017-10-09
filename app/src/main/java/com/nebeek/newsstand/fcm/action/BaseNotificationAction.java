@@ -1,6 +1,8 @@
 package com.nebeek.newsstand.fcm.action;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
+import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 
@@ -61,8 +64,8 @@ public abstract class BaseNotificationAction {
         notificationIntent.addFlags(FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        notificationBuilder = new NotificationCompat.Builder(context, "0").
-                setContentTitle(remoteMessage.getData().get("body"))
+        notificationBuilder = new NotificationCompat.Builder(context, "default")
+                .setContentTitle(remoteMessage.getData().get("body"))
                 .setContentText(remoteMessage.getData().get("message"))
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
@@ -71,11 +74,15 @@ public abstract class BaseNotificationAction {
         if (remoteMessage.getData().containsKey("largeIcon")) {
             getPictureFromServer(remoteMessage.getData().get("largeIcon"));
         } else {
-            NotificationManagerCompat manager = NotificationManagerCompat.from(context);
+            NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            if (Build.VERSION.SDK_INT >= 26) {
+                NotificationChannel channel = new NotificationChannel("default", "Channel name", NotificationManager.IMPORTANCE_DEFAULT);
+                channel.setDescription("Channel description");
+                manager.createNotificationChannel(channel);
+            }
             manager.notify(123, notificationBuilder.build());
         }
     }
-
     protected boolean isPackageInstalled(String packageName, PackageManager packageManager) {
         try {
             packageManager.getPackageInfo(packageName, 0);

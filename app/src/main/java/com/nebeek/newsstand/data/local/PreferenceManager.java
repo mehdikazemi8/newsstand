@@ -3,6 +3,9 @@ package com.nebeek.newsstand.data.local;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.nebeek.newsstand.data.AutoValueGsonTypeAdapterFactory;
 import com.nebeek.newsstand.data.models.BaseModel;
 import com.nebeek.newsstand.data.remote.request.FCMRequest;
 import com.nebeek.newsstand.data.remote.response.TokenResponse;
@@ -20,7 +23,8 @@ public class PreferenceManager {
     }
 
     public static PreferenceManager getInstance(Context context) {
-        if (instance == null) {
+        // todo
+        if (instance == null || true) {
             instance = new PreferenceManager(context);
         }
 
@@ -87,7 +91,10 @@ public class PreferenceManager {
             return null;
         }
 
-        return BaseModel.deserialize(json, type);
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapterFactory(new AutoValueGsonTypeAdapterFactory())
+                .create();
+        return gson.fromJson(json, type);
     }
 
     private void remove(Key key) {
