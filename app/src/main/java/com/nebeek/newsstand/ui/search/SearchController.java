@@ -14,6 +14,7 @@ import com.nebeek.newsstand.controller.base.BaseController;
 import com.nebeek.newsstand.data.DataRepository;
 import com.nebeek.newsstand.data.models.Keyword;
 import com.nebeek.newsstand.data.models.Snippet;
+import com.nebeek.newsstand.util.GlobalToast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -130,5 +131,10 @@ public class SearchController extends BaseController implements SearchContract.V
     @Override
     public void changeCheckToPlus() {
         addButton.setText(getResources().getString(R.string.icon_add_circle));
+    }
+
+    @Override
+    public void showAddToLibraryError() {
+        GlobalToast.showError(getActivity());
     }
 }

@@ -81,11 +81,16 @@ public class DataRepository extends DataSource {
     }
 
     @Override
-    public void fakeRegister(String uniqueID, FakeRegisterCallback callback) {
-        if(!networkHelper.isNetworkAvailable()) {
+    public void fakeRegister(FakeRegisterCallback callback) {
+        if (!networkHelper.isNetworkAvailable()) {
             callback.onNetworkFailure();
         } else {
-            remoteDataSource.fakeRegister(uniqueID, callback);
+            remoteDataSource.fakeRegister(callback);
         }
+    }
+
+    @Override
+    public void prepareDataSource() {
+        remoteDataSource.prepareDataSource();
     }
 }

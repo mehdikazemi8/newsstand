@@ -10,7 +10,7 @@ import com.nebeek.newsstand.data.models.BaseModel;
 @AutoValue
 public abstract class TokenResponse extends BaseModel {
 
-    public abstract String accessToken();
+    public abstract String token();
 
     @Nullable
     public abstract String tokenType();
@@ -25,7 +25,7 @@ public abstract class TokenResponse extends BaseModel {
     @AutoValue.Builder
     public abstract static class Builder {
 
-        public abstract Builder accessToken(String accessToken);
+        public abstract Builder token(String accessToken);
 
         public abstract Builder tokenType(String tokenType);
 

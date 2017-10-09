@@ -34,7 +34,12 @@ public class LocalDataSource extends DataSource {
     }
 
     @Override
-    public void fakeRegister(String uniqueID, FakeRegisterCallback callback) {
+    public void prepareDataSource() {
+
+    }
+
+    @Override
+    public void fakeRegister(FakeRegisterCallback callback) {
 
     }
 }

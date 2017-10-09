@@ -76,6 +76,8 @@ public class SearchPresenter implements SearchContract.Presenter {
                 if (!searchView.isActive()) {
                     return;
                 }
+
+                searchView.showAddToLibraryError();
             }
 
             @Override

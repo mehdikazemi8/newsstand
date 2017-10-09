@@ -9,6 +9,8 @@ public class SplashContract {
     interface View extends BaseView<Presenter> {
 
         void showMainPageUI();
+
+        void showNetworkFailureError();
     }
 
     interface Presenter extends BasePresenter {

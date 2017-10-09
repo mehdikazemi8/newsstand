@@ -9,8 +9,9 @@ import com.nebeek.newsstand.data.models.BaseModel;
 
 @AutoValue
 public abstract class FCMRequest extends BaseModel {
-    public abstract String fcmID();
+    public abstract String fcm();
 
+    @Nullable
     public abstract String uniqueID();
 
     @Nullable
@@ -22,7 +23,7 @@ public abstract class FCMRequest extends BaseModel {
 
     @AutoValue.Builder
     public abstract static class Builder {
-        public abstract Builder fcmID(String fcmID);
+        public abstract Builder fcm(String fcm);
 
         public abstract Builder sendToServer(Boolean sendToServer);
 

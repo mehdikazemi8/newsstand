@@ -5,10 +5,12 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.nebeek.newsstand.data.DataSource;
+import com.nebeek.newsstand.data.local.PreferenceManager;
 import com.nebeek.newsstand.data.models.Keyword;
 import com.nebeek.newsstand.data.remote.request.FCMRequest;
 import com.nebeek.newsstand.data.remote.response.KeywordsResponse;
 import com.nebeek.newsstand.data.remote.response.SearchResponse;
+import com.nebeek.newsstand.data.remote.response.TokenResponse;
 
 import okhttp3.Credentials;
 import okhttp3.OkHttpClient;
@@ -23,19 +25,22 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RemoteDataSource extends DataSource {
     private ApiService apiService = null;
     private static RemoteDataSource remoteDataSource = null;
+    private PreferenceManager preferenceManager;
 
-    public static RemoteDataSource getInstance() {
+    public static RemoteDataSource getInstance(PreferenceManager preferenceManager) {
         if (remoteDataSource == null) {
-            remoteDataSource = new RemoteDataSource();
+            remoteDataSource = new RemoteDataSource(preferenceManager);
         }
         return remoteDataSource;
     }
 
-    private RemoteDataSource() {
-        prepare();
+    private RemoteDataSource(PreferenceManager preferenceManager) {
+        prepare(preferenceManager);
     }
 
-    private void prepare() {
+    private void prepare(PreferenceManager preferenceManager) {
+        this.preferenceManager = preferenceManager;
+
         OkHttpClient okHttpClient = new OkHttpClient().newBuilder().addInterceptor(
                 chain -> {
                     Request originalRequest = chain.request();
@@ -173,7 +178,7 @@ public class RemoteDataSource extends DataSource {
 
     @Override
     public void sendFcmIDToServer(String fcmID, SendFcmIDCallback callback) {
-        Call<ResponseBody> call = apiService.sendFcmIDToServer(FCMRequest.builder().fcmID(fcmID).build());
+        Call<ResponseBody> call = apiService.sendFcmIDToServer(FCMRequest.builder().fcm(fcmID).build());
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -192,22 +197,27 @@ public class RemoteDataSource extends DataSource {
     }
 
     @Override
-    public void fakeRegister(String uniqueID, FakeRegisterCallback callback) {
-//        Call<ResponseBody> call = apiService.fakeRegister(uniqueID);
-//        call.enqueue(new Callback<ResponseBody>() {
-//            @Override
-//            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-//                if (response.isSuccessful()) {
-//                    callback.onSuccess();
-//                } else {
-//                    callback.onFailure();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ResponseBody> call, Throwable t) {
-//                callback.onFailure();
-//            }
-//        });
+    public void fakeRegister(FakeRegisterCallback callback) {
+        Call<TokenResponse> call = apiService.fakeRegister();
+        call.enqueue(new Callback<TokenResponse>() {
+            @Override
+            public void onResponse(Call<TokenResponse> call, Response<TokenResponse> response) {
+                if (response.isSuccessful()) {
+                    callback.onSuccess(response.body());
+                } else {
+                    callback.onFailure();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TokenResponse> call, Throwable t) {
+                callback.onFailure();
+            }
+        });
+    }
+
+    @Override
+    public void prepareDataSource() {
+        prepare(this.preferenceManager);
     }
 }

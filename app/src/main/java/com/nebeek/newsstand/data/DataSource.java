@@ -2,6 +2,7 @@ package com.nebeek.newsstand.data;
 
 import com.nebeek.newsstand.data.models.Keyword;
 import com.nebeek.newsstand.data.models.Snippet;
+import com.nebeek.newsstand.data.remote.response.TokenResponse;
 
 import java.util.List;
 
@@ -65,12 +66,14 @@ public abstract class DataSource {
 
     public interface FakeRegisterCallback {
 
-        void onSuccess();
+        void onSuccess(TokenResponse tokenResponse);
 
         void onFailure();
 
         void onNetworkFailure();
     }
+
+    public abstract void prepareDataSource();
 
     public abstract void searchKeyword(String keyword, SearchKeywordCallback callback);
 
@@ -84,5 +87,5 @@ public abstract class DataSource {
 
     public abstract void sendFcmIDToServer(String fcmID, SendFcmIDCallback callback);
 
-    public abstract void fakeRegister(String uniqueID, FakeRegisterCallback callback);
+    public abstract void fakeRegister(FakeRegisterCallback callback);
 }

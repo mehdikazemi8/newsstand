@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         DataRepository.init(
-                RemoteDataSource.getInstance(),
+                RemoteDataSource.getInstance(PreferenceManager.getInstance(this)),
                 new LocalDataSource(),
                 new NetworkHelper(this)
         );
@@ -39,41 +39,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Log.d("TAG", "oncreate aaa");
         setContentView(R.layout.activity_main);
-        Log.d("TAG", "oncreate bbb");
 
         init();
 
-        doFakeRegisterIfNeeded();
-
         pushRootController(savedInstanceState);
-    }
-
-    private void doFakeRegisterIfNeeded() {
-        PreferenceManager preferenceManager = PreferenceManager.getInstance(this);
-        String uniqueID = preferenceManager.getUniqueID();
-        if(uniqueID == null) {
-            uniqueID = preferenceManager.generateUniqueID();
-            String finalUniqueID = uniqueID;
-            DataRepository.getInstance().fakeRegister(uniqueID, new DataSource.FakeRegisterCallback() {
-                @Override
-                public void onSuccess() {
-                    preferenceManager.putUniqueID(finalUniqueID);
-                }
-
-                @Override
-                public void onFailure() {
-
-                }
-
-                @Override
-                public void onNetworkFailure() {
-
-                }
-            });
-        }
     }
 
     private void pushRootController(Bundle savedInstanceState) {

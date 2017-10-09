@@ -20,6 +20,8 @@ public class SearchContract {
         void changePlusToCheck();
 
         void changeCheckToPlus();
+
+        void showAddToLibraryError();
     }
 
     public interface Presenter extends BasePresenter {

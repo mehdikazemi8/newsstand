@@ -1,13 +1,17 @@
 package com.nebeek.newsstand.ui.main;
 
+import android.os.Parcel;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.arlib.floatingsearchview.FloatingSearchView;
+import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.bluelinelabs.conductor.Router;
 import com.bluelinelabs.conductor.RouterTransaction;
 import com.bluelinelabs.conductor.changehandler.FadeChangeHandler;
@@ -20,6 +24,9 @@ import com.nebeek.newsstand.data.local.PreferenceManager;
 import com.nebeek.newsstand.ui.explore.ExploreController;
 import com.nebeek.newsstand.ui.library.LibraryController;
 import com.nebeek.newsstand.ui.search.SearchController;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -35,6 +42,8 @@ public class MainController extends BaseController implements MainContract.View 
     ViewPager viewPager;
     @BindView(R.id.search_view)
     SearchView searchView;
+    @BindView(R.id.search_box)
+    FloatingSearchView searchBox;
 
     public static MainController newInstance() {
         return new MainController();
@@ -89,6 +98,7 @@ public class MainController extends BaseController implements MainContract.View 
         return controllers[position];
     }
 
+
     @Override
     protected void onViewBound(@NonNull View view) {
         super.onViewBound(view);
@@ -97,9 +107,39 @@ public class MainController extends BaseController implements MainContract.View 
         tabLayout.setupWithViewPager(viewPager);
         viewPager.setCurrentItem(NUMBER_OF_TABS - 1);
         viewPager.setOffscreenPageLimit(NUMBER_OF_TABS - 1);
-//        searchView.setOnClickListener(searchView -> {
-//            showSearchUI();
-//        });
+
+        searchBox.setOnSearchListener(new FloatingSearchView.OnSearchListener() {
+            @Override
+            public void onSuggestionClicked(SearchSuggestion searchSuggestion) {
+
+            }
+
+            @Override
+            public void onSearchAction(String currentQuery) {
+
+            }
+        });
+
+        searchBox.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
+            @Override
+            public void onSearchTextChanged(String oldQuery, String newQuery) {
+                List<ColorSuggestion> newList = new ArrayList<>();
+                newList.add(new ColorSuggestion(newQuery));
+                searchBox.swapSuggestions(newList);
+            }
+        });
+
+        searchBox.setOnMenuClickListener(new FloatingSearchView.OnLeftMenuClickListener() {
+            @Override
+            public void onMenuOpened() {
+                Log.d("TAG", "abcd onMenuOpened");
+            }
+
+            @Override
+            public void onMenuClosed() {
+                Log.d("TAG", "abcd onMenuClosed");
+            }
+        });
 
         setActive(true);
         presenter = new MainPresenter(PreferenceManager.getInstance(getActivity()), DataRepository.getInstance(), this);
@@ -142,5 +182,57 @@ public class MainController extends BaseController implements MainContract.View 
                         .pushChangeHandler(new FadeChangeHandler())
                         .popChangeHandler(new FadeChangeHandler())
         );
+    }
+
+
+    public static class ColorSuggestion implements SearchSuggestion {
+
+        private String mColorName;
+        private boolean mIsHistory = false;
+
+        public ColorSuggestion(String suggestion) {
+            this.mColorName = suggestion.toLowerCase();
+        }
+
+        public ColorSuggestion(Parcel source) {
+            this.mColorName = source.readString();
+            this.mIsHistory = source.readInt() != 0;
+        }
+
+        public void setIsHistory(boolean isHistory) {
+            this.mIsHistory = isHistory;
+        }
+
+        public boolean getIsHistory() {
+            return this.mIsHistory;
+        }
+
+        @Override
+        public String getBody() {
+            return mColorName;
+        }
+
+        public static final Creator<ColorSuggestion> CREATOR = new Creator<ColorSuggestion>() {
+            @Override
+            public ColorSuggestion createFromParcel(Parcel in) {
+                return new ColorSuggestion(in);
+            }
+
+            @Override
+            public ColorSuggestion[] newArray(int size) {
+                return new ColorSuggestion[size];
+            }
+        };
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(mColorName);
+            dest.writeInt(mIsHistory ? 1 : 0);
+        }
     }
 }

@@ -13,6 +13,7 @@ import com.nebeek.newsstand.controller.base.BaseController;
 import com.nebeek.newsstand.data.DataRepository;
 import com.nebeek.newsstand.data.local.PreferenceManager;
 import com.nebeek.newsstand.ui.main.MainController;
+import com.nebeek.newsstand.util.GlobalToast;
 
 import butterknife.BindView;
 
@@ -44,5 +45,10 @@ public class SplashController extends BaseController implements SplashContract.V
                         .pushChangeHandler(new VerticalChangeHandler())
                         .popChangeHandler(new VerticalChangeHandler())
         );
+    }
+
+    @Override
+    public void showNetworkFailureError() {
+        GlobalToast.showNetworkFailureError(getActivity());
     }
 }
