@@ -40,7 +40,7 @@ public class KeywordViewAdapter extends RecyclerView.Adapter<KeywordViewAdapter.
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.content.setText(items.get(position).getContent());
+        holder.content.setText(items.get(position).getText());
         Glide.with(context).load(items.get(position).getPhotoURL()).into(holder.photo);
     }
 

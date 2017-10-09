@@ -2,7 +2,7 @@ package com.nebeek.newsstand.data.models;
 
 public class Keyword extends BaseModel {
     Integer id;
-    String content;
+    String text;
     String photoURL;
     Boolean receiveNotification;
     Boolean inLibrary = false;
@@ -23,12 +23,12 @@ public class Keyword extends BaseModel {
         this.id = id;
     }
 
-    public String getContent() {
-        return content;
+    public String getText() {
+        return text;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setText(String text) {
+        this.text = text;
     }
 
     public String getPhotoURL() {

@@ -56,7 +56,7 @@ public class SearchController extends BaseController implements SearchContract.V
     // todo, check and plus is hardcoded!
     private void initView() {
         if (keyword == null) {
-            keyword = keywordObject.getContent();
+            keyword = keywordObject.getText();
 
             if (keywordObject.getInLibrary()) {
                 addButton.setText(getResources().getString(R.string.icon_check_circle));
