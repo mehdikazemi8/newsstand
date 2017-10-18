@@ -5,12 +5,14 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.nebeek.newsstand.data.DataSource;
+import com.nebeek.newsstand.data.MyAdapterFactory;
 import com.nebeek.newsstand.data.local.PreferenceManager;
-import com.nebeek.newsstand.data.models.Keyword;
+import com.nebeek.newsstand.data.models.User;
 import com.nebeek.newsstand.data.remote.request.FCMRequest;
 import com.nebeek.newsstand.data.remote.response.KeywordsResponse;
 import com.nebeek.newsstand.data.remote.response.SearchResponse;
 import com.nebeek.newsstand.data.remote.response.TokenResponse;
+import com.nebeek.newsstand.data.remote.response.TopicsResponse;
 
 import okhttp3.Credentials;
 import okhttp3.OkHttpClient;
@@ -47,7 +49,7 @@ public class RemoteDataSource extends DataSource {
 
                     Request.Builder builder = originalRequest.newBuilder().header(
                             "Authorization",
-                            Credentials.basic("aUsername", "aPassword")
+                            preferenceManager.getAuthorization()
                     );
 
                     Request newRequest = builder.build();
@@ -57,6 +59,7 @@ public class RemoteDataSource extends DataSource {
 
         Gson gson = new GsonBuilder()
                 .setLenient()
+                .registerTypeAdapterFactory(MyAdapterFactory.create())
                 .create();
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -92,8 +95,8 @@ public class RemoteDataSource extends DataSource {
 
     @Override
     public void getKeywords(GetKeywordsCallback callback) {
-        Log.d("TAG", "remoteDataSource getKeywords ");
-        Call<KeywordsResponse> call = apiService.getKeywords();
+        Log.d("TAG", "remoteDataSource getSubscriptions ");
+        Call<KeywordsResponse> call = apiService.getSubscriptions();
         call.enqueue(new Callback<KeywordsResponse>() {
             @Override
             public void onResponse(Call<KeywordsResponse> call, Response<KeywordsResponse> response) {
@@ -101,7 +104,7 @@ public class RemoteDataSource extends DataSource {
                 Log.d("TAG", "onResponse " + response.code());
 
                 if (response.isSuccessful()) {
-                    callback.onResponse(response.body().getKeywords());
+                    callback.onResponse(response.body().getTopics());
                 } else {
                     callback.onFailure();
                 }
@@ -117,28 +120,28 @@ public class RemoteDataSource extends DataSource {
     }
 
     @Override
-    public void addKeyword(String keyword, AddKeywordCallback callback) {
-        Call<Keyword> call = apiService.addKeyword(keyword);
-        call.enqueue(new Callback<Keyword>() {
+    public void subscribeToTopic(String id, SubscribeCallback callback) {
+        Call<ResponseBody> call = apiService.addSubscription(id);
+        call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<Keyword> call, Response<Keyword> response) {
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
-                    callback.onResponse(response.body());
+                    callback.onSuccess();
                 } else {
                     callback.onFailure();
                 }
             }
 
             @Override
-            public void onFailure(Call<Keyword> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
                 callback.onFailure();
             }
         });
     }
 
     @Override
-    public void removeKeyword(Integer id, RemoveKeywordCallback callback) {
-        Call<ResponseBody> call = apiService.removeKeyword(id);
+    public void removeKeyword(String id, RemoveKeywordCallback callback) {
+        Call<ResponseBody> call = apiService.removeSubscription(id);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -197,13 +200,58 @@ public class RemoteDataSource extends DataSource {
     }
 
     @Override
-    public void fakeRegister(FakeRegisterCallback callback) {
-        Call<TokenResponse> call = apiService.fakeRegister();
+    public void registerNewUser(User user, RegisterCallback callback) {
+        Call<User> call = apiService.registerNewUser(user);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.isSuccessful()) {
+                    callback.onSuccess(response.body());
+                } else {
+                    callback.onFailure();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                callback.onFailure();
+            }
+        });
+    }
+
+    @Override
+    public void prepareDataSource() {
+        prepare(this.preferenceManager);
+    }
+
+    @Override
+    public void getAllTopics(TopicsResponseCallback callback) {
+        Call<TopicsResponse> call = apiService.getAllTopics();
+        call.enqueue(new Callback<TopicsResponse>() {
+            @Override
+            public void onResponse(Call<TopicsResponse> call, Response<TopicsResponse> response) {
+                if (response.isSuccessful()) {
+                    callback.onResponse(response.body());
+                } else {
+                    callback.onFailure();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TopicsResponse> call, Throwable t) {
+                callback.onFailure();
+            }
+        });
+    }
+
+    @Override
+    public void authenticateUser(User user, AuthenticateCallback callback) {
+        Call<TokenResponse> call = apiService.authenticateUser(user.getId(), user);
         call.enqueue(new Callback<TokenResponse>() {
             @Override
             public void onResponse(Call<TokenResponse> call, Response<TokenResponse> response) {
                 if (response.isSuccessful()) {
-                    callback.onSuccess(response.body());
+                    callback.onResponse(response.body());
                 } else {
                     callback.onFailure();
                 }
@@ -214,10 +262,5 @@ public class RemoteDataSource extends DataSource {
                 callback.onFailure();
             }
         });
-    }
-
-    @Override
-    public void prepareDataSource() {
-        prepare(this.preferenceManager);
     }
 }

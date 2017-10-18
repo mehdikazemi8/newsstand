@@ -1,6 +1,7 @@
 package com.nebeek.newsstand.data.local;
 
 import com.nebeek.newsstand.data.DataSource;
+import com.nebeek.newsstand.data.models.User;
 
 public class LocalDataSource extends DataSource {
     @Override
@@ -14,12 +15,12 @@ public class LocalDataSource extends DataSource {
     }
 
     @Override
-    public void addKeyword(String keyword, AddKeywordCallback callback) {
+    public void subscribeToTopic(String id, SubscribeCallback callback) {
 
     }
 
     @Override
-    public void removeKeyword(Integer id, RemoveKeywordCallback callback) {
+    public void removeKeyword(String id, RemoveKeywordCallback callback) {
 
     }
 
@@ -39,7 +40,17 @@ public class LocalDataSource extends DataSource {
     }
 
     @Override
-    public void fakeRegister(FakeRegisterCallback callback) {
+    public void registerNewUser(User user, RegisterCallback callback) {
+
+    }
+
+    @Override
+    public void getAllTopics(TopicsResponseCallback callback) {
+
+    }
+
+    @Override
+    public void authenticateUser(User user, AuthenticateCallback callback) {
 
     }
 }

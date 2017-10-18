@@ -6,7 +6,9 @@ import android.content.SharedPreferences;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.nebeek.newsstand.data.AutoValueGsonTypeAdapterFactory;
+import com.nebeek.newsstand.data.MyAdapterFactory;
 import com.nebeek.newsstand.data.models.BaseModel;
+import com.nebeek.newsstand.data.models.User;
 import com.nebeek.newsstand.data.remote.request.FCMRequest;
 import com.nebeek.newsstand.data.remote.response.TokenResponse;
 
@@ -17,6 +19,7 @@ import java.util.UUID;
 
 public class PreferenceManager {
     private enum Key {
+        USER,
         TOKEN,
         FCM_ID,
         UNIQUE_ID
@@ -92,6 +95,8 @@ public class PreferenceManager {
         }
 
         Gson gson = new GsonBuilder()
+                .setLenient()
+                .registerTypeAdapterFactory(MyAdapterFactory.create())
                 .registerTypeAdapterFactory(new AutoValueGsonTypeAdapterFactory())
                 .create();
         return gson.fromJson(json, type);
@@ -123,7 +128,7 @@ public class PreferenceManager {
         if (tokenResponse == null) {
             return null;
         }
-        return tokenResponse.token();
+        return "JWT " + tokenResponse.token();
     }
 
     //*************************************************************
@@ -151,5 +156,14 @@ public class PreferenceManager {
     }
 
     //*************************************************************
+
+    public void putUser(User user) {
+        put(Key.USER, user);
+    }
+
+    public String getUser() {
+        return get(Key.USER, User.class);
+    }
+
 }
 

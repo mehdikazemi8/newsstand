@@ -2,7 +2,7 @@ package com.nebeek.newsstand.ui.search;
 
 import com.nebeek.newsstand.controller.base.BasePresenter;
 import com.nebeek.newsstand.controller.base.BaseView;
-import com.nebeek.newsstand.data.models.Keyword;
+import com.nebeek.newsstand.data.models.Topic;
 import com.nebeek.newsstand.data.models.Snippet;
 
 import java.util.List;
@@ -26,10 +26,10 @@ public class SearchContract {
 
     public interface Presenter extends BasePresenter {
 
-        void addToLibrary();
+        void subscribeToTopic();
 
         void removeFromLibrary();
 
-        void setKeywordObject(Keyword keywordObject);
+        void setTopicObject(Topic topicObject);
     }
 }

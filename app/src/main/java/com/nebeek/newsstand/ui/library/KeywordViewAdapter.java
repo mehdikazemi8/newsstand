@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.nebeek.newsstand.R;
-import com.nebeek.newsstand.data.models.Keyword;
+import com.nebeek.newsstand.data.models.Topic;
 import com.nebeek.newsstand.util.customview.SquareImageView;
 import com.nebeek.newsstand.util.listener.OnItemSelectedListener;
 
@@ -22,10 +22,10 @@ import butterknife.OnClick;
 public class KeywordViewAdapter extends RecyclerView.Adapter<KeywordViewAdapter.ViewHolder> {
 
     private Context context;
-    private List<Keyword> items;
-    private OnItemSelectedListener<Keyword> onItemSelectedListener;
+    private List<Topic> items;
+    private OnItemSelectedListener<Topic> onItemSelectedListener;
 
-    public KeywordViewAdapter(List<Keyword> items, OnItemSelectedListener<Keyword> onItemSelectedListener) {
+    public KeywordViewAdapter(List<Topic> items, OnItemSelectedListener<Topic> onItemSelectedListener) {
         this.items = items;
         this.onItemSelectedListener = onItemSelectedListener;
     }
@@ -53,7 +53,7 @@ public class KeywordViewAdapter extends RecyclerView.Adapter<KeywordViewAdapter.
 
         @BindView(R.id.photo)
         SquareImageView photo;
-        @BindView(R.id.content)
+        @BindView(R.id.text)
         TextView content;
 
         @OnClick(R.id.root_view)

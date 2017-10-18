@@ -4,15 +4,15 @@ import android.util.Log;
 
 import com.nebeek.newsstand.data.DataRepository;
 import com.nebeek.newsstand.data.DataSource;
-import com.nebeek.newsstand.data.models.Keyword;
 import com.nebeek.newsstand.data.models.Snippet;
+import com.nebeek.newsstand.data.models.Topic;
 
 import java.util.List;
 
 public class SearchPresenter implements SearchContract.Presenter {
 
     private String keyword;
-    private Keyword keywordObject = null;
+    private Topic topicObject = null;
     private SearchContract.View searchView;
     private DataRepository dataRepository;
 
@@ -59,15 +59,15 @@ public class SearchPresenter implements SearchContract.Presenter {
     }
 
     @Override
-    public void addToLibrary() {
-        dataRepository.addKeyword(keyword, new DataSource.AddKeywordCallback() {
+    public void subscribeToTopic() {
+        dataRepository.subscribeToTopic(topicObject.getId(), new DataSource.SubscribeCallback() {
             @Override
-            public void onResponse(Keyword keyword) {
+            public void onSuccess() {
                 if (!searchView.isActive()) {
                     return;
                 }
 
-                keywordObject = keyword;
+//                topicObject = topic;
                 searchView.changePlusToCheck();
             }
 
@@ -91,11 +91,11 @@ public class SearchPresenter implements SearchContract.Presenter {
 
     @Override
     public void removeFromLibrary() {
-        if (keywordObject == null) {
+        if (topicObject == null) {
             return;
         }
 
-        dataRepository.removeKeyword(keywordObject.getId(), new DataSource.RemoveKeywordCallback() {
+        dataRepository.removeKeyword(topicObject.getId(), new DataSource.RemoveKeywordCallback() {
             @Override
             public void onSuccess() {
                 if (!searchView.isActive()) {
@@ -122,7 +122,7 @@ public class SearchPresenter implements SearchContract.Presenter {
     }
 
     @Override
-    public void setKeywordObject(Keyword keywordObject) {
-        this.keywordObject = keywordObject;
+    public void setTopicObject(Topic topicObject) {
+        this.topicObject = topicObject;
     }
 }

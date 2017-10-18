@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.nebeek.newsstand.data.DataRepository;
 import com.nebeek.newsstand.data.DataSource;
-import com.nebeek.newsstand.data.models.Keyword;
+import com.nebeek.newsstand.data.models.Topic;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ public class LibraryPresenter implements LibraryContract.Presenter {
 
         dataRepository.getKeywords(new DataSource.GetKeywordsCallback() {
             @Override
-            public void onResponse(List<Keyword> keywordList) {
+            public void onResponse(List<Topic> topicList) {
 
                 Log.d("TAG", "onResponse 111");
 
@@ -34,7 +34,7 @@ public class LibraryPresenter implements LibraryContract.Presenter {
                 }
                 libraryView.hideLoading();
 
-                libraryView.showKeywords(keywordList);
+                libraryView.showKeywords(topicList);
             }
 
             @Override
@@ -62,8 +62,8 @@ public class LibraryPresenter implements LibraryContract.Presenter {
     }
 
     @Override
-    public void onKeywordSelected(Keyword keyword) {
-        keyword.setInLibrary(true);
-        libraryView.showSearchUI(keyword);
+    public void onKeywordSelected(Topic topic) {
+        topic.setInLibrary(true);
+        libraryView.showSearchUI(topic);
     }
 }

@@ -6,18 +6,14 @@
     android:clickable="true"
     android:focusable="true">
 
-    <com.arlib.floatingsearchview.FloatingSearchView
-        android:id="@+id/search_box"
+    <com.mypopsy.widget.FloatingSearchView
+        android:id="@+id/search"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layoutDirection="rtl"
-        android:visibility="invisible"
-        app:floatingSearch_close_search_on_keyboard_dismiss="true"
-        app:floatingSearch_dimBackground="false"
-        app:floatingSearch_leftActionMode="showHamburger"
-        app:floatingSearch_searchHint="جست و جو..."
-        app:floatingSearch_showSearchKey="true"
-        app:floatingSearch_suggestionsListAnimDuration="250" />
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="16dp"
+        android:visibility="invisible" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,7 +24,7 @@
             android:id="@+id/search_view_container"
             android:layout_width="match_parent"
             android:layout_height="@dimen/material_actionbar_size"
-            android:visibility="visible">
+            android:visibility="invisible">
 
             <android.support.v7.widget.SearchView
                 android:id="@+id/search_view"
@@ -53,5 +49,17 @@
             android:visibility="gone" />
     </LinearLayout>
 
+    <com.arlib.floatingsearchview.FloatingSearchView
+        android:id="@+id/search_box"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layoutDirection="rtl"
+        android:visibility="visible"
+        app:floatingSearch_close_search_on_keyboard_dismiss="true"
+        app:floatingSearch_dimBackground="false"
+        app:floatingSearch_leftActionMode="showHamburger"
+        app:floatingSearch_searchHint="جست و جو..."
+        app:floatingSearch_showSearchKey="true"
+        app:floatingSearch_suggestionsListAnimDuration="250" />
 
 </RelativeLayout>

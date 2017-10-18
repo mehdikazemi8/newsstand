@@ -3,7 +3,6 @@ package com.nebeek.newsstand.ui.library;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,7 @@ import com.bluelinelabs.conductor.changehandler.FadeChangeHandler;
 import com.nebeek.newsstand.R;
 import com.nebeek.newsstand.controller.base.BaseBackStackController;
 import com.nebeek.newsstand.data.DataRepository;
-import com.nebeek.newsstand.data.models.Keyword;
+import com.nebeek.newsstand.data.models.Topic;
 import com.nebeek.newsstand.ui.search.SearchController;
 import com.nebeek.newsstand.util.listener.OnItemSelectedListener;
 
@@ -27,27 +26,27 @@ public class LibraryController extends BaseBackStackController implements Librar
 
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
-    @BindView(R.id.keywords)
-    RecyclerView keywords;
+    @BindView(R.id.topics)
+    RecyclerView topics;
 
-    private List<Keyword> keywordList = new ArrayList<>();
+    private List<Topic> topicList = new ArrayList<>();
     private KeywordViewAdapter adapter;
     private LibraryContract.Presenter presenter;
 
     private void init() {
-        keywords.setLayoutManager(new GridLayoutManager(getActivity(), 4));
-        adapter = new KeywordViewAdapter(keywordList, onItemSelectedListener);
-        keywords.setAdapter(adapter);
+        topics.setLayoutManager(new GridLayoutManager(getActivity(), 4));
+        adapter = new KeywordViewAdapter(topicList, onItemSelectedListener);
+        topics.setAdapter(adapter);
     }
 
-    private OnItemSelectedListener<Keyword> onItemSelectedListener = new OnItemSelectedListener<Keyword>() {
+    private OnItemSelectedListener<Topic> onItemSelectedListener = new OnItemSelectedListener<Topic>() {
         @Override
-        public void onSelect(Keyword keyword) {
-            presenter.onKeywordSelected(keyword);
+        public void onSelect(Topic topic) {
+            presenter.onKeywordSelected(topic);
         }
 
         @Override
-        public void onDeselect(Keyword object) {
+        public void onDeselect(Topic object) {
 
         }
     };
@@ -84,17 +83,20 @@ public class LibraryController extends BaseBackStackController implements Librar
     }
 
     @Override
-    public void showKeywords(List<Keyword> keywordList) {
-        Log.d("TAG", "abcd " + keywordList.size());
-        this.keywordList.clear();
-        this.keywordList.addAll(keywordList);
+    public void showKeywords(List<Topic> topicList) {
+        if (topicList == null) {
+            return;
+        }
+
+        this.topicList.clear();
+        this.topicList.addAll(topicList);
         this.adapter.notifyDataSetChanged();
     }
 
     @Override
-    public void showSearchUI(Keyword keyword) {
+    public void showSearchUI(Topic topic) {
         getParentController().getRouter().pushController(
-                RouterTransaction.with(SearchController.newInstance(keyword))
+                RouterTransaction.with(SearchController.newInstance(topic))
                         .pushChangeHandler(new FadeChangeHandler())
                         .popChangeHandler(new FadeChangeHandler())
         );

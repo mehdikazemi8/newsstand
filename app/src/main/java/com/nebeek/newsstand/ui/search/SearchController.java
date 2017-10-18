@@ -12,8 +12,8 @@ import android.widget.TextView;
 import com.nebeek.newsstand.R;
 import com.nebeek.newsstand.controller.base.BaseController;
 import com.nebeek.newsstand.data.DataRepository;
-import com.nebeek.newsstand.data.models.Keyword;
 import com.nebeek.newsstand.data.models.Snippet;
+import com.nebeek.newsstand.data.models.Topic;
 import com.nebeek.newsstand.util.GlobalToast;
 
 import java.util.ArrayList;
@@ -37,28 +37,28 @@ public class SearchController extends BaseController implements SearchContract.V
     private SearchContract.Presenter presenter;
     private SnippetViewAdapter snippetViewAdapter;
     private String keyword;
-    private Keyword keywordObject;
+    private Topic topicObject;
 
     public static SearchController newInstance(String keyword) {
         SearchController instance = new SearchController();
         instance.keyword = keyword;
-        instance.keywordObject = null;
+        instance.topicObject = null;
         return instance;
     }
 
-    public static SearchController newInstance(Keyword keywordObject) {
+    public static SearchController newInstance(Topic topicObject) {
         SearchController instance = new SearchController();
         instance.keyword = null;
-        instance.keywordObject = keywordObject;
+        instance.topicObject = topicObject;
         return instance;
     }
 
     // todo, check and plus is hardcoded!
     private void initView() {
         if (keyword == null) {
-            keyword = keywordObject.getText();
+            keyword = topicObject.getNames().get(0);
 
-            if (keywordObject.getInLibrary()) {
+            if (topicObject.getInLibrary()) {
                 addButton.setText(getResources().getString(R.string.icon_check_circle));
             } else {
                 addButton.setText(getResources().getString(R.string.icon_add_circle));
@@ -80,8 +80,8 @@ public class SearchController extends BaseController implements SearchContract.V
         setActive(true);
         presenter = new SearchPresenter(keyword, this, DataRepository.getInstance());
 
-        if (keywordObject != null) {
-            presenter.setKeywordObject(keywordObject);
+        if (topicObject != null) {
+            presenter.setTopicObject(topicObject);
         }
 
         presenter.start();
@@ -117,7 +117,7 @@ public class SearchController extends BaseController implements SearchContract.V
     @OnClick(R.id.add_button)
     public void addOnClick() {
         if (addButton.getText().toString().equals(getResources().getString(R.string.icon_add_circle))) {
-            presenter.addToLibrary();
+            presenter.subscribeToTopic();
         } else {
             presenter.removeFromLibrary();
         }

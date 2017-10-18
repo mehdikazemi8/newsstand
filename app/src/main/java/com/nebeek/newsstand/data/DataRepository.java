@@ -2,6 +2,7 @@ package com.nebeek.newsstand.data;
 
 import android.util.Log;
 
+import com.nebeek.newsstand.data.models.User;
 import com.nebeek.newsstand.util.NetworkHelper;
 
 public class DataRepository extends DataSource {
@@ -26,6 +27,11 @@ public class DataRepository extends DataSource {
     }
 
     @Override
+    public void prepareDataSource() {
+        remoteDataSource.prepareDataSource();
+    }
+
+    @Override
     public void searchKeyword(String keyword, SearchKeywordCallback callback) {
         if (!networkHelper.isNetworkAvailable()) {
             callback.onNetworkFailure();
@@ -45,16 +51,16 @@ public class DataRepository extends DataSource {
     }
 
     @Override
-    public void addKeyword(String keyword, AddKeywordCallback callback) {
+    public void subscribeToTopic(String id, SubscribeCallback callback) {
         if (!networkHelper.isNetworkAvailable()) {
             callback.onNetworkFailure();
         } else {
-            remoteDataSource.addKeyword(keyword, callback);
+            remoteDataSource.subscribeToTopic(id, callback);
         }
     }
 
     @Override
-    public void removeKeyword(Integer id, RemoveKeywordCallback callback) {
+    public void removeKeyword(String id, RemoveKeywordCallback callback) {
         if (!networkHelper.isNetworkAvailable()) {
             callback.onNetworkFailure();
         } else {
@@ -81,16 +87,29 @@ public class DataRepository extends DataSource {
     }
 
     @Override
-    public void fakeRegister(FakeRegisterCallback callback) {
+    public void registerNewUser(User user, RegisterCallback callback) {
         if (!networkHelper.isNetworkAvailable()) {
             callback.onNetworkFailure();
         } else {
-            remoteDataSource.fakeRegister(callback);
+            remoteDataSource.registerNewUser(user, callback);
         }
     }
 
     @Override
-    public void prepareDataSource() {
-        remoteDataSource.prepareDataSource();
+    public void getAllTopics(TopicsResponseCallback callback) {
+        if (!networkHelper.isNetworkAvailable()) {
+            callback.onNetworkFailure();
+        } else {
+            remoteDataSource.getAllTopics(callback);
+        }
+    }
+
+    @Override
+    public void authenticateUser(User user, AuthenticateCallback callback) {
+        if (!networkHelper.isNetworkAvailable()) {
+            callback.onNetworkFailure();
+        } else {
+            remoteDataSource.authenticateUser(user, callback);
+        }
     }
 }

@@ -21,6 +21,7 @@ import com.nebeek.newsstand.controller.base.BaseBackStackController;
 import com.nebeek.newsstand.controller.base.BaseController;
 import com.nebeek.newsstand.data.DataRepository;
 import com.nebeek.newsstand.data.local.PreferenceManager;
+import com.nebeek.newsstand.data.models.Topic;
 import com.nebeek.newsstand.ui.explore.ExploreController;
 import com.nebeek.newsstand.ui.library.LibraryController;
 import com.nebeek.newsstand.ui.search.SearchController;
@@ -111,7 +112,7 @@ public class MainController extends BaseController implements MainContract.View 
         searchBox.setOnSearchListener(new FloatingSearchView.OnSearchListener() {
             @Override
             public void onSuggestionClicked(SearchSuggestion searchSuggestion) {
-
+                presenter.onSuggestionClicked(searchSuggestion.getBody());
             }
 
             @Override
@@ -123,9 +124,7 @@ public class MainController extends BaseController implements MainContract.View 
         searchBox.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
             @Override
             public void onSearchTextChanged(String oldQuery, String newQuery) {
-                List<ColorSuggestion> newList = new ArrayList<>();
-                newList.add(new ColorSuggestion(newQuery));
-                searchBox.swapSuggestions(newList);
+                presenter.getTopics(newQuery);
             }
         });
 
@@ -176,51 +175,50 @@ public class MainController extends BaseController implements MainContract.View 
     }
 
     @Override
-    public void showSearchUI(String keyword) {
+    public void showSearchUI(Topic topic) {
         getRouter().pushController(
-                RouterTransaction.with(SearchController.newInstance(keyword))
+                RouterTransaction.with(SearchController.newInstance(topic))
                         .pushChangeHandler(new FadeChangeHandler())
                         .popChangeHandler(new FadeChangeHandler())
         );
     }
 
+    public static class TopicSuggestion implements SearchSuggestion {
 
-    public static class ColorSuggestion implements SearchSuggestion {
+        private String topicName;
+        private boolean isHistory = false;
 
-        private String mColorName;
-        private boolean mIsHistory = false;
-
-        public ColorSuggestion(String suggestion) {
-            this.mColorName = suggestion.toLowerCase();
+        public TopicSuggestion(String suggestion) {
+            this.topicName = suggestion.toLowerCase();
         }
 
-        public ColorSuggestion(Parcel source) {
-            this.mColorName = source.readString();
-            this.mIsHistory = source.readInt() != 0;
+        public TopicSuggestion(Parcel source) {
+            this.topicName = source.readString();
+            this.isHistory = source.readInt() != 0;
         }
 
         public void setIsHistory(boolean isHistory) {
-            this.mIsHistory = isHistory;
+            this.isHistory = isHistory;
         }
 
         public boolean getIsHistory() {
-            return this.mIsHistory;
+            return this.isHistory;
         }
 
         @Override
         public String getBody() {
-            return mColorName;
+            return topicName;
         }
 
-        public static final Creator<ColorSuggestion> CREATOR = new Creator<ColorSuggestion>() {
+        public static final Creator<TopicSuggestion> CREATOR = new Creator<TopicSuggestion>() {
             @Override
-            public ColorSuggestion createFromParcel(Parcel in) {
-                return new ColorSuggestion(in);
+            public TopicSuggestion createFromParcel(Parcel in) {
+                return new TopicSuggestion(in);
             }
 
             @Override
-            public ColorSuggestion[] newArray(int size) {
-                return new ColorSuggestion[size];
+            public TopicSuggestion[] newArray(int size) {
+                return new TopicSuggestion[size];
             }
         };
 
@@ -231,8 +229,18 @@ public class MainController extends BaseController implements MainContract.View 
 
         @Override
         public void writeToParcel(Parcel dest, int flags) {
-            dest.writeString(mColorName);
-            dest.writeInt(mIsHistory ? 1 : 0);
+            dest.writeString(topicName);
+            dest.writeInt(isHistory ? 1 : 0);
         }
+    }
+
+    @Override
+    public void showSuggestions(List<String> suggestions) {
+        List<TopicSuggestion> newList = new ArrayList<>();
+        for (String suggestion : suggestions) {
+            newList.add(new TopicSuggestion(suggestion));
+        }
+
+        searchBox.swapSuggestions(newList);
     }
 }

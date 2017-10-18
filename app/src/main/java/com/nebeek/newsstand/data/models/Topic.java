@@ -1,11 +1,32 @@
 package com.nebeek.newsstand.data.models;
 
-public class Keyword extends BaseModel {
-    Integer id;
+import java.util.List;
+
+public class Topic extends BaseModel {
+    private String id;
+    private List<String> names;
+    private Integer subscribes;
+
     String text;
     String photoURL;
     Boolean receiveNotification;
     Boolean inLibrary = false;
+
+    public List<String> getNames() {
+        return names;
+    }
+
+    public void setNames(List<String> names) {
+        this.names = names;
+    }
+
+    public Integer getSubscribes() {
+        return subscribes;
+    }
+
+    public void setSubscribes(Integer subscribes) {
+        this.subscribes = subscribes;
+    }
 
     public Boolean getInLibrary() {
         return inLibrary;
@@ -15,11 +36,11 @@ public class Keyword extends BaseModel {
         this.inLibrary = inLibrary;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
