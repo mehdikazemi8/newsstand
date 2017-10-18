@@ -1,4 +1,4 @@
-package com.nebeek.newsstand.ui.search;
+package com.nebeek.newsstand.ui.topic;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

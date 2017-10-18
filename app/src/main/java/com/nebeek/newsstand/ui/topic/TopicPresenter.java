@@ -1,4 +1,4 @@
-package com.nebeek.newsstand.ui.search;
+package com.nebeek.newsstand.ui.topic;
 
 import android.util.Log;
 
@@ -9,51 +9,51 @@ import com.nebeek.newsstand.data.models.Topic;
 
 import java.util.List;
 
-public class SearchPresenter implements SearchContract.Presenter {
+public class TopicPresenter implements TopicContract.Presenter {
 
     private String keyword;
     private Topic topicObject = null;
-    private SearchContract.View searchView;
+    private TopicContract.View topicView;
     private DataRepository dataRepository;
 
-    public SearchPresenter(String keyword, SearchContract.View searchView, DataRepository dataRepository) {
+    public TopicPresenter(String keyword, TopicContract.View topicView, DataRepository dataRepository) {
         this.keyword = keyword;
-        this.searchView = searchView;
+        this.topicView = topicView;
         this.dataRepository = dataRepository;
     }
 
     @Override
     public void start() {
-        searchView.showLoading();
+        topicView.showLoading();
 
         dataRepository.searchKeyword(keyword, new DataSource.SearchKeywordCallback() {
             @Override
             public void onResponse(List<Snippet> snippetList) {
                 Log.d("TAG", "onResponse " + snippetList);
-                if (!searchView.isActive()) {
+                if (!topicView.isActive()) {
                     return;
                 }
-                searchView.hideLoading();
+                topicView.hideLoading();
 
-                searchView.showSearchResults(snippetList);
+                topicView.showSearchResults(snippetList);
             }
 
             @Override
             public void onFailure() {
                 Log.d("TAG", "onFailure");
-                if (!searchView.isActive()) {
+                if (!topicView.isActive()) {
                     return;
                 }
-                searchView.hideLoading();
+                topicView.hideLoading();
             }
 
             @Override
             public void onNetworkFailure() {
                 Log.d("TAG", "onNetworkFailure");
-                if (!searchView.isActive()) {
+                if (!topicView.isActive()) {
                     return;
                 }
-                searchView.hideLoading();
+                topicView.hideLoading();
             }
         });
     }
@@ -63,26 +63,26 @@ public class SearchPresenter implements SearchContract.Presenter {
         dataRepository.subscribeToTopic(topicObject.getId(), new DataSource.SubscribeCallback() {
             @Override
             public void onSuccess() {
-                if (!searchView.isActive()) {
+                if (!topicView.isActive()) {
                     return;
                 }
 
 //                topicObject = topic;
-                searchView.changePlusToCheck();
+                topicView.changePlusToCheck();
             }
 
             @Override
             public void onFailure() {
-                if (!searchView.isActive()) {
+                if (!topicView.isActive()) {
                     return;
                 }
 
-                searchView.showAddToLibraryError();
+                topicView.showAddToLibraryError();
             }
 
             @Override
             public void onNetworkFailure() {
-                if (!searchView.isActive()) {
+                if (!topicView.isActive()) {
                     return;
                 }
             }
@@ -98,23 +98,23 @@ public class SearchPresenter implements SearchContract.Presenter {
         dataRepository.removeKeyword(topicObject.getId(), new DataSource.RemoveKeywordCallback() {
             @Override
             public void onSuccess() {
-                if (!searchView.isActive()) {
+                if (!topicView.isActive()) {
                     return;
                 }
 
-                searchView.changeCheckToPlus();
+                topicView.changeCheckToPlus();
             }
 
             @Override
             public void onFailure() {
-                if (!searchView.isActive()) {
+                if (!topicView.isActive()) {
                     return;
                 }
             }
 
             @Override
             public void onNetworkFailure() {
-                if (!searchView.isActive()) {
+                if (!topicView.isActive()) {
                     return;
                 }
             }

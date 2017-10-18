@@ -24,7 +24,7 @@ import com.nebeek.newsstand.data.local.PreferenceManager;
 import com.nebeek.newsstand.data.models.Topic;
 import com.nebeek.newsstand.ui.explore.ExploreController;
 import com.nebeek.newsstand.ui.library.LibraryController;
-import com.nebeek.newsstand.ui.search.SearchController;
+import com.nebeek.newsstand.ui.topic.TopicController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -177,7 +177,7 @@ public class MainController extends BaseController implements MainContract.View 
     @Override
     public void showSearchUI(Topic topic) {
         getRouter().pushController(
-                RouterTransaction.with(SearchController.newInstance(topic))
+                RouterTransaction.with(TopicController.newInstance(topic))
                         .pushChangeHandler(new FadeChangeHandler())
                         .popChangeHandler(new FadeChangeHandler())
         );

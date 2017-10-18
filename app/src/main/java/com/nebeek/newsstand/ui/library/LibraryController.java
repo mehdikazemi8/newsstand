@@ -14,7 +14,7 @@ import com.nebeek.newsstand.R;
 import com.nebeek.newsstand.controller.base.BaseBackStackController;
 import com.nebeek.newsstand.data.DataRepository;
 import com.nebeek.newsstand.data.models.Topic;
-import com.nebeek.newsstand.ui.search.SearchController;
+import com.nebeek.newsstand.ui.topic.TopicController;
 import com.nebeek.newsstand.util.listener.OnItemSelectedListener;
 
 import java.util.ArrayList;
@@ -96,7 +96,7 @@ public class LibraryController extends BaseBackStackController implements Librar
     @Override
     public void showSearchUI(Topic topic) {
         getParentController().getRouter().pushController(
-                RouterTransaction.with(SearchController.newInstance(topic))
+                RouterTransaction.with(TopicController.newInstance(topic))
                         .pushChangeHandler(new FadeChangeHandler())
                         .popChangeHandler(new FadeChangeHandler())
         );

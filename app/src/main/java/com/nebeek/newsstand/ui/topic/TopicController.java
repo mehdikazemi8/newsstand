@@ -1,4 +1,4 @@
-package com.nebeek.newsstand.ui.search;
+package com.nebeek.newsstand.ui.topic;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,7 +22,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class SearchController extends BaseController implements SearchContract.View {
+public class TopicController extends BaseController implements TopicContract.View {
 
     @BindView(R.id.keyword_content)
     TextView keywordContent;
@@ -34,20 +34,20 @@ public class SearchController extends BaseController implements SearchContract.V
     TextView addButton;
 
     private List<Snippet> snippetList = new ArrayList<>();
-    private SearchContract.Presenter presenter;
+    private TopicContract.Presenter presenter;
     private SnippetViewAdapter snippetViewAdapter;
     private String keyword;
     private Topic topicObject;
 
-    public static SearchController newInstance(String keyword) {
-        SearchController instance = new SearchController();
+    public static TopicController newInstance(String keyword) {
+        TopicController instance = new TopicController();
         instance.keyword = keyword;
         instance.topicObject = null;
         return instance;
     }
 
-    public static SearchController newInstance(Topic topicObject) {
-        SearchController instance = new SearchController();
+    public static TopicController newInstance(Topic topicObject) {
+        TopicController instance = new TopicController();
         instance.keyword = null;
         instance.topicObject = topicObject;
         return instance;
@@ -78,7 +78,7 @@ public class SearchController extends BaseController implements SearchContract.V
         initView();
 
         setActive(true);
-        presenter = new SearchPresenter(keyword, this, DataRepository.getInstance());
+        presenter = new TopicPresenter(keyword, this, DataRepository.getInstance());
 
         if (topicObject != null) {
             presenter.setTopicObject(topicObject);
