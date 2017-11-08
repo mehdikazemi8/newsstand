@@ -53,4 +53,9 @@ public class LocalDataSource extends DataSource {
     public void authenticateUser(User user, AuthenticateCallback callback) {
 
     }
+
+    @Override
+    public void getMessages(GetMessagesCallback callback) {
+
+    }
 }

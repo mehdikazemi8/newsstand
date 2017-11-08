@@ -10,11 +10,10 @@ import com.nebeek.newsstand.data.local.PreferenceManager;
 import com.nebeek.newsstand.data.models.User;
 import com.nebeek.newsstand.data.remote.request.FCMRequest;
 import com.nebeek.newsstand.data.remote.response.KeywordsResponse;
-import com.nebeek.newsstand.data.remote.response.SearchResponse;
+import com.nebeek.newsstand.data.remote.response.MessagesResponse;
 import com.nebeek.newsstand.data.remote.response.TokenResponse;
 import com.nebeek.newsstand.data.remote.response.TopicsResponse;
 
-import okhttp3.Credentials;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.ResponseBody;
@@ -47,10 +46,14 @@ public class RemoteDataSource extends DataSource {
                 chain -> {
                     Request originalRequest = chain.request();
 
-                    Request.Builder builder = originalRequest.newBuilder().header(
-                            "Authorization",
-                            preferenceManager.getAuthorization()
-                    );
+                    Request.Builder builder = originalRequest.newBuilder();
+
+                    if (preferenceManager.getAuthorization() != null) {
+                        builder.addHeader(
+                                "Authorization",
+                                preferenceManager.getAuthorization()
+                        );
+                    }
 
                     Request newRequest = builder.build();
                     return chain.proceed(newRequest);
@@ -73,10 +76,10 @@ public class RemoteDataSource extends DataSource {
 
     @Override
     public void searchKeyword(String keyword, SearchKeywordCallback callback) {
-        Call<SearchResponse> call = apiService.searchKeyword(keyword);
-        call.enqueue(new Callback<SearchResponse>() {
+        Call<MessagesResponse> call = apiService.searchKeyword(keyword);
+        call.enqueue(new Callback<MessagesResponse>() {
             @Override
-            public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
+            public void onResponse(Call<MessagesResponse> call, Response<MessagesResponse> response) {
 
                 if (response.isSuccessful()) {
                     callback.onResponse(response.body().getResults());
@@ -86,7 +89,7 @@ public class RemoteDataSource extends DataSource {
             }
 
             @Override
-            public void onFailure(Call<SearchResponse> call, Throwable t) {
+            public void onFailure(Call<MessagesResponse> call, Throwable t) {
 
                 callback.onFailure();
             }
@@ -246,7 +249,8 @@ public class RemoteDataSource extends DataSource {
 
     @Override
     public void authenticateUser(User user, AuthenticateCallback callback) {
-        Call<TokenResponse> call = apiService.authenticateUser(user.getId(), user);
+        // user.getId(),
+        Call<TokenResponse> call = apiService.authenticateUser(user);
         call.enqueue(new Callback<TokenResponse>() {
             @Override
             public void onResponse(Call<TokenResponse> call, Response<TokenResponse> response) {
@@ -259,6 +263,26 @@ public class RemoteDataSource extends DataSource {
 
             @Override
             public void onFailure(Call<TokenResponse> call, Throwable t) {
+                callback.onFailure();
+            }
+        });
+    }
+
+    @Override
+    public void getMessages(GetMessagesCallback callback) {
+        Call<MessagesResponse> call = apiService.getMessages();
+        call.enqueue(new Callback<MessagesResponse>() {
+            @Override
+            public void onResponse(Call<MessagesResponse> call, Response<MessagesResponse> response) {
+                if (response.isSuccessful()) {
+                    callback.onResponse(response.body());
+                } else {
+                    callback.onFailure();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MessagesResponse> call, Throwable t) {
                 callback.onFailure();
             }
         });

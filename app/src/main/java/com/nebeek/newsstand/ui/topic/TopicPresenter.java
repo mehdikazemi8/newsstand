@@ -1,13 +1,9 @@
 package com.nebeek.newsstand.ui.topic;
 
-import android.util.Log;
-
 import com.nebeek.newsstand.data.DataRepository;
 import com.nebeek.newsstand.data.DataSource;
-import com.nebeek.newsstand.data.models.Snippet;
 import com.nebeek.newsstand.data.models.Topic;
-
-import java.util.List;
+import com.nebeek.newsstand.data.remote.response.MessagesResponse;
 
 public class TopicPresenter implements TopicContract.Presenter {
 
@@ -26,6 +22,26 @@ public class TopicPresenter implements TopicContract.Presenter {
     public void start() {
         topicView.showLoading();
 
+        dataRepository.getMessages(new DataSource.GetMessagesCallback() {
+            @Override
+            public void onResponse(MessagesResponse response) {
+
+                topicView.hideLoading();
+                topicView.showGetMessagesResults(response.getResults());
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+
+            @Override
+            public void onNetworkFailure() {
+
+            }
+        });
+
+        /*
         dataRepository.searchKeyword(keyword, new DataSource.SearchKeywordCallback() {
             @Override
             public void onResponse(List<Snippet> snippetList) {
@@ -35,7 +51,7 @@ public class TopicPresenter implements TopicContract.Presenter {
                 }
                 topicView.hideLoading();
 
-                topicView.showSearchResults(snippetList);
+                topicView.showGetMessagesResults(snippetList);
             }
 
             @Override
@@ -56,6 +72,7 @@ public class TopicPresenter implements TopicContract.Presenter {
                 topicView.hideLoading();
             }
         });
+        */
     }
 
     @Override

@@ -4,7 +4,9 @@ import java.util.List;
 
 public class Snippet {
 
-    private Integer id;
+    private String id;
+    private Payload payload;
+
     private String title;
     private List<String> photoURLs = null;
     private String description;
@@ -15,11 +17,19 @@ public class Snippet {
     private Integer dislikeCount;
     private List<Comment> comments = null;
 
-    public Integer getId() {
+    public Payload getPayload() {
+        return payload;
+    }
+
+    public void setPayload(Payload payload) {
+        this.payload = payload;
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

@@ -103,7 +103,7 @@ public class TopicController extends BaseController implements TopicContract.Vie
     }
 
     @Override
-    public void showSearchResults(List<Snippet> snippetList) {
+    public void showGetMessagesResults(List<Snippet> snippetList) {
         this.snippetList.clear();
         this.snippetList.addAll(snippetList);
         this.snippetViewAdapter.notifyDataSetChanged();

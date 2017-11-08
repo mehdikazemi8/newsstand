@@ -112,4 +112,13 @@ public class DataRepository extends DataSource {
             remoteDataSource.authenticateUser(user, callback);
         }
     }
+
+    @Override
+    public void getMessages(GetMessagesCallback callback) {
+        if (!networkHelper.isNetworkAvailable()) {
+            callback.onNetworkFailure();
+        } else {
+            remoteDataSource.getMessages(callback);
+        }
+    }
 }

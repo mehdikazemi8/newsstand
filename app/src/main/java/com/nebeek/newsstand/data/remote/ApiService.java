@@ -4,7 +4,7 @@ import com.nebeek.newsstand.data.models.Snippet;
 import com.nebeek.newsstand.data.models.User;
 import com.nebeek.newsstand.data.remote.request.FCMRequest;
 import com.nebeek.newsstand.data.remote.response.KeywordsResponse;
-import com.nebeek.newsstand.data.remote.response.SearchResponse;
+import com.nebeek.newsstand.data.remote.response.MessagesResponse;
 import com.nebeek.newsstand.data.remote.response.TokenResponse;
 import com.nebeek.newsstand.data.remote.response.TopicsResponse;
 
@@ -21,7 +21,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Url;
 
 public interface ApiService {
-//    String BASE_URL = "http://www.mocky.io/v2/";
+    //    String BASE_URL = "http://www.mocky.io/v2/";
     String BASE_URL = "http://nebeek.com:8090/";
 //    String BASE_URL = "http://136.243.149.242:8090/";
 
@@ -40,8 +40,9 @@ public interface ApiService {
      * @param user
      * @return
      */
-    @POST("users/{id}/authenticate_pass/")
-    Call<TokenResponse> authenticateUser(@Path("id") String id, @Body User user);
+    @POST("authenticate/")
+    Call<TokenResponse> authenticateUser(@Body User user);
+    // todo @Path("id") String id, put it in User (in body)
 
 
     @GET("topics/")
@@ -50,6 +51,9 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("subscribes/")
     Call<ResponseBody> addSubscription(@Field("argument") String id);
+
+    @GET("messages/")
+    Call<MessagesResponse> getMessages();
 
 
     @DELETE("subscribes/{id}/")
@@ -69,7 +73,7 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST("59a07c3d110000810464427a")
-    Call<SearchResponse> searchKeyword(@Field("keyword") String keyword);
+    Call<MessagesResponse> searchKeyword(@Field("keyword") String keyword);
 
 
     @GET

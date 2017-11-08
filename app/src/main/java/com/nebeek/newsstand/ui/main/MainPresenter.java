@@ -27,7 +27,31 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void start() {
+        sendFCMToServer();
+    }
 
+    private void sendFCMToServer() {
+        if (preferenceManager.getFcmID() == null) {
+            return;
+        }
+
+        String token = preferenceManager.getFcmID().fcm();
+        DataRepository.getInstance().sendFcmIDToServer(token, new DataSource.SendFcmIDCallback() {
+            @Override
+            public void onSuccess() {
+                Log.d("TAG", "Refreshed token hhhh: " + token);
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+
+            @Override
+            public void onNetworkFailure() {
+
+            }
+        });
     }
 
     @Override
@@ -35,7 +59,6 @@ public class MainPresenter implements MainContract.Presenter {
 //        mainView.showSearchUI(keyword);
         return false;
     }
-
 
 
     @Override

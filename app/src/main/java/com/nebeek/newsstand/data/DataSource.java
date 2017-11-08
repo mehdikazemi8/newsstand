@@ -3,6 +3,7 @@ package com.nebeek.newsstand.data;
 import com.nebeek.newsstand.data.models.Snippet;
 import com.nebeek.newsstand.data.models.Topic;
 import com.nebeek.newsstand.data.models.User;
+import com.nebeek.newsstand.data.remote.response.MessagesResponse;
 import com.nebeek.newsstand.data.remote.response.TokenResponse;
 import com.nebeek.newsstand.data.remote.response.TopicsResponse;
 
@@ -93,6 +94,15 @@ public abstract class DataSource {
         void onNetworkFailure();
     }
 
+    public interface GetMessagesCallback {
+
+        void onResponse(MessagesResponse response);
+
+        void onFailure();
+
+        void onNetworkFailure();
+    }
+
     public abstract void prepareDataSource();
 
     public abstract void searchKeyword(String keyword, SearchKeywordCallback callback);
@@ -112,4 +122,6 @@ public abstract class DataSource {
     public abstract void authenticateUser(User user, AuthenticateCallback callback);
 
     public abstract void getAllTopics(TopicsResponseCallback callback);
+
+    public abstract void getMessages(GetMessagesCallback callback);
 }

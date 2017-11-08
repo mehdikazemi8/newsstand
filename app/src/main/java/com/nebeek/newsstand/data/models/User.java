@@ -5,7 +5,7 @@ import java.util.List;
 
 public class User extends BaseModel {
     private List<String> names = new ArrayList<>();
-    private String id;
+    private String _id;
     private String fcm;
     private String mobile;
     private String email;
@@ -16,11 +16,11 @@ public class User extends BaseModel {
     }
 
     public String getId() {
-        return id;
+        return _id;
     }
 
     public void setId(String id) {
-        this.id = id;
+        this._id = id;
     }
 
     public List<String> getNames() {

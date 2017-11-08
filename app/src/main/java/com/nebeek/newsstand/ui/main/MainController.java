@@ -104,6 +104,8 @@ public class MainController extends BaseController implements MainContract.View 
     protected void onViewBound(@NonNull View view) {
         super.onViewBound(view);
 
+        PreferenceManager.getInstance(getActivity()).getFcmID();
+
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
         viewPager.setCurrentItem(NUMBER_OF_TABS - 1);
