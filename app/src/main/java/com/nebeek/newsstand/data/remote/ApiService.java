@@ -1,12 +1,15 @@
 package com.nebeek.newsstand.data.remote;
 
 import com.nebeek.newsstand.data.models.Snippet;
+import com.nebeek.newsstand.data.models.Topic;
 import com.nebeek.newsstand.data.models.User;
 import com.nebeek.newsstand.data.remote.request.FCMRequest;
+import com.nebeek.newsstand.data.remote.request.Subscription;
 import com.nebeek.newsstand.data.remote.response.KeywordsResponse;
 import com.nebeek.newsstand.data.remote.response.MessagesResponse;
 import com.nebeek.newsstand.data.remote.response.TokenResponse;
-import com.nebeek.newsstand.data.remote.response.TopicsResponse;
+
+import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -16,7 +19,6 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Url;
 
@@ -46,11 +48,10 @@ public interface ApiService {
 
 
     @GET("topics/")
-    Call<TopicsResponse> getAllTopics();
+    Call<List<Topic>> getAllTopics();
 
-    @FormUrlEncoded
     @POST("subscribes/")
-    Call<ResponseBody> addSubscription(@Field("argument") String id);
+    Call<ResponseBody> addSubscription(@Body Subscription subscription);
 
     @GET("messages/")
     Call<MessagesResponse> getMessages();

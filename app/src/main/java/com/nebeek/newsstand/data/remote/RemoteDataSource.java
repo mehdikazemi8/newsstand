@@ -7,12 +7,15 @@ import com.google.gson.GsonBuilder;
 import com.nebeek.newsstand.data.DataSource;
 import com.nebeek.newsstand.data.MyAdapterFactory;
 import com.nebeek.newsstand.data.local.PreferenceManager;
+import com.nebeek.newsstand.data.models.Topic;
 import com.nebeek.newsstand.data.models.User;
 import com.nebeek.newsstand.data.remote.request.FCMRequest;
+import com.nebeek.newsstand.data.remote.request.Subscription;
 import com.nebeek.newsstand.data.remote.response.KeywordsResponse;
 import com.nebeek.newsstand.data.remote.response.MessagesResponse;
 import com.nebeek.newsstand.data.remote.response.TokenResponse;
-import com.nebeek.newsstand.data.remote.response.TopicsResponse;
+
+import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -124,7 +127,10 @@ public class RemoteDataSource extends DataSource {
 
     @Override
     public void subscribeToTopic(String id, SubscribeCallback callback) {
-        Call<ResponseBody> call = apiService.addSubscription(id);
+        // todo what is this? :))
+        id = "5a03357e01019f35b4d222d5";
+
+        Call<ResponseBody> call = apiService.addSubscription(new Subscription(id));
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -229,10 +235,10 @@ public class RemoteDataSource extends DataSource {
 
     @Override
     public void getAllTopics(TopicsResponseCallback callback) {
-        Call<TopicsResponse> call = apiService.getAllTopics();
-        call.enqueue(new Callback<TopicsResponse>() {
+        Call<List<Topic>> call = apiService.getAllTopics();
+        call.enqueue(new Callback<List<Topic>>() {
             @Override
-            public void onResponse(Call<TopicsResponse> call, Response<TopicsResponse> response) {
+            public void onResponse(Call<List<Topic>> call, Response<List<Topic>> response) {
                 if (response.isSuccessful()) {
                     callback.onResponse(response.body());
                 } else {
@@ -241,7 +247,7 @@ public class RemoteDataSource extends DataSource {
             }
 
             @Override
-            public void onFailure(Call<TopicsResponse> call, Throwable t) {
+            public void onFailure(Call<List<Topic>> call, Throwable t) {
                 callback.onFailure();
             }
         });

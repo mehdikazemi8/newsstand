@@ -7,7 +7,6 @@ import com.nebeek.newsstand.data.DataRepository;
 import com.nebeek.newsstand.data.DataSource;
 import com.nebeek.newsstand.data.local.PreferenceManager;
 import com.nebeek.newsstand.data.models.Topic;
-import com.nebeek.newsstand.data.remote.response.TopicsResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,12 +74,16 @@ public class MainPresenter implements MainContract.Presenter {
 
         dataRepository.getAllTopics(new DataSource.TopicsResponseCallback() {
             @Override
-            public void onResponse(TopicsResponse response) {
+            public void onResponse(List<Topic> myList) {
                 topicList.clear();
-                topicList.addAll(response.getResults());
+                topicList.addAll(myList);
 
                 List<String> topicNames = new ArrayList<>();
-                for (Topic topic : response.getResults()) {
+                for (Topic topic : topicList) {
+                    // todo
+                    if (topicNames.size() > 10) {
+                        break;
+                    }
                     if (topic.getNames().size() > 0) {
                         topicNames.add(topic.getNames().get(0));
                     }

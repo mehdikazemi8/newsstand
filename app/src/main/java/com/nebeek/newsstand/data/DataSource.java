@@ -78,7 +78,7 @@ public abstract class DataSource {
 
     public interface TopicsResponseCallback {
 
-        void onResponse(TopicsResponse response);
+        void onResponse(List<Topic> topicList);
 
         void onFailure();
 
