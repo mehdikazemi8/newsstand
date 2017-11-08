@@ -184,7 +184,7 @@ public class RemoteDataSource extends DataSource {
 
     @Override
     public void sendFcmIDToServer(String fcmID, SendFcmIDCallback callback) {
-        Call<ResponseBody> call = apiService.sendFcmIDToServer(FCMRequest.builder().fcm(fcmID).build());
+        Call<ResponseBody> call = apiService.sendFcmIDToServer(FCMRequest.builder().instanceId(fcmID).build());
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

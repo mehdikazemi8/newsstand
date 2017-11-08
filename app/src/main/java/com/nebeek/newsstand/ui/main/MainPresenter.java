@@ -35,7 +35,7 @@ public class MainPresenter implements MainContract.Presenter {
             return;
         }
 
-        String token = preferenceManager.getFcmID().fcm();
+        String token = preferenceManager.getFcmID().instanceId();
         DataRepository.getInstance().sendFcmIDToServer(token, new DataSource.SendFcmIDCallback() {
             @Override
             public void onSuccess() {

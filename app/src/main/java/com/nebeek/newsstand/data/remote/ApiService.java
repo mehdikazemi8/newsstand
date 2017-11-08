@@ -64,7 +64,7 @@ public interface ApiService {
     Call<KeywordsResponse> getSubscriptions();
 
 
-    @PUT("api-register/")
+    @POST("firebase-instances/")
     Call<ResponseBody> sendFcmIDToServer(@Body FCMRequest fcmRequest);
 
 

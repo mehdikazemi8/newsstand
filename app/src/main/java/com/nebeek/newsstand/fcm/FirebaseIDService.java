@@ -35,15 +35,15 @@ public class FirebaseIDService extends FirebaseInstanceIdService {
 
         PreferenceManager preferenceManager = PreferenceManager.getInstance(this);
         FCMRequest fcmRequest = preferenceManager.getFcmID();
-        if (fcmRequest == null || !token.equals(fcmRequest.fcm())) { // must send to server
+        if (fcmRequest == null || !token.equals(fcmRequest.instanceId())) { // must send to server
 
             if (preferenceManager.getTokenResponse() == null) {
                 // save and send later
-                fcmRequest = FCMRequest.builder().fcm(token).sendToServer(true).build();
+                fcmRequest = FCMRequest.builder().instanceId(token).sendToServer(true).build();
                 preferenceManager.putFcmID(fcmRequest);
             } else {
                 // save and send now
-                fcmRequest = FCMRequest.builder().fcm(token).sendToServer(false).build();
+                fcmRequest = FCMRequest.builder().instanceId(token).sendToServer(false).build();
                 preferenceManager.putFcmID(fcmRequest);
 
                 callSendFCMApi(token);
