@@ -10,7 +10,7 @@ public class LocalDataSource extends DataSource {
     }
 
     @Override
-    public void getKeywords(GetKeywordsCallback callback) {
+    public void getSubscribes(GetSubscribesCallback callback) {
 
     }
 
@@ -45,7 +45,7 @@ public class LocalDataSource extends DataSource {
     }
 
     @Override
-    public void getAllTopics(TopicsResponseCallback callback) {
+    public void getAllTopics(String topicName, TopicsResponseCallback callback) {
 
     }
 

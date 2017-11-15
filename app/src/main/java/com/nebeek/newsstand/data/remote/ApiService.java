@@ -1,15 +1,13 @@
 package com.nebeek.newsstand.data.remote;
 
 import com.nebeek.newsstand.data.models.Snippet;
-import com.nebeek.newsstand.data.models.Topic;
 import com.nebeek.newsstand.data.models.User;
 import com.nebeek.newsstand.data.remote.request.FCMRequest;
 import com.nebeek.newsstand.data.remote.request.Subscription;
-import com.nebeek.newsstand.data.remote.response.KeywordsResponse;
 import com.nebeek.newsstand.data.remote.response.MessagesResponse;
+import com.nebeek.newsstand.data.remote.response.SubscribesResponse;
 import com.nebeek.newsstand.data.remote.response.TokenResponse;
-
-import java.util.List;
+import com.nebeek.newsstand.data.remote.response.TopicsResponse;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -20,6 +18,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 import retrofit2.http.Url;
 
 public interface ApiService {
@@ -46,9 +45,8 @@ public interface ApiService {
     Call<TokenResponse> authenticateUser(@Body User user);
     // todo @Path("id") String id, put it in User (in body)
 
-
     @GET("topics/")
-    Call<List<Topic>> getAllTopics();
+    Call<TopicsResponse> getAllTopics(@Query("filter[names]") String topicName);
 
     @POST("subscribes/")
     Call<ResponseBody> addSubscription(@Body Subscription subscription);
@@ -61,8 +59,8 @@ public interface ApiService {
     Call<ResponseBody> removeSubscription(@Path("id") String id);
 
 
-    @GET("subscribes/")
-    Call<KeywordsResponse> getSubscriptions();
+    @GET("subscribes/?me&include=argument&fields=argument")
+    Call<SubscribesResponse> getSubscriptions();
 
 
     @POST("firebase-instances/")

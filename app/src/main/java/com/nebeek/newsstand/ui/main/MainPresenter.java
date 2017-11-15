@@ -72,11 +72,15 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void getTopics(String query) {
 
-        dataRepository.getAllTopics(new DataSource.TopicsResponseCallback() {
+        dataRepository.getAllTopics(query, new DataSource.TopicsResponseCallback() {
             @Override
             public void onResponse(List<Topic> myList) {
                 topicList.clear();
                 topicList.addAll(myList);
+
+                for (Topic topic : topicList) {
+                    Log.d("TAG", "topic " + topic.serialize());
+                }
 
                 List<String> topicNames = new ArrayList<>();
                 for (Topic topic : topicList) {
@@ -108,6 +112,7 @@ public class MainPresenter implements MainContract.Presenter {
     public void onSuggestionClicked(String suggestion) {
         for (Topic topic : topicList) {
             if (topic.getNames().size() > 0 && topic.getNames().get(0).equals(suggestion)) {
+                Log.d("TAG", "abcd onSuggestionClicked " + topic.serialize());
                 mainView.showSearchUI(topic);
             }
         }

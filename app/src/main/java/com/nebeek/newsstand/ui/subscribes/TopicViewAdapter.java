@@ -1,4 +1,4 @@
-package com.nebeek.newsstand.ui.library;
+package com.nebeek.newsstand.ui.subscribes;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -19,13 +19,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class KeywordViewAdapter extends RecyclerView.Adapter<KeywordViewAdapter.ViewHolder> {
+public class TopicViewAdapter extends RecyclerView.Adapter<TopicViewAdapter.ViewHolder> {
 
     private Context context;
     private List<Topic> items;
     private OnItemSelectedListener<Topic> onItemSelectedListener;
 
-    public KeywordViewAdapter(List<Topic> items, OnItemSelectedListener<Topic> onItemSelectedListener) {
+    public TopicViewAdapter(List<Topic> items, OnItemSelectedListener<Topic> onItemSelectedListener) {
         this.items = items;
         this.onItemSelectedListener = onItemSelectedListener;
     }
@@ -34,13 +34,13 @@ public class KeywordViewAdapter extends RecyclerView.Adapter<KeywordViewAdapter.
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
 
-        View view = LayoutInflater.from(context).inflate(R.layout.template_keyword, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.template_topic, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.content.setText(items.get(position).getText());
+        holder.content.setText(items.get(position).getNames().get(0));
         Glide.with(context).load(items.get(position).getPhotoURL()).into(holder.photo);
     }
 

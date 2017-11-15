@@ -1,4 +1,4 @@
-package com.nebeek.newsstand.ui.library;
+package com.nebeek.newsstand.ui.subscribes;
 
 import android.util.Log;
 
@@ -8,12 +8,12 @@ import com.nebeek.newsstand.data.models.Topic;
 
 import java.util.List;
 
-public class LibraryPresenter implements LibraryContract.Presenter {
+public class SubscribesPresenter implements SubscribesContract.Presenter {
 
     private DataRepository dataRepository;
-    private LibraryContract.View libraryView;
+    private SubscribesContract.View libraryView;
 
-    public LibraryPresenter(DataRepository dataRepository, LibraryContract.View libraryView) {
+    public SubscribesPresenter(DataRepository dataRepository, SubscribesContract.View libraryView) {
         this.dataRepository = dataRepository;
         this.libraryView = libraryView;
     }
@@ -23,7 +23,7 @@ public class LibraryPresenter implements LibraryContract.Presenter {
 
         libraryView.showLoading();
 
-        dataRepository.getKeywords(new DataSource.GetKeywordsCallback() {
+        dataRepository.getSubscribes(new DataSource.GetSubscribesCallback() {
             @Override
             public void onResponse(List<Topic> topicList) {
 
@@ -34,7 +34,7 @@ public class LibraryPresenter implements LibraryContract.Presenter {
                 }
                 libraryView.hideLoading();
 
-                libraryView.showKeywords(topicList);
+                libraryView.showSubscribes(topicList);
             }
 
             @Override

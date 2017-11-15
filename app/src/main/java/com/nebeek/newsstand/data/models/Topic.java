@@ -1,8 +1,11 @@
 package com.nebeek.newsstand.data.models;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class Topic extends BaseModel {
+    @SerializedName("_id")
     private String id;
     private List<String> names;
     private Integer subscribes;

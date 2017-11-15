@@ -4,14 +4,14 @@ import com.nebeek.newsstand.data.models.Topic;
 
 import java.util.List;
 
-public class KeywordsResponse {
-    List<Topic> topics;
+public class SubscribesResponse {
+    List<Topic> included;
 
     public List<Topic> getTopics() {
-        return topics;
+        return included;
     }
 
     public void setTopics(List<Topic> topics) {
-        this.topics = topics;
+        this.included = topics;
     }
 }

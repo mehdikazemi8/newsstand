@@ -41,12 +41,12 @@ public class DataRepository extends DataSource {
     }
 
     @Override
-    public void getKeywords(GetKeywordsCallback callback) {
+    public void getSubscribes(GetSubscribesCallback callback) {
         if (!networkHelper.isNetworkAvailable()) {
             callback.onNetworkFailure();
         } else {
             Log.d("TAG", "want to get keywords");
-            remoteDataSource.getKeywords(callback);
+            remoteDataSource.getSubscribes(callback);
         }
     }
 
@@ -96,11 +96,11 @@ public class DataRepository extends DataSource {
     }
 
     @Override
-    public void getAllTopics(TopicsResponseCallback callback) {
+    public void getAllTopics(String topicName, TopicsResponseCallback callback) {
         if (!networkHelper.isNetworkAvailable()) {
             callback.onNetworkFailure();
         } else {
-            remoteDataSource.getAllTopics(callback);
+            remoteDataSource.getAllTopics(topicName, callback);
         }
     }
 

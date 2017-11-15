@@ -1,7 +1,7 @@
-package com.nebeek.newsstand.ui.library;
+package com.nebeek.newsstand.ui.subscribes;
 
 import android.support.annotation.NonNull;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +22,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class LibraryController extends BaseBackStackController implements LibraryContract.View {
+public class SubscribesController extends BaseBackStackController implements SubscribesContract.View {
 
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
@@ -30,12 +30,12 @@ public class LibraryController extends BaseBackStackController implements Librar
     RecyclerView topics;
 
     private List<Topic> topicList = new ArrayList<>();
-    private KeywordViewAdapter adapter;
-    private LibraryContract.Presenter presenter;
+    private TopicViewAdapter adapter;
+    private SubscribesContract.Presenter presenter;
 
     private void init() {
-        topics.setLayoutManager(new GridLayoutManager(getActivity(), 4));
-        adapter = new KeywordViewAdapter(topicList, onItemSelectedListener);
+        topics.setLayoutManager(new LinearLayoutManager(getActivity()));
+        adapter = new TopicViewAdapter(topicList, onItemSelectedListener);
         topics.setAdapter(adapter);
     }
 
@@ -58,7 +58,7 @@ public class LibraryController extends BaseBackStackController implements Librar
         init();
 
         setActive(true);
-        presenter = new LibraryPresenter(DataRepository.getInstance(), this);
+        presenter = new SubscribesPresenter(DataRepository.getInstance(), this);
         presenter.start();
     }
 
@@ -83,7 +83,7 @@ public class LibraryController extends BaseBackStackController implements Librar
     }
 
     @Override
-    public void showKeywords(List<Topic> topicList) {
+    public void showSubscribes(List<Topic> topicList) {
         if (topicList == null) {
             return;
         }

@@ -23,7 +23,7 @@ import com.nebeek.newsstand.data.DataRepository;
 import com.nebeek.newsstand.data.local.PreferenceManager;
 import com.nebeek.newsstand.data.models.Topic;
 import com.nebeek.newsstand.ui.explore.ExploreController;
-import com.nebeek.newsstand.ui.library.LibraryController;
+import com.nebeek.newsstand.ui.subscribes.SubscribesController;
 import com.nebeek.newsstand.ui.topic.TopicController;
 
 import java.util.ArrayList;
@@ -91,7 +91,7 @@ public class MainController extends BaseController implements MainContract.View 
                 break;
 
             default:
-                controllers[3] = new LibraryController();
+                controllers[3] = new SubscribesController();
                 break;
         }
 

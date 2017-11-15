@@ -5,7 +5,6 @@ import com.nebeek.newsstand.data.models.Topic;
 import com.nebeek.newsstand.data.models.User;
 import com.nebeek.newsstand.data.remote.response.MessagesResponse;
 import com.nebeek.newsstand.data.remote.response.TokenResponse;
-import com.nebeek.newsstand.data.remote.response.TopicsResponse;
 
 import java.util.List;
 
@@ -22,7 +21,7 @@ public abstract class DataSource {
         void onNetworkFailure();
     }
 
-    public interface GetKeywordsCallback {
+    public interface GetSubscribesCallback {
 
         void onResponse(List<Topic> topicList);
 
@@ -107,7 +106,7 @@ public abstract class DataSource {
 
     public abstract void searchKeyword(String keyword, SearchKeywordCallback callback);
 
-    public abstract void getKeywords(GetKeywordsCallback callback);
+    public abstract void getSubscribes(GetSubscribesCallback callback);
 
     public abstract void subscribeToTopic(String id, SubscribeCallback callback);
 
@@ -121,7 +120,7 @@ public abstract class DataSource {
 
     public abstract void authenticateUser(User user, AuthenticateCallback callback);
 
-    public abstract void getAllTopics(TopicsResponseCallback callback);
+    public abstract void getAllTopics(String topicName, TopicsResponseCallback callback);
 
     public abstract void getMessages(GetMessagesCallback callback);
 }

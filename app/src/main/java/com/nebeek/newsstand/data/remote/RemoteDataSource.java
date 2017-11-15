@@ -11,15 +11,15 @@ import com.nebeek.newsstand.data.models.Topic;
 import com.nebeek.newsstand.data.models.User;
 import com.nebeek.newsstand.data.remote.request.FCMRequest;
 import com.nebeek.newsstand.data.remote.request.Subscription;
-import com.nebeek.newsstand.data.remote.response.KeywordsResponse;
 import com.nebeek.newsstand.data.remote.response.MessagesResponse;
+import com.nebeek.newsstand.data.remote.response.SubscribesResponse;
 import com.nebeek.newsstand.data.remote.response.TokenResponse;
-
-import java.util.List;
+import com.nebeek.newsstand.data.remote.response.TopicsResponse;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.ResponseBody;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -45,23 +45,24 @@ public class RemoteDataSource extends DataSource {
     private void prepare(PreferenceManager preferenceManager) {
         this.preferenceManager = preferenceManager;
 
-        OkHttpClient okHttpClient = new OkHttpClient().newBuilder().addInterceptor(
+        OkHttpClient.Builder okHttpClientBuilder = new OkHttpClient().newBuilder();
+        okHttpClientBuilder.addInterceptor(
                 chain -> {
                     Request originalRequest = chain.request();
 
-                    Request.Builder builder = originalRequest.newBuilder();
-
-                    if (preferenceManager.getAuthorization() != null) {
-                        builder.addHeader(
-                                "Authorization",
-                                preferenceManager.getAuthorization()
-                        );
-                    }
+                    Request.Builder builder = originalRequest.newBuilder().header(
+                            "Authorization",
+                            preferenceManager.getAuthorization() == null ? "token_is_null" : preferenceManager.getAuthorization()
+                    );
 
                     Request newRequest = builder.build();
                     return chain.proceed(newRequest);
                 }
         ).build();
+
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        okHttpClientBuilder.addInterceptor(loggingInterceptor);
 
         Gson gson = new GsonBuilder()
                 .setLenient()
@@ -70,7 +71,7 @@ public class RemoteDataSource extends DataSource {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(ApiService.BASE_URL)
-                .client(okHttpClient)
+                .client(okHttpClientBuilder.build())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 
@@ -100,14 +101,18 @@ public class RemoteDataSource extends DataSource {
     }
 
     @Override
-    public void getKeywords(GetKeywordsCallback callback) {
+    public void getSubscribes(GetSubscribesCallback callback) {
         Log.d("TAG", "remoteDataSource getSubscriptions ");
-        Call<KeywordsResponse> call = apiService.getSubscriptions();
-        call.enqueue(new Callback<KeywordsResponse>() {
+        Call<SubscribesResponse> call = apiService.getSubscriptions();
+        call.enqueue(new Callback<SubscribesResponse>() {
             @Override
-            public void onResponse(Call<KeywordsResponse> call, Response<KeywordsResponse> response) {
+            public void onResponse(Call<SubscribesResponse> call, Response<SubscribesResponse> response) {
                 Log.d("TAG", "onResponse " + response.isSuccessful());
                 Log.d("TAG", "onResponse " + response.code());
+                Log.d("TAG", "onResponse " + response.body().getTopics().size());
+                for (Topic topic : response.body().getTopics()) {
+                    Log.d("TAG", "abcd " + topic.serialize());
+                }
 
                 if (response.isSuccessful()) {
                     callback.onResponse(response.body().getTopics());
@@ -117,7 +122,7 @@ public class RemoteDataSource extends DataSource {
             }
 
             @Override
-            public void onFailure(Call<KeywordsResponse> call, Throwable t) {
+            public void onFailure(Call<SubscribesResponse> call, Throwable t) {
                 Log.d("TAG", "onFailure " + t.getCause());
 
                 callback.onFailure();
@@ -128,7 +133,7 @@ public class RemoteDataSource extends DataSource {
     @Override
     public void subscribeToTopic(String id, SubscribeCallback callback) {
         // todo what is this? :))
-        id = "5a03357e01019f35b4d222d5";
+//        id = "5a0c411201019f20af053da4";
 
         Call<ResponseBody> call = apiService.addSubscription(new Subscription(id));
         call.enqueue(new Callback<ResponseBody>() {
@@ -234,20 +239,21 @@ public class RemoteDataSource extends DataSource {
     }
 
     @Override
-    public void getAllTopics(TopicsResponseCallback callback) {
-        Call<List<Topic>> call = apiService.getAllTopics();
-        call.enqueue(new Callback<List<Topic>>() {
+    public void getAllTopics(String topicName, TopicsResponseCallback callback) {
+        Call<TopicsResponse> call = apiService.getAllTopics(topicName);
+        Log.d("TAG", "abcd " + call.request().url());
+        call.enqueue(new Callback<TopicsResponse>() {
             @Override
-            public void onResponse(Call<List<Topic>> call, Response<List<Topic>> response) {
+            public void onResponse(Call<TopicsResponse> call, Response<TopicsResponse> response) {
                 if (response.isSuccessful()) {
-                    callback.onResponse(response.body());
+                    callback.onResponse(response.body().getTopics());
                 } else {
                     callback.onFailure();
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Topic>> call, Throwable t) {
+            public void onFailure(Call<TopicsResponse> call, Throwable t) {
                 callback.onFailure();
             }
         });
