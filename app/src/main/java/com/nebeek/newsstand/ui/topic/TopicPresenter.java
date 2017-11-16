@@ -22,8 +22,6 @@ public class TopicPresenter implements TopicContract.Presenter {
     public void start() {
         topicView.showLoading();
 
-/*
-
         dataRepository.getMessages(new DataSource.GetMessagesCallback() {
             @Override
             public void onResponse(MessagesResponse response) {
@@ -42,7 +40,6 @@ public class TopicPresenter implements TopicContract.Presenter {
 
             }
         });
-*/
 
         /*
         dataRepository.searchKeyword(keyword, new DataSource.SearchKeywordCallback() {

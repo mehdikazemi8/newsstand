@@ -15,7 +15,7 @@ public class Snippet {
     private String sourceLink;
     private Integer likeCount;
     private Integer dislikeCount;
-    private List<Comment> comments = null;
+    private Integer comments = 0;
 
     public Payload getPayload() {
         return payload;
@@ -97,12 +97,11 @@ public class Snippet {
         this.dislikeCount = dislikeCount;
     }
 
-    public List<Comment> getComments() {
+    public Integer getComments() {
         return comments;
     }
 
-    public void setComments(List<Comment> comments) {
+    public void setComments(Integer comments) {
         this.comments = comments;
     }
-
 }
