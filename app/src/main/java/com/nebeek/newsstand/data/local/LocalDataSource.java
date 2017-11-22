@@ -55,7 +55,7 @@ public class LocalDataSource extends DataSource {
     }
 
     @Override
-    public void getMessages(GetMessagesCallback callback) {
+    public void getMessages(String topicID, GetMessagesCallback callback) {
 
     }
 }

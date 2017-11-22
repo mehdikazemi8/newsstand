@@ -69,7 +69,11 @@ public class SnippetViewAdapter extends RecyclerView.Adapter<SnippetViewAdapter.
         holder.date.setText(items.get(position).getDate());
         holder.source.setText(items.get(position).getSource());
 
-        holder.description.setText(items.get(position).getPayload().getMessage());
+        if (items.get(position).getPayload().getMessage().isEmpty()) {
+            holder.description.setText(items.get(position).getPayload().getMedia().getCaption());
+        } else {
+            holder.description.setText(items.get(position).getPayload().getMessage());
+        }
 
         if (position % 2 == 0) {
             holder.photo.setVisibility(View.VISIBLE);

@@ -23,12 +23,7 @@ public class SplashPresenter implements SplashContract.Presenter {
     @Override
     public void start() {
         Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                doFakeRegisterIfNeeded();
-            }
-        }, 1000);
+        handler.postDelayed(() -> doFakeRegisterIfNeeded(), 1000);
     }
 
     private void doFakeRegisterIfNeeded() {
@@ -65,7 +60,7 @@ public class SplashPresenter implements SplashContract.Presenter {
         }
     }
 
-    void authenticateUser(User user) {
+    private void authenticateUser(User user) {
 
         dataRepository.authenticateUser(user, new DataSource.AuthenticateCallback() {
             @Override

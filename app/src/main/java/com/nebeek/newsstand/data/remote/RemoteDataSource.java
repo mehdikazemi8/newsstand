@@ -107,14 +107,13 @@ public class RemoteDataSource extends DataSource {
         call.enqueue(new Callback<SubscribesResponse>() {
             @Override
             public void onResponse(Call<SubscribesResponse> call, Response<SubscribesResponse> response) {
-                Log.d("TAG", "onResponse " + response.isSuccessful());
-                Log.d("TAG", "onResponse " + response.code());
-                Log.d("TAG", "onResponse " + response.body().getTopics().size());
-                for (Topic topic : response.body().getTopics()) {
-                    Log.d("TAG", "abcd " + topic.serialize());
-                }
 
                 if (response.isSuccessful()) {
+
+                    for (Topic topic : response.body().getTopics()) {
+                        Log.d("TAG", "abcd " + topic.serialize());
+                    }
+
                     callback.onResponse(response.body().getTopics());
                 } else {
                     callback.onFailure();
@@ -281,8 +280,8 @@ public class RemoteDataSource extends DataSource {
     }
 
     @Override
-    public void getMessages(GetMessagesCallback callback) {
-        Call<MessagesResponse> call = apiService.getMessages();
+    public void getMessages(String topicID, GetMessagesCallback callback) {
+        Call<MessagesResponse> call = apiService.getMessages(topicID);
         call.enqueue(new Callback<MessagesResponse>() {
             @Override
             public void onResponse(Call<MessagesResponse> call, Response<MessagesResponse> response) {

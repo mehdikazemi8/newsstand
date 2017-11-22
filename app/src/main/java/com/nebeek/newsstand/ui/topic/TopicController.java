@@ -78,7 +78,7 @@ public class TopicController extends BaseController implements TopicContract.Vie
         initView();
 
         setActive(true);
-        presenter = new TopicPresenter(keyword, this, DataRepository.getInstance());
+        presenter = new TopicPresenter(topicObject, this, DataRepository.getInstance());
 
         if (topicObject != null) {
             presenter.setTopicObject(topicObject);

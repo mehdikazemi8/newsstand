@@ -114,11 +114,11 @@ public class DataRepository extends DataSource {
     }
 
     @Override
-    public void getMessages(GetMessagesCallback callback) {
+    public void getMessages(String topicID, GetMessagesCallback callback) {
         if (!networkHelper.isNetworkAvailable()) {
             callback.onNetworkFailure();
         } else {
-            remoteDataSource.getMessages(callback);
+            remoteDataSource.getMessages(topicID, callback);
         }
     }
 }

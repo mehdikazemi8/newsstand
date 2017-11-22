@@ -52,7 +52,7 @@ public interface ApiService {
     Call<ResponseBody> addSubscription(@Body Subscription subscription);
 
     @GET("messages/")
-    Call<MessagesResponse> getMessages();
+    Call<MessagesResponse> getMessages(@Query("filter[topics.ref]") String topicId);
 
 
     @DELETE("subscribes/{id}/")

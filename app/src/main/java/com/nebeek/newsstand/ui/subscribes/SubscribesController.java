@@ -34,6 +34,9 @@ public class SubscribesController extends BaseBackStackController implements Sub
     private SubscribesContract.Presenter presenter;
 
     private void init() {
+
+//        RxBus.getInstance().getEvents().subscribe(new NewSubscription())
+
         topics.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new TopicViewAdapter(topicList, onItemSelectedListener);
         topics.setAdapter(adapter);

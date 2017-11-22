@@ -7,13 +7,12 @@ import com.nebeek.newsstand.data.remote.response.MessagesResponse;
 
 public class TopicPresenter implements TopicContract.Presenter {
 
-    private String keyword;
     private Topic topicObject = null;
     private TopicContract.View topicView;
     private DataRepository dataRepository;
 
-    public TopicPresenter(String keyword, TopicContract.View topicView, DataRepository dataRepository) {
-        this.keyword = keyword;
+    public TopicPresenter(Topic topicObject, TopicContract.View topicView, DataRepository dataRepository) {
+        this.topicObject = topicObject;
         this.topicView = topicView;
         this.dataRepository = dataRepository;
     }
@@ -22,7 +21,7 @@ public class TopicPresenter implements TopicContract.Presenter {
     public void start() {
         topicView.showLoading();
 
-        dataRepository.getMessages(new DataSource.GetMessagesCallback() {
+        dataRepository.getMessages(topicObject.getId(), new DataSource.GetMessagesCallback() {
             @Override
             public void onResponse(MessagesResponse response) {
 
