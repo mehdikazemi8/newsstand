@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.nebeek.newsstand.R;
 import com.nebeek.newsstand.data.models.Snippet;
+import com.nebeek.newsstand.util.DateManager;
 
 import java.util.List;
 
@@ -63,7 +64,9 @@ public class SnippetViewAdapter extends RecyclerView.Adapter<SnippetViewAdapter.
         holder.title.setVisibility(View.GONE);
         holder.title.setText(items.get(position).getTitle());
 
-        holder.date.setText(items.get(position).getDate());
+        holder.date.setText(
+                DateManager.convertLongToDate(items.get(position).getPayload().getDate())
+        );
         holder.source.setText(items.get(position).getChannel());
 
         if (items.get(position).getPayload().getMessage().isEmpty()) {
