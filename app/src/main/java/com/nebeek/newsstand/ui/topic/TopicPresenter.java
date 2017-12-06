@@ -76,7 +76,7 @@ public class TopicPresenter implements TopicContract.Presenter {
 
     @Override
     public void subscribeToTopic() {
-        dataRepository.subscribeToTopic(topicObject.getId(), new DataSource.SubscribeCallback() {
+        dataRepository.subscribeToTopic(topicObject.getDeleteId(), new DataSource.SubscribeCallback() {
             @Override
             public void onSuccess() {
                 if (!topicView.isActive()) {
@@ -111,7 +111,7 @@ public class TopicPresenter implements TopicContract.Presenter {
             return;
         }
 
-        dataRepository.removeKeyword(topicObject.getId(), new DataSource.RemoveKeywordCallback() {
+        dataRepository.removeKeyword(topicObject.getDeleteId(), new DataSource.RemoveKeywordCallback() {
             @Override
             public void onSuccess() {
                 if (!topicView.isActive()) {

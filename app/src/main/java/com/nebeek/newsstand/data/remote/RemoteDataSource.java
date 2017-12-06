@@ -10,6 +10,7 @@ import com.nebeek.newsstand.data.local.ChannelsManager;
 import com.nebeek.newsstand.data.local.PreferenceManager;
 import com.nebeek.newsstand.data.models.Snippet;
 import com.nebeek.newsstand.data.models.Topic;
+import com.nebeek.newsstand.data.models.TopicData;
 import com.nebeek.newsstand.data.models.User;
 import com.nebeek.newsstand.data.remote.request.FCMRequest;
 import com.nebeek.newsstand.data.remote.request.Subscription;
@@ -113,7 +114,12 @@ public class RemoteDataSource extends DataSource {
                 if (response.isSuccessful()) {
 
                     for (Topic topic : response.body().getTopics()) {
-                        Log.d("TAG", "abcd " + topic.serialize());
+                        for (TopicData topicData : response.body().getData()) {
+                            if (topic.getId().equals(topicData.getArgument())) {
+                                topic.setDeleteId(topicData.getId());
+                                break;
+                            }
+                        }
                     }
 
                     callback.onResponse(response.body().getTopics());
@@ -288,15 +294,10 @@ public class RemoteDataSource extends DataSource {
             @Override
             public void onResponse(Call<MessagesResponse> call, Response<MessagesResponse> response) {
                 if (response.isSuccessful()) {
-
                     ChannelsManager.getInstance().addAll(response.body().getChannels());
-
                     for (Snippet snippet : response.body().getResults()) {
-                        snippet.setChannel(ChannelsManager.getInstance().getChannel(
-                                snippet.getChannel()
-                        ).getPayload().getTitle());
+                        snippet.setChannel(ChannelsManager.getInstance().getChannel(snippet.getChannel()).getPayload().getTitle());
                     }
-
                     callback.onResponse(response.body());
                 } else {
                     callback.onFailure();

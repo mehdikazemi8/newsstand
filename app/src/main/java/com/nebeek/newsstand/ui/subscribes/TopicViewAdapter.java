@@ -40,7 +40,12 @@ public class TopicViewAdapter extends RecyclerView.Adapter<TopicViewAdapter.View
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.content.setText(items.get(position).getNames().get(0));
+        try {
+            holder.content.setText(items.get(position).getNames().get(0));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         Glide.with(context).load(items.get(position).getPhotoURL()).into(holder.photo);
     }
 

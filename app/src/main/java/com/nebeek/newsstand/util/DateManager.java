@@ -1,7 +1,5 @@
 package com.nebeek.newsstand.util;
 
-import android.util.Log;
-
 public class DateManager {
 
     public static String convertLongToDate(Long date) {

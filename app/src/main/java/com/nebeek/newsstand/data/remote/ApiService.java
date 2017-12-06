@@ -54,7 +54,6 @@ public interface ApiService {
     @GET("messages/?include=channel&sort=-_id&page[size]=10")
     Call<MessagesResponse> getMessages(@Query("filter[topics.ref]") String topicId);
 
-
     @DELETE("subscribes/{id}/")
     Call<ResponseBody> removeSubscription(@Path("id") String id);
 

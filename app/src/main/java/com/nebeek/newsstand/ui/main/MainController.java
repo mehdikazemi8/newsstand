@@ -24,6 +24,7 @@ import com.nebeek.newsstand.data.local.PreferenceManager;
 import com.nebeek.newsstand.data.models.Topic;
 import com.nebeek.newsstand.ui.explore.ExploreController;
 import com.nebeek.newsstand.ui.subscribes.SubscribesController;
+import com.nebeek.newsstand.ui.temp.TempController;
 import com.nebeek.newsstand.ui.topic.TopicController;
 
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ import butterknife.BindView;
 
 public class MainController extends BaseController implements MainContract.View {
 
-    private String[] pageTitles = {"Read Later", "Explore", "Library", "For You"};
+    private String[] pageTitles = {"پروفایل", "آرشیو", "آخرین اخبار", "منتخب شما"};
 
     private int NUMBER_OF_TABS = 4;
 
@@ -79,11 +80,11 @@ public class MainController extends BaseController implements MainContract.View 
     private BaseController getPage(int position) {
         switch (position) {
             case 0:
-                controllers[0] = new ExploreController();
+                controllers[0] = new TempController();
                 break;
 
             case 1:
-                controllers[1] = new ExploreController();
+                controllers[1] = new TempController();
                 break;
 
             case 2:

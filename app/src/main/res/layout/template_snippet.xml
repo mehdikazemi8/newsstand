@@ -53,19 +53,16 @@
             <TextView
                 style="@style/icon_style"
                 android:layout_gravity="center_vertical"
-                android:text="@string/icon_share" />
+                android:text="@string/icon_share"
+                android:visibility="gone" />
 
             <TextView
                 style="@style/icon_style"
                 android:layout_gravity="center_vertical"
                 android:paddingLeft="@dimen/space_16"
                 android:paddingRight="@dimen/space_16"
-                android:text="@string/icon_bookmark_empty" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:text="@string/icon_bookmark_empty"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/date"
@@ -74,6 +71,11 @@
                 android:layout_gravity="center_vertical"
                 android:fontFamily="@font/iransans"
                 android:padding="@dimen/space_8" />
+            
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
 
             <TextView
                 android:id="@+id/source"
