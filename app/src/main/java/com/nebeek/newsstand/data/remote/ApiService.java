@@ -51,7 +51,7 @@ public interface ApiService {
     @POST("subscribes/")
     Call<ResponseBody> addSubscription(@Body Subscription subscription);
 
-    @GET("messages/?include=channel")
+    @GET("messages/?include=channel&sort=-_id&page[size]=10")
     Call<MessagesResponse> getMessages(@Query("filter[topics.ref]") String topicId);
 
 
