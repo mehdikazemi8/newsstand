@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,9 +43,7 @@ public class SnippetViewAdapter extends RecyclerView.Adapter<SnippetViewAdapter.
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         // todo remove
-
         try {
-            Log.d("TAG", "abcd " + items.get(position).getPayload().getMedia().getPhoto().getSizes().get(0).getBytes().getData().length);
             byte[] result = items.get(position).getPayload().getMedia().getPhoto().getSizes().get(0).getBytes().getData();
 
             Bitmap bmp = BitmapFactory.decodeByteArray(
@@ -67,7 +64,7 @@ public class SnippetViewAdapter extends RecyclerView.Adapter<SnippetViewAdapter.
         holder.title.setText(items.get(position).getTitle());
 
         holder.date.setText(items.get(position).getDate());
-        holder.source.setText(items.get(position).getSource());
+        holder.source.setText(items.get(position).getChannel());
 
         if (items.get(position).getPayload().getMessage().isEmpty()) {
             holder.description.setText(items.get(position).getPayload().getMedia().getCaption());

@@ -16,6 +16,7 @@ public class Snippet {
     private Integer likeCount;
     private Integer dislikeCount;
     private Integer comments = 0;
+    private String channel;
 
     public Payload getPayload() {
         return payload;
@@ -103,5 +104,13 @@ public class Snippet {
 
     public void setComments(Integer comments) {
         this.comments = comments;
+    }
+
+    public String getChannel() {
+        return channel;
+    }
+
+    public void setChannel(String channel) {
+        this.channel = channel;
     }
 }

@@ -6,7 +6,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.nebeek.newsstand.data.DataSource;
 import com.nebeek.newsstand.data.MyAdapterFactory;
+import com.nebeek.newsstand.data.local.ChannelsManager;
 import com.nebeek.newsstand.data.local.PreferenceManager;
+import com.nebeek.newsstand.data.models.Snippet;
 import com.nebeek.newsstand.data.models.Topic;
 import com.nebeek.newsstand.data.models.User;
 import com.nebeek.newsstand.data.remote.request.FCMRequest;
@@ -286,6 +288,15 @@ public class RemoteDataSource extends DataSource {
             @Override
             public void onResponse(Call<MessagesResponse> call, Response<MessagesResponse> response) {
                 if (response.isSuccessful()) {
+
+                    ChannelsManager.getInstance().addAll(response.body().getChannels());
+
+                    for (Snippet snippet : response.body().getResults()) {
+                        snippet.setChannel(ChannelsManager.getInstance().getChannel(
+                                snippet.getChannel()
+                        ).getPayload().getTitle());
+                    }
+
                     callback.onResponse(response.body());
                 } else {
                     callback.onFailure();
