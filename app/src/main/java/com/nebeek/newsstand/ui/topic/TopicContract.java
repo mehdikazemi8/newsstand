@@ -31,5 +31,7 @@ public class TopicContract {
         void removeFromLibrary();
 
         void setTopicObject(Topic topicObject);
+
+        void loadMessages();
     }
 }

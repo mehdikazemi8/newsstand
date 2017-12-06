@@ -33,6 +33,8 @@ public class TopicController extends BaseController implements TopicContract.Vie
     @BindView(R.id.add_button)
     TextView addButton;
 
+    private int PAGE_SIZE = 10;
+    private LinearLayoutManager layoutManager;
     private List<Snippet> snippetList = new ArrayList<>();
     private TopicContract.Presenter presenter;
     private SnippetViewAdapter snippetViewAdapter;
@@ -67,8 +69,35 @@ public class TopicController extends BaseController implements TopicContract.Vie
 
         keywordContent.setText(keyword);
         snippetViewAdapter = new SnippetViewAdapter(snippetList);
-        snippets.setLayoutManager(new LinearLayoutManager(getActivity()));
+        layoutManager = new LinearLayoutManager(getActivity());
+        snippets.setLayoutManager(layoutManager);
         snippets.setAdapter(snippetViewAdapter);
+
+        snippets.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                int visibleItemCount = layoutManager.getChildCount();
+                int totalItemCount = layoutManager.getItemCount();
+                int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
+
+                if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
+                        && firstVisibleItemPosition >= 0
+                        && totalItemCount >= PAGE_SIZE) {
+                    loadMoreItems();
+                }
+            }
+        });
+    }
+
+    private void loadMoreItems() {
+        presenter.loadMessages();
     }
 
     @Override
@@ -83,7 +112,6 @@ public class TopicController extends BaseController implements TopicContract.Vie
         if (topicObject != null) {
             presenter.setTopicObject(topicObject);
         }
-
         presenter.start();
     }
 
@@ -104,7 +132,7 @@ public class TopicController extends BaseController implements TopicContract.Vie
 
     @Override
     public void showGetMessagesResults(List<Snippet> snippetList) {
-        this.snippetList.clear();
+//        this.snippetList.clear();
         this.snippetList.addAll(snippetList);
         this.snippetViewAdapter.notifyDataSetChanged();
     }

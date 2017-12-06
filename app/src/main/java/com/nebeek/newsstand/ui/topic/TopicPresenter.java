@@ -10,6 +10,8 @@ public class TopicPresenter implements TopicContract.Presenter {
     private Topic topicObject = null;
     private TopicContract.View topicView;
     private DataRepository dataRepository;
+    private int currentPage = -1;
+    private boolean loading = false;
 
     public TopicPresenter(Topic topicObject, TopicContract.View topicView, DataRepository dataRepository) {
         this.topicObject = topicObject;
@@ -21,25 +23,7 @@ public class TopicPresenter implements TopicContract.Presenter {
     public void start() {
         topicView.showLoading();
 
-        dataRepository.getMessages(topicObject.getId(), new DataSource.GetMessagesCallback() {
-            @Override
-            public void onResponse(MessagesResponse response) {
-
-                topicView.hideLoading();
-                topicView.showGetMessagesResults(response.getResults());
-            }
-
-            @Override
-            public void onFailure() {
-
-            }
-
-            @Override
-            public void onNetworkFailure() {
-
-            }
-        });
-
+        loadMessages();
         /*
         dataRepository.searchKeyword(keyword, new DataSource.SearchKeywordCallback() {
             @Override
@@ -72,6 +56,36 @@ public class TopicPresenter implements TopicContract.Presenter {
             }
         });
         */
+    }
+
+    @Override
+    public void loadMessages() {
+        if (loading) {
+            return;
+        }
+
+        currentPage++;
+
+        loading = true;
+        dataRepository.getMessages(currentPage, topicObject.getId(), new DataSource.GetMessagesCallback() {
+            @Override
+            public void onResponse(MessagesResponse response) {
+                loading = false;
+
+                topicView.hideLoading();
+                topicView.showGetMessagesResults(response.getResults());
+            }
+
+            @Override
+            public void onFailure() {
+                loading = false;
+            }
+
+            @Override
+            public void onNetworkFailure() {
+                loading = false;
+            }
+        });
     }
 
     @Override

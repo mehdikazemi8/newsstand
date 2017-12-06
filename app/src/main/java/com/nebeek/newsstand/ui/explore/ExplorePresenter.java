@@ -17,7 +17,7 @@ public class ExplorePresenter implements ExploreContract.Presenter {
     @Override
     public void start() {
 
-        dataRepository.getMessages(null, new DataSource.GetMessagesCallback() {
+        dataRepository.getMessages(null, null, new DataSource.GetMessagesCallback() {
             @Override
             public void onResponse(MessagesResponse response) {
                 exploreView.showMessages(response.getResults());

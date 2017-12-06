@@ -122,5 +122,5 @@ public abstract class DataSource {
 
     public abstract void getAllTopics(String topicName, TopicsResponseCallback callback);
 
-    public abstract void getMessages(String topicID, GetMessagesCallback callback);
+    public abstract void getMessages(Integer currentPage, String topicID, GetMessagesCallback callback);
 }

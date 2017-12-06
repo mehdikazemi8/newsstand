@@ -288,8 +288,10 @@ public class RemoteDataSource extends DataSource {
     }
 
     @Override
-    public void getMessages(String topicID, GetMessagesCallback callback) {
-        Call<MessagesResponse> call = apiService.getMessages(topicID);
+    public void getMessages(Integer currentPage, String topicID, GetMessagesCallback callback) {
+        Call<MessagesResponse> call = apiService.getMessages(topicID,
+                (currentPage == null ? null : currentPage * 10)
+        );
         call.enqueue(new Callback<MessagesResponse>() {
             @Override
             public void onResponse(Call<MessagesResponse> call, Response<MessagesResponse> response) {

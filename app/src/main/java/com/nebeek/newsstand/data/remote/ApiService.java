@@ -52,7 +52,10 @@ public interface ApiService {
     Call<ResponseBody> addSubscription(@Body Subscription subscription);
 
     @GET("messages/?include=channel&sort=-_id&page[size]=10")
-    Call<MessagesResponse> getMessages(@Query("filter[topics.ref]") String topicId);
+    Call<MessagesResponse> getMessages(
+            @Query("filter[topics.ref]") String topicId,
+            @Query("page[offset]") Integer offset
+    );
 
     @DELETE("subscribes/{id}/")
     Call<ResponseBody> removeSubscription(@Path("id") String id);
