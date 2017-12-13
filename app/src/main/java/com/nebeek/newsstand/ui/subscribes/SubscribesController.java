@@ -15,6 +15,7 @@ import com.nebeek.newsstand.controller.base.BaseBackStackController;
 import com.nebeek.newsstand.data.DataRepository;
 import com.nebeek.newsstand.data.models.Topic;
 import com.nebeek.newsstand.ui.topic.TopicController;
+import com.nebeek.newsstand.ui.customview.TopicDecoration;
 import com.nebeek.newsstand.util.listener.OnItemSelectedListener;
 
 import java.util.ArrayList;
@@ -39,6 +40,7 @@ public class SubscribesController extends BaseBackStackController implements Sub
 
         topics.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new TopicViewAdapter(topicList, onItemSelectedListener);
+        topics.addItemDecoration(new TopicDecoration(getActivity(), TopicDecoration.VERTICAL));
         topics.setAdapter(adapter);
     }
 
@@ -67,7 +69,7 @@ public class SubscribesController extends BaseBackStackController implements Sub
 
     @Override
     protected View inflateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container) {
-        return inflater.inflate(R.layout.controller_library, container, false);
+        return inflater.inflate(R.layout.controller_subscribes, container, false);
     }
 
     @Override

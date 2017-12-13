@@ -90,7 +90,7 @@ public class TopicPresenter implements TopicContract.Presenter {
 
     @Override
     public void subscribeToTopic() {
-        dataRepository.subscribeToTopic(topicObject.getDeleteId(), new DataSource.SubscribeCallback() {
+        dataRepository.subscribeToTopic(topicObject.getId(), new DataSource.SubscribeCallback() {
             @Override
             public void onSuccess() {
                 if (!topicView.isActive()) {

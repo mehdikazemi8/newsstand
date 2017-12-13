@@ -1,33 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/space_8">
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:orientation="vertical"
+    android:padding="@dimen/space_4">
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/root_view"
-        android:layout_width="match_parent"
+    <com.nebeek.newsstand.util.customview.SquareImageView
+        android:id="@+id/photo"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/space_8"
+        android:background="@drawable/loading_circle"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:clickable="true"
-        android:focusable="true"
-        android:orientation="vertical"
-        android:padding="@dimen/space_16">
+        android:layout_marginLeft="@dimen/space_8"
+        android:layout_marginRight="@dimen/space_8"
+        android:fontFamily="@font/iransans"
+        android:padding="@dimen/space_4"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/photo" />
 
-        <com.nebeek.newsstand.util.customview.SquareImageView
-            android:id="@+id/photo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:scaleType="centerCrop" />
+    <TextView
+        android:id="@+id/followers_count"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/space_8"
+        android:layout_marginRight="@dimen/space_8"
+        android:fontFamily="@font/iransans"
+        android:padding="@dimen/space_4"
+        android:text="۱۴۵۷۰ دنبال کننده"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/photo"
+        app:layout_constraintTop_toBottomOf="@id/text" />
 
-        <TextView
-            android:id="@+id/text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/iransans"
-            android:gravity="center"
-            android:padding="@dimen/space_4"
-            app:layout_constraintHorizontal_bias="0.5" />
-    </android.support.constraint.ConstraintLayout>
+    <com.nebeek.newsstand.ui.customview.SquareTextView
+        android:id="@+id/unread_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/space_8"
+        android:layout_marginRight="@dimen/space_8"
+        android:background="@drawable/oval_background"
+        android:textStyle="bold"
+        android:fontFamily="@font/iransans"
+        android:gravity="center"
+        android:inputType="number"
+        android:padding="@dimen/space_4"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5" />
 
-</android.support.v7.widget.CardView>
+</android.support.constraint.ConstraintLayout>

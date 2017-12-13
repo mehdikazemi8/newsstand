@@ -62,7 +62,7 @@ public class SnippetViewAdapter extends RecyclerView.Adapter<SnippetViewAdapter.
         }
 
         holder.title.setVisibility(View.GONE);
-        holder.title.setText(items.get(position).getTitle());
+//        holder.title.setText(items.get(position).getTitle());
 
         holder.date.setText(
                 DateManager.convertLongToDate(items.get(position).getPayload().getDate())
@@ -75,12 +75,12 @@ public class SnippetViewAdapter extends RecyclerView.Adapter<SnippetViewAdapter.
             holder.description.setText(items.get(position).getPayload().getMessage());
         }
 
-        if (position % 2 == 0) {
-            holder.photo.setVisibility(View.VISIBLE);
-//            Glide.with(context).load("http://lorempixel.com/output/sports-q-c-50-50-5.jpg").into(holder.photo);
-        } else {
-            holder.photo.setVisibility(View.GONE);
-        }
+//        if (position % 2 == 0) {
+//            holder.photo.setVisibility(View.VISIBLE);
+////            Glide.with(context).load("http://lorempixel.com/output/sports-q-c-50-50-5.jpg").into(holder.photo);
+//        } else {
+//            holder.photo.setVisibility(View.GONE);
+//        }
 
 //        Glide.with(context).load("http://lorempixel.com/output/sports-q-c-50-50-5.jpg").into(holder.sourcePhoto);
     }
