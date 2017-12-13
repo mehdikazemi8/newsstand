@@ -5,6 +5,8 @@ import android.util.Log;
 import com.nebeek.newsstand.data.DataRepository;
 import com.nebeek.newsstand.data.DataSource;
 import com.nebeek.newsstand.data.models.Topic;
+import com.nebeek.newsstand.event.NewSubscription;
+import com.nebeek.newsstand.event.RxBus;
 
 import java.util.List;
 
@@ -16,6 +18,12 @@ public class SubscribesPresenter implements SubscribesContract.Presenter {
     public SubscribesPresenter(DataRepository dataRepository, SubscribesContract.View libraryView) {
         this.dataRepository = dataRepository;
         this.libraryView = libraryView;
+
+        RxBus.getInstance().toObservable().subscribe(object -> {
+            if (object instanceof NewSubscription) {
+                start();
+            }
+        });
     }
 
     @Override

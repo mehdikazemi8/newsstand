@@ -14,6 +14,7 @@ import com.nebeek.newsstand.controller.base.BaseController;
 import com.nebeek.newsstand.data.DataRepository;
 import com.nebeek.newsstand.data.models.Snippet;
 import com.nebeek.newsstand.data.models.Topic;
+import com.nebeek.newsstand.event.RxBus;
 import com.nebeek.newsstand.util.GlobalToast;
 
 import java.util.ArrayList;
@@ -146,6 +147,7 @@ public class TopicController extends BaseController implements TopicContract.Vie
     public void addOnClick() {
         if (addButton.getText().toString().equals(getResources().getString(R.string.icon_add_circle))) {
             presenter.subscribeToTopic();
+
         } else {
             presenter.removeFromLibrary();
         }

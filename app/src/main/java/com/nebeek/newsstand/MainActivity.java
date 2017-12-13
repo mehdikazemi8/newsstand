@@ -3,20 +3,14 @@ package com.nebeek.newsstand;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.ViewGroup;
 
 import com.bluelinelabs.conductor.Conductor;
-
-
 import com.bluelinelabs.conductor.Router;
 import com.bluelinelabs.conductor.RouterTransaction;
-import com.google.auto.value.AutoValue;
 import com.nebeek.newsstand.data.DataRepository;
-import com.nebeek.newsstand.data.DataSource;
 import com.nebeek.newsstand.data.local.LocalDataSource;
 import com.nebeek.newsstand.data.local.PreferenceManager;
-import com.nebeek.newsstand.data.models.Comment;
 import com.nebeek.newsstand.data.remote.RemoteDataSource;
 import com.nebeek.newsstand.ui.splash.SplashController;
 import com.nebeek.newsstand.util.NetworkHelper;
