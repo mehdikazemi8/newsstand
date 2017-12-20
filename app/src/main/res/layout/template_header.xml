@@ -5,39 +5,32 @@
     android:layout_height="wrap_content"
     app:cardElevation="2dp">
 
-    <FrameLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/material_actionbar_size">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/gray_reyhoon"
-            android:orientation="horizontal">
+        <TextView
+            android:id="@+id/template_header_back_button"
+            style="@style/icon_style"
+            android:text="@string/icon_arrow_right"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5" />
 
-            <TextView
-                android:id="@+id/template_header_back_button"
-                style="@style/template_header_icons" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <TextView
-                android:id="@+id/template_header_left_back_button"
-                style="@style/template_header_icons"
-                android:visibility="invisible" />
-
-        </LinearLayout>
+        <TextView
+            android:id="@+id/template_header_left_back_button"
+            style="@style/template_header_icons"
+            android:visibility="invisible" />
 
         <TextView
             android:id="@+id/template_header_title"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
             android:gravity="center"
             android:maxLength="30"
             android:textColor="@color/colorPrimary" />
-    </FrameLayout>
+    </android.support.constraint.ConstraintLayout>
 
 </android.support.v7.widget.CardView>

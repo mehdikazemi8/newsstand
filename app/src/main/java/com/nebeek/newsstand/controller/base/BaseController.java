@@ -5,6 +5,10 @@ import android.support.annotation.NonNull;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.bluelinelabs.conductor.RouterTransaction;
+import com.bluelinelabs.conductor.changehandler.FadeChangeHandler;
+import com.nebeek.newsstand.ui.webview.WebViewController;
+
 public abstract class BaseController extends RefWatchingController {
     private boolean mActive = false;
 
@@ -64,5 +68,23 @@ public abstract class BaseController extends RefWatchingController {
 
     public boolean isActive() {
         return mActive;
+    }
+
+    public void openWebView(String url) {
+        if (getParentController() != null) {
+            getParentController().getRouter().pushController(
+                    RouterTransaction.with(WebViewController.newInstance(url))
+                            .pushChangeHandler(new FadeChangeHandler())
+                            .popChangeHandler(new FadeChangeHandler())
+            );
+        } else {
+            if (getRouter() != null) {
+                getRouter().pushController(
+                        RouterTransaction.with(WebViewController.newInstance(url))
+                                .pushChangeHandler(new FadeChangeHandler())
+                                .popChangeHandler(new FadeChangeHandler())
+                );
+            }
+        }
     }
 }

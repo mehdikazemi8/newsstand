@@ -68,7 +68,7 @@ public class TopicController extends BaseController implements TopicContract.Vie
         }
 
         keywordContent.setText(keyword);
-        snippetViewAdapter = new SnippetViewAdapter(snippetList);
+        snippetViewAdapter = new SnippetViewAdapter(snippetList, this::openWebView);
         layoutManager = new LinearLayoutManager(getActivity());
         snippets.setLayoutManager(layoutManager);
         snippets.setAdapter(snippetViewAdapter);

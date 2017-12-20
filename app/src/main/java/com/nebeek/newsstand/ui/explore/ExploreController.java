@@ -7,11 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bluelinelabs.conductor.RouterTransaction;
+import com.bluelinelabs.conductor.changehandler.FadeChangeHandler;
 import com.nebeek.newsstand.R;
 import com.nebeek.newsstand.controller.base.BaseBackStackController;
 import com.nebeek.newsstand.data.DataRepository;
 import com.nebeek.newsstand.data.models.Snippet;
 import com.nebeek.newsstand.ui.topic.SnippetViewAdapter;
+import com.nebeek.newsstand.ui.webview.WebViewController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +55,7 @@ public class ExploreController extends BaseBackStackController implements Explor
     }
 
     private void init() {
-        snippetViewAdapter = new SnippetViewAdapter(messageList);
+        snippetViewAdapter = new SnippetViewAdapter(messageList, this::openWebView);
         messages.setLayoutManager(new LinearLayoutManager(getActivity()));
         messages.setAdapter(snippetViewAdapter);
     }

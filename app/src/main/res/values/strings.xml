@@ -17,5 +17,7 @@
     <string name="icon_bookmark_empty">I</string>
     <string name="icon_check_circle">J</string>
     <string name="icon_add_circle">K</string>
+    <string name="icon_close">L</string>
+
     <string name="dash">-</string>
 </resources>

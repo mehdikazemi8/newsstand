@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.nebeek.newsstand.R;
 import com.nebeek.newsstand.data.models.Snippet;
 import com.nebeek.newsstand.util.DateManager;
+import com.nebeek.newsstand.util.listener.ShowUrlCallback;
 
 import java.util.List;
 
@@ -31,9 +32,11 @@ public class SnippetViewAdapter extends RecyclerView.Adapter<SnippetViewAdapter.
 
     private Context context;
     private List<Snippet> items;
+    private ShowUrlCallback showUrlCallback;
 
-    public SnippetViewAdapter(List<Snippet> items) {
+    public SnippetViewAdapter(List<Snippet> items, ShowUrlCallback showUrlCallback) {
         this.items = items;
+        this.showUrlCallback = showUrlCallback;
     }
 
     @Override
@@ -143,6 +146,7 @@ public class SnippetViewAdapter extends RecyclerView.Adapter<SnippetViewAdapter.
         ClickableSpan clickableSpan = new ClickableSpan() {
             @Override
             public void onClick(View textView) {
+                showUrlCallback.onShowUrl(url);
             }
 
             @Override
