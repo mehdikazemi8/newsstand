@@ -7,6 +7,8 @@ import com.nebeek.newsstand.data.remote.response.MessagesResponse;
 import com.nebeek.newsstand.event.NewSubscription;
 import com.nebeek.newsstand.event.RxBus;
 
+import java.util.Collections;
+
 public class TopicPresenter implements TopicContract.Presenter {
 
     private Topic topicObject = null;
@@ -25,7 +27,7 @@ public class TopicPresenter implements TopicContract.Presenter {
     public void start() {
         topicView.showLoading();
 
-        loadMessages();
+        loadOlderMessages();
         /*
         dataRepository.searchKeyword(keyword, new DataSource.SearchKeywordCallback() {
             @Override
@@ -36,7 +38,7 @@ public class TopicPresenter implements TopicContract.Presenter {
                 }
                 topicView.hideLoading();
 
-                topicView.showGetMessagesResults(snippetList);
+                topicView.showMessages(snippetList);
             }
 
             @Override
@@ -61,7 +63,7 @@ public class TopicPresenter implements TopicContract.Presenter {
     }
 
     @Override
-    public void loadMessages() {
+    public void loadOlderMessages() {
         if (loading) {
             return;
         }
@@ -75,7 +77,8 @@ public class TopicPresenter implements TopicContract.Presenter {
                 loading = false;
 
                 topicView.hideLoading();
-                topicView.showGetMessagesResults(response.getResults());
+                Collections.reverse(response.getResults());
+                topicView.showMessages(response.getResults(), true);
             }
 
             @Override

@@ -4,6 +4,14 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.URLSpan;
+import android.text.util.Linkify;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +61,7 @@ public class SnippetViewAdapter extends RecyclerView.Adapter<SnippetViewAdapter.
                     items.get(position).getPayload().getMedia().getPhoto().getSizes().get(0).getBytes().getData().length
             );
 
+//            GlideApp.with(context).asBitmap().load(bmp).into(holder.sourcePhoto);
             holder.sourcePhoto.setImageBitmap(bmp);
             holder.photo.setImageBitmap(bmp);
 //            Glide.with(context).load(bmp).into(holder.sourcePhoto);
@@ -69,11 +78,16 @@ public class SnippetViewAdapter extends RecyclerView.Adapter<SnippetViewAdapter.
         );
         holder.source.setText(items.get(position).getChannel());
 
+
         if (items.get(position).getPayload().getMessage().isEmpty()) {
             holder.description.setText(items.get(position).getPayload().getMedia().getCaption());
         } else {
             holder.description.setText(items.get(position).getPayload().getMessage());
         }
+
+        Linkify.addLinks(holder.description, Linkify.WEB_URLS);
+
+        showLinks(holder.description, holder.description.getText().toString());
 
 //        if (position % 2 == 0) {
 //            holder.photo.setVisibility(View.VISIBLE);
@@ -83,6 +97,64 @@ public class SnippetViewAdapter extends RecyclerView.Adapter<SnippetViewAdapter.
 //        }
 
 //        Glide.with(context).load("http://lorempixel.com/output/sports-q-c-50-50-5.jpg").into(holder.sourcePhoto);
+    }
+
+    private Pair<Integer, Integer> findStartEnd(String message, String url) {
+
+        int bestLen = 0;
+        int start = -1;
+        int end = -1;
+        int thisLen;
+        for (int i = message.length() - 1; i >= 0; i--) {
+            int j = url.length() - 1;
+            int k = i;
+            thisLen = 0;
+            while (k >= 0 && j >= 0) {
+                if (message.charAt(k) == url.charAt(j)) {
+                    j--;
+                    k--;
+                    thisLen++;
+                } else {
+                    break;
+                }
+            }
+
+            if (thisLen > bestLen) {
+                bestLen = thisLen;
+                start = k + 1;
+                end = i;
+            }
+        }
+
+        return new Pair<>(start, end);
+    }
+
+    private void showLinks(TextView textView, String message) {
+        if (textView.getUrls().length == 0) {
+            return;
+        }
+
+        URLSpan urlSpan = textView.getUrls()[0];
+        SpannableString ss = new SpannableString(message);
+        String url = urlSpan.getURL();
+
+        Pair<Integer, Integer> startEnd = findStartEnd(message, url);
+
+        ClickableSpan clickableSpan = new ClickableSpan() {
+            @Override
+            public void onClick(View textView) {
+            }
+
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setUnderlineText(true);
+            }
+        };
+
+        ss.setSpan(clickableSpan, startEnd.first, startEnd.second + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        textView.setText(ss);
+        textView.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     @Override

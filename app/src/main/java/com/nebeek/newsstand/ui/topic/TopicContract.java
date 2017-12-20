@@ -15,7 +15,7 @@ public class TopicContract {
 
         void hideLoading();
 
-        void showGetMessagesResults(List<Snippet> snippetList);
+        void showMessages(List<Snippet> snippetList, boolean pushInStart);
 
         void changePlusToCheck();
 
@@ -32,6 +32,6 @@ public class TopicContract {
 
         void setTopicObject(Topic topicObject);
 
-        void loadMessages();
+        void loadOlderMessages();
     }
 }

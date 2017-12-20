@@ -14,7 +14,6 @@ import com.nebeek.newsstand.controller.base.BaseController;
 import com.nebeek.newsstand.data.DataRepository;
 import com.nebeek.newsstand.data.models.Snippet;
 import com.nebeek.newsstand.data.models.Topic;
-import com.nebeek.newsstand.event.RxBus;
 import com.nebeek.newsstand.util.GlobalToast;
 
 import java.util.ArrayList;
@@ -98,7 +97,7 @@ public class TopicController extends BaseController implements TopicContract.Vie
     }
 
     private void loadMoreItems() {
-        presenter.loadMessages();
+        presenter.loadOlderMessages();
     }
 
     @Override
@@ -132,10 +131,11 @@ public class TopicController extends BaseController implements TopicContract.Vie
     }
 
     @Override
-    public void showGetMessagesResults(List<Snippet> snippetList) {
+    public void showMessages(List<Snippet> snippetList, boolean pushInStart) {
 //        this.snippetList.clear();
         this.snippetList.addAll(snippetList);
         this.snippetViewAdapter.notifyDataSetChanged();
+        this.layoutManager.scrollToPosition(this.snippetList.size() - snippetList.size());
     }
 
     @OnClick(R.id.back_button)
