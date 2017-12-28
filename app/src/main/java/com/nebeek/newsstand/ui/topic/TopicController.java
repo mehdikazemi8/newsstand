@@ -72,32 +72,23 @@ public class TopicController extends BaseController implements TopicContract.Vie
         layoutManager = new LinearLayoutManager(getActivity());
         snippets.setLayoutManager(layoutManager);
         snippets.setAdapter(snippetViewAdapter);
+        layoutManager.setStackFromEnd(true);
 
         snippets.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
+
+                if (layoutManager.findFirstVisibleItemPosition() <= 4) {
+                    presenter.loadOlderMessages();
+                }
             }
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-
-                int visibleItemCount = layoutManager.getChildCount();
-                int totalItemCount = layoutManager.getItemCount();
-                int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
-
-                if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
-                        && firstVisibleItemPosition >= 0
-                        && totalItemCount >= PAGE_SIZE) {
-                    loadMoreItems();
-                }
             }
         });
-    }
-
-    private void loadMoreItems() {
-        presenter.loadOlderMessages();
     }
 
     @Override
@@ -131,11 +122,13 @@ public class TopicController extends BaseController implements TopicContract.Vie
     }
 
     @Override
-    public void showMessages(List<Snippet> snippetList, boolean pushInStart) {
-//        this.snippetList.clear();
-        this.snippetList.addAll(snippetList);
-        this.snippetViewAdapter.notifyDataSetChanged();
-        this.layoutManager.scrollToPosition(this.snippetList.size() - snippetList.size());
+    public void showMessages(List<Snippet> items, boolean scrollToEnd) {
+        snippetList.addAll(0, items);
+        snippetViewAdapter.notifyItemRangeInserted(0, items.size());
+//        Log.d("TAG", "scrollToEnd " + scrollToEnd);
+//        if (scrollToEnd) {
+//            snippets.smoothScrollToPosition(snippetList.size() - 1);
+//        }
     }
 
     @OnClick(R.id.back_button)

@@ -14,7 +14,6 @@ import com.nebeek.newsstand.data.models.Snippet;
 import com.nebeek.newsstand.ui.topic.SnippetViewAdapter;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -27,7 +26,6 @@ public class ExploreController extends BaseBackStackController implements Explor
     private List<Snippet> messageList = new ArrayList<>();
     private SnippetViewAdapter snippetViewAdapter;
     private ExploreContract.Presenter presenter;
-    private boolean isLoading;
 
     public static ExploreController getInstance() {
         return new ExploreController();
@@ -54,49 +52,35 @@ public class ExploreController extends BaseBackStackController implements Explor
     }
 
     private void init() {
-        isLoading = false;
         snippetViewAdapter = new SnippetViewAdapter(messageList, this::openWebView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         messages.setLayoutManager(layoutManager);
         messages.setAdapter(snippetViewAdapter);
+        layoutManager.setStackFromEnd(true);
 
         messages.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
 
-                if (isLoading) {
-                    return;
-                }
-
                 if (layoutManager.findFirstVisibleItemPosition() <= 4) {
-                    isLoading = true;
-                    loadMore();
+                    presenter.loadOlderMessages();
                 }
-//                Log.d("TAG", "abcd " + newState + " " + layoutManager.findFirstVisibleItemPosition());
             }
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-
-//                Log.d("TAG", "abcd 222 " + dx + " " + dy);
             }
         });
     }
 
-    private void loadMore() {
-        presenter.loadOlderMessages();
-    }
-
     @Override
-    public void showMessages(List<Snippet> messageList, boolean scrollToEnd) {
-        isLoading = false;
-        Collections.reverse(messageList);
-        this.messageList.addAll(0, messageList);
-        if (scrollToEnd) {
-            messages.smoothScrollToPosition(messageList.size() - 1);
-        }
-        snippetViewAdapter.notifyItemRangeInserted(0, messageList.size());
+    public void showMessages(List<Snippet> items, boolean scrollToEnd) {
+        messageList.addAll(0, items);
+//        if (scrollToEnd) {
+//            messages.smoothScrollToPosition(messageList.size() - 1);
+//        }
+        snippetViewAdapter.notifyItemRangeInserted(0, items.size());
     }
 }

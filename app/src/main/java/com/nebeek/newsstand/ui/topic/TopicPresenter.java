@@ -15,7 +15,7 @@ public class TopicPresenter implements TopicContract.Presenter {
     private TopicContract.View topicView;
     private DataRepository dataRepository;
     private int currentPage = -1;
-    private boolean loading = false;
+    private boolean isLoading = false;
 
     public TopicPresenter(Topic topicObject, TopicContract.View topicView, DataRepository dataRepository) {
         this.topicObject = topicObject;
@@ -28,67 +28,34 @@ public class TopicPresenter implements TopicContract.Presenter {
         topicView.showLoading();
 
         loadOlderMessages();
-        /*
-        dataRepository.searchKeyword(keyword, new DataSource.SearchKeywordCallback() {
-            @Override
-            public void onResponse(List<Snippet> snippetList) {
-                Log.d("TAG", "onResponse " + snippetList);
-                if (!topicView.isActive()) {
-                    return;
-                }
-                topicView.hideLoading();
-
-                topicView.showMessages(snippetList);
-            }
-
-            @Override
-            public void onFailure() {
-                Log.d("TAG", "onFailure");
-                if (!topicView.isActive()) {
-                    return;
-                }
-                topicView.hideLoading();
-            }
-
-            @Override
-            public void onNetworkFailure() {
-                Log.d("TAG", "onNetworkFailure");
-                if (!topicView.isActive()) {
-                    return;
-                }
-                topicView.hideLoading();
-            }
-        });
-        */
     }
 
     @Override
     public void loadOlderMessages() {
-        if (loading) {
+        if (isLoading) {
             return;
         }
-
+        isLoading = true;
         currentPage++;
 
-        loading = true;
         dataRepository.getMessages(currentPage, topicObject.getId(), new DataSource.GetMessagesCallback() {
             @Override
             public void onResponse(MessagesResponse response) {
-                loading = false;
+                isLoading = false;
 
                 topicView.hideLoading();
                 Collections.reverse(response.getResults());
-                topicView.showMessages(response.getResults(), true);
+                topicView.showMessages(response.getResults(), (currentPage == 0));
             }
 
             @Override
             public void onFailure() {
-                loading = false;
+                isLoading = false;
             }
 
             @Override
             public void onNetworkFailure() {
-                loading = false;
+                isLoading = false;
             }
         });
     }

@@ -15,7 +15,7 @@ public class TopicContract {
 
         void hideLoading();
 
-        void showMessages(List<Snippet> snippetList, boolean pushInStart);
+        void showMessages(List<Snippet> snippetList, boolean scrollToEnd);
 
         void changePlusToCheck();
 
