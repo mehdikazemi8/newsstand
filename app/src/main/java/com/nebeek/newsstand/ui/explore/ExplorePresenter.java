@@ -8,6 +8,7 @@ public class ExplorePresenter implements ExploreContract.Presenter {
 
     private DataRepository dataRepository;
     private ExploreContract.View exploreView;
+    private int currentPage = -1;
 
     public ExplorePresenter(ExploreContract.View exploreView, DataRepository dataRepository) {
         this.exploreView = exploreView;
@@ -17,10 +18,18 @@ public class ExplorePresenter implements ExploreContract.Presenter {
     @Override
     public void start() {
 
-        dataRepository.getMessages(null, null, new DataSource.GetMessagesCallback() {
+        loadOlderMessages();
+    }
+
+    @Override
+    public void loadOlderMessages() {
+        currentPage++;
+
+        dataRepository.getMessages(currentPage, null, new DataSource.GetMessagesCallback() {
             @Override
             public void onResponse(MessagesResponse response) {
-                exploreView.showMessages(response.getResults());
+
+                exploreView.showMessages(response.getResults(), (currentPage == 0));
             }
 
             @Override
