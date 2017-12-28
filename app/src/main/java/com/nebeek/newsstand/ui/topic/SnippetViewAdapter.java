@@ -67,13 +67,15 @@ public class SnippetViewAdapter extends RecyclerView.Adapter<SnippetViewAdapter.
 //            GlideApp.with(context).asBitmap().load(bmp).into(holder.sourcePhoto);
             holder.sourcePhoto.setImageBitmap(bmp);
             holder.photo.setImageBitmap(bmp);
+            holder.photo.setVisibility(View.VISIBLE);
 //            Glide.with(context).load(bmp).into(holder.sourcePhoto);
 
         } catch (NullPointerException e) {
             e.printStackTrace();
+            holder.photo.setVisibility(View.GONE);
         }
 
-        holder.title.setVisibility(View.GONE);
+//        holder.title.setVisibility(View.GONE);
 //        holder.title.setText(items.get(position).getTitle());
 
         holder.date.setText(
