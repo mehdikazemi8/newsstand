@@ -68,6 +68,9 @@ public abstract class BaseNotificationAction {
                 .setContentTitle(remoteMessage.getData().get("body"))
                 .setContentText(remoteMessage.getData().get("message"))
                 .setSmallIcon(R.mipmap.ic_launcher)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(
+                        remoteMessage.getData().get("message")
+                ))
                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                 .setContentIntent(contentIntent).setAutoCancel(true);
 
@@ -83,6 +86,7 @@ public abstract class BaseNotificationAction {
             manager.notify(123, notificationBuilder.build());
         }
     }
+
     protected boolean isPackageInstalled(String packageName, PackageManager packageManager) {
         try {
             packageManager.getPackageInfo(packageName, 0);
