@@ -6,6 +6,7 @@
     android:clickable="true"
     android:focusable="true">
 
+
     <com.mypopsy.widget.FloatingSearchView
         android:id="@+id/search"
         android:layout_width="match_parent"
@@ -54,12 +55,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layoutDirection="rtl"
-        android:visibility="visible"
+        android:visibility="gone"
         app:floatingSearch_close_search_on_keyboard_dismiss="true"
         app:floatingSearch_dimBackground="false"
         app:floatingSearch_leftActionMode="showHamburger"
         app:floatingSearch_searchHint="جست و جو..."
         app:floatingSearch_showSearchKey="true"
         app:floatingSearch_suggestionsListAnimDuration="250" />
+
+    <com.lapism.searchview.SearchView
+        android:id="@+id/searchView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:search_voice="false" />
 
 </RelativeLayout>
