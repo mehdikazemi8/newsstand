@@ -42,7 +42,7 @@ public class TopicViewAdapter extends RecyclerView.Adapter<TopicViewAdapter.View
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         try {
-            holder.content.setText(items.get(position).getNames().get(0));
+            holder.content.setText(items.get(position).getNames().get(0).getFa());
         } catch (Exception e) {
             e.printStackTrace();
         }

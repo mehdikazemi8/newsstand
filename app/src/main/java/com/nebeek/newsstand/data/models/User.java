@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User extends BaseModel {
+    private String type = "User";
+
     private List<String> names = new ArrayList<>();
-    private String _id;
+    private String id;
     private String fcm;
     private String mobile;
     private String email;
@@ -15,12 +17,20 @@ public class User extends BaseModel {
         this.password = password;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public String getId() {
-        return _id;
+        return id;
     }
 
     public void setId(String id) {
-        this._id = id;
+        this.id = id;
     }
 
     public List<String> getNames() {

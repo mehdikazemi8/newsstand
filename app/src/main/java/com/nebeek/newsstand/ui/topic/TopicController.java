@@ -58,7 +58,7 @@ public class TopicController extends BaseController implements TopicContract.Vie
     // todo, check and plus is hardcoded!
     private void initView() {
         if (keyword == null) {
-            keyword = topicObject.getNames().get(0);
+            keyword = topicObject.getNames().get(0).getFa();
 
             if (topicObject.getInLibrary()) {
                 addButton.setText(getResources().getString(R.string.icon_check_circle));

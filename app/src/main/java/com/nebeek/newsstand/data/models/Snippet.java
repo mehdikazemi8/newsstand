@@ -1,29 +1,59 @@
 package com.nebeek.newsstand.data.models;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class Snippet {
 
+    private List<AppImageSet> imageSets = null;
+    private AppText fullText;
+    private String dateCreated;
+    private Integer likes;
+    private String type;
     private String id;
-    private Payload payload;
+    @SerializedName("channel")
+    private String channelId;
+    private Channel source;
 
-    private String title;
-    private List<String> photoURLs = null;
-    private String description;
-    private String date;
-    private String source;
-    private String sourceLink;
-    private Integer likeCount;
-    private Integer dislikeCount;
-    private Integer comments = 0;
-    private String channel;
-
-    public Payload getPayload() {
-        return payload;
+    public List<AppImageSet> getImageSets() {
+        return imageSets;
     }
 
-    public void setPayload(Payload payload) {
-        this.payload = payload;
+    public void setImageSets(List<AppImageSet> imageSets) {
+        this.imageSets = imageSets;
+    }
+
+    public AppText getFullText() {
+        return fullText;
+    }
+
+    public void setFullText(AppText fullText) {
+        this.fullText = fullText;
+    }
+
+    public String getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(String dateCreated) {
+        this.dateCreated = dateCreated;
+    }
+
+    public Integer getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Integer likes) {
+        this.likes = likes;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getId() {
@@ -34,83 +64,19 @@ public class Snippet {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getChannelId() {
+        return channelId;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setChannelId(String channelId) {
+        this.channelId = channelId;
     }
 
-    public List<String> getPhotoURLs() {
-        return photoURLs;
-    }
-
-    public void setPhotoURLs(List<String> photoURLs) {
-        this.photoURLs = photoURLs;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getSource() {
+    public Channel getSource() {
         return source;
     }
 
-    public void setSource(String source) {
+    public void setSource(Channel source) {
         this.source = source;
-    }
-
-    public String getSourceLink() {
-        return sourceLink;
-    }
-
-    public void setSourceLink(String sourceLink) {
-        this.sourceLink = sourceLink;
-    }
-
-    public Integer getLikeCount() {
-        return likeCount;
-    }
-
-    public void setLikeCount(Integer likeCount) {
-        this.likeCount = likeCount;
-    }
-
-    public Integer getDislikeCount() {
-        return dislikeCount;
-    }
-
-    public void setDislikeCount(Integer dislikeCount) {
-        this.dislikeCount = dislikeCount;
-    }
-
-    public Integer getComments() {
-        return comments;
-    }
-
-    public void setComments(Integer comments) {
-        this.comments = comments;
-    }
-
-    public String getChannel() {
-        return channel;
-    }
-
-    public void setChannel(String channel) {
-        this.channel = channel;
     }
 }

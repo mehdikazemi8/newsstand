@@ -1,14 +1,12 @@
 package com.nebeek.newsstand.data.models;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
 
 public class Topic extends BaseModel {
-    @SerializedName("_id")
     private String id;
-    private List<String> names;
+    private List<AppText> names;
     private Integer subscribes;
+    private Integer likes;
     private String deleteId;
 
     String text;
@@ -16,12 +14,20 @@ public class Topic extends BaseModel {
     Boolean receiveNotification;
     Boolean inLibrary = false;
 
-    public List<String> getNames() {
+    public List<AppText> getNames() {
         return names;
     }
 
-    public void setNames(List<String> names) {
+    public void setNames(List<AppText> names) {
         this.names = names;
+    }
+
+    public Integer getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Integer likes) {
+        this.likes = likes;
     }
 
     public Integer getSubscribes() {

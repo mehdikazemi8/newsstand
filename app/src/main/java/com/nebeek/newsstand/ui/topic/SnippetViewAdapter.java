@@ -1,8 +1,6 @@
 package com.nebeek.newsstand.ui.topic;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -21,6 +19,7 @@ import android.widget.TextView;
 import com.nebeek.newsstand.R;
 import com.nebeek.newsstand.data.models.Snippet;
 import com.nebeek.newsstand.util.DateManager;
+import com.nebeek.newsstand.util.imagehandler.GlideApp;
 import com.nebeek.newsstand.util.listener.ShowUrlCallback;
 
 import java.util.List;
@@ -48,7 +47,7 @@ public class SnippetViewAdapter extends RecyclerView.Adapter<SnippetViewAdapter.
     }
 
     private String getSourceDate(Snippet snippet) {
-        return String.format(context.getString(R.string.template_date_source), snippet.getSource(), snippet.getDate());
+        return String.format(context.getString(R.string.template_date_source), snippet.getSource().getNames().get(0).getFa(), snippet.getDateCreated());
     }
 
     @Override
@@ -56,18 +55,25 @@ public class SnippetViewAdapter extends RecyclerView.Adapter<SnippetViewAdapter.
 
         // todo remove
         try {
-            byte[] result = items.get(position).getPayload().getMedia().getPhoto().getSizes().get(0).getBytes().getData();
-
-            Bitmap bmp = BitmapFactory.decodeByteArray(
-                    items.get(position).getPayload().getMedia().getPhoto().getSizes().get(0).getBytes().getData(),
-                    0,
-                    items.get(position).getPayload().getMedia().getPhoto().getSizes().get(0).getBytes().getData().length
-            );
+//            byte[] result = items.get(position).getPayload().getMedia().getPhoto().getSizes().get(0).getBytes().getData();
+//
+//            Bitmap bmp = BitmapFactory.decodeByteArray(
+//                    items.get(position).getPayload().getMedia().getPhoto().getSizes().get(0).getBytes().getData(),
+//                    0,
+//                    items.get(position).getPayload().getMedia().getPhoto().getSizes().get(0).getBytes().getData().length
+//            );
 
 //            GlideApp.with(context).asBitmap().load(bmp).into(holder.sourcePhoto);
-            holder.sourcePhoto.setImageBitmap(bmp);
-            holder.photo.setImageBitmap(bmp);
-            holder.photo.setVisibility(View.VISIBLE);
+            GlideApp.with(context).load(items.get(position).getSource().getImageSets().get(0).getImages().get(0).getData()).into(holder.sourcePhoto);
+//            holder.sourcePhoto.setImageBitmap(items.get(position).getSource().getImageSets().get(0).getImages().get(0).getData());
+//            holder.photo.setImageBitmap(bmp);
+            if (items.get(position).getImageSets().size() > 0) {
+                holder.photo.setVisibility(View.VISIBLE);
+                GlideApp.with(context).load(items.get(position).getImageSets().get(0).getImages().get(0).getData()).into(holder.photo);
+            } else {
+                holder.photo.setVisibility(View.GONE);
+            }
+
 //            Glide.with(context).load(bmp).into(holder.sourcePhoto);
 
         } catch (NullPointerException e) {
@@ -79,16 +85,11 @@ public class SnippetViewAdapter extends RecyclerView.Adapter<SnippetViewAdapter.
 //        holder.title.setText(items.get(position).getTitle());
 
         holder.date.setText(
-                DateManager.convertLongToDate(items.get(position).getPayload().getDate())
+                DateManager.convertStringToDate(items.get(position).getDateCreated())
         );
-        holder.source.setText(items.get(position).getChannel());
+        holder.source.setText(items.get(position).getSource().getNames().get(0).getFa());
 
-
-        if (items.get(position).getPayload().getMessage().isEmpty()) {
-            holder.description.setText(items.get(position).getPayload().getMedia().getCaption());
-        } else {
-            holder.description.setText(items.get(position).getPayload().getMessage());
-        }
+        holder.description.setText(items.get(position).getFullText().getFa());
 
         Linkify.addLinks(holder.description, Linkify.WEB_URLS);
 

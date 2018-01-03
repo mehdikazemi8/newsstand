@@ -12,6 +12,9 @@ public abstract class FCMRequest extends BaseModel {
     public abstract String instanceId();
 
     @Nullable
+    public abstract String type();
+
+    @Nullable
     public abstract String uniqueID();
 
     @Nullable
@@ -26,6 +29,8 @@ public abstract class FCMRequest extends BaseModel {
         public abstract Builder instanceId(String fcm);
 
         public abstract Builder sendToServer(Boolean sendToServer);
+
+        public abstract Builder type(String type);
 
         public abstract Builder uniqueID(String uniqueID);
 

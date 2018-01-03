@@ -179,7 +179,7 @@ public class MainController extends BaseController implements MainContract.View 
                             presenter.getTopics(newText);
 
                             //todo remove
-                            fakeAddSuggestions(newText);
+//                            fakeAddSuggestions(newText);
 
                             return true;
                         }
@@ -356,10 +356,18 @@ public class MainController extends BaseController implements MainContract.View 
 //        }
 //        searchBox.swapSuggestions(newList);
 
+        Log.d("TAG", "abcd " + suggestions.size());
+        for (String str : suggestions) {
+            Log.d("TAG", "abcd " + str);
+        }
+
         suggestionsList.clear();
         for (String suggestion : suggestions) {
             suggestionsList.add(new SearchItem(suggestion));
         }
+
+        // todo use setData, check if it animates
+//        searchAdapter.setData();
         searchAdapter.notifyDataSetChanged();
         mSearchView.setQuery(mSearchView.getQuery(), false);
 

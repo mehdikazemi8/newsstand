@@ -202,7 +202,9 @@ public class RemoteDataSource extends DataSource {
 
     @Override
     public void sendFcmIDToServer(String fcmID, SendFcmIDCallback callback) {
-        Call<ResponseBody> call = apiService.sendFcmIDToServer(FCMRequest.builder().instanceId(fcmID).build());
+        Call<ResponseBody> call = apiService.sendFcmIDToServer(
+                FCMRequest.builder().instanceId(fcmID).type("FirebaseInstance").build()
+        );
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -269,6 +271,7 @@ public class RemoteDataSource extends DataSource {
     @Override
     public void authenticateUser(User user, AuthenticateCallback callback) {
         // user.getId(),
+//        user.setType("authenticate_pass");
         Call<TokenResponse> call = apiService.authenticateUser(user);
         call.enqueue(new Callback<TokenResponse>() {
             @Override
@@ -297,8 +300,9 @@ public class RemoteDataSource extends DataSource {
             public void onResponse(Call<MessagesResponse> call, Response<MessagesResponse> response) {
                 if (response.isSuccessful()) {
                     ChannelsManager.getInstance().addAll(response.body().getChannels());
+
                     for (Snippet snippet : response.body().getResults()) {
-                        snippet.setChannel(ChannelsManager.getInstance().getChannel(snippet.getChannel()).getPayload().getTitle());
+                        snippet.setSource(ChannelsManager.getInstance().getChannel(snippet.getChannelId()));
                     }
                     callback.onResponse(response.body());
                 } else {

@@ -2,7 +2,9 @@ package com.nebeek.newsstand.util;
 
 public class DateManager {
 
-    public static String convertLongToDate(Long date) {
+    public static String convertStringToDate(String dateStr) {
+        // todo fix date
+        long date = 100000000000l;
         long now = System.currentTimeMillis() / 1000;
         long diff = now - date;
 

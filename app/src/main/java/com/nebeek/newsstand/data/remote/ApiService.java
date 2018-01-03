@@ -32,7 +32,7 @@ public interface ApiService {
      * @param user
      * @return
      */
-    @POST("users/")
+    @POST("./")
     Call<User> registerNewUser(@Body User user);
 
     /**
@@ -45,13 +45,13 @@ public interface ApiService {
     Call<TokenResponse> authenticateUser(@Body User user);
     // todo @Path("id") String id, put it in User (in body)
 
-    @GET("topics/")
+    @GET("?filter[type]=Topic")
     Call<TopicsResponse> getAllTopics(@Query("filter[names]") String topicName);
 
     @POST("subscribes/")
     Call<ResponseBody> addSubscription(@Body Subscription subscription);
 
-    @GET("messages/?include=channel&sort=-_id&page[size]=10")
+    @GET("?filter[type]=TelegramMessage&include=channel&sort=-_id&page[size]=10")
     Call<MessagesResponse> getMessages(
             @Query("filter[topics.ref]") String topicId,
             @Query("page[offset]") Integer offset
@@ -61,11 +61,11 @@ public interface ApiService {
     Call<ResponseBody> removeSubscription(@Path("id") String id);
 
 
-    @GET("subscribes/?me&include=argument&fields=argument")
+    @GET("?filter[type]=Subscribe&me&include=argument&fields=argument")
     Call<SubscribesResponse> getSubscriptions();
 
 
-    @POST("firebase-instances/")
+    @POST("./")
     Call<ResponseBody> sendFcmIDToServer(@Body FCMRequest fcmRequest);
 
 

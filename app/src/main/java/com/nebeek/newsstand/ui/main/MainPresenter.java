@@ -89,7 +89,7 @@ public class MainPresenter implements MainContract.Presenter {
                         break;
                     }
                     if (topic.getNames().size() > 0) {
-                        topicNames.add(topic.getNames().get(0));
+                        topicNames.add(topic.getNames().get(0).getFa());
                     }
                 }
 
