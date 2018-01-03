@@ -48,7 +48,7 @@ public interface ApiService {
     @GET("?filter[type]=Topic")
     Call<TopicsResponse> getAllTopics(@Query("filter[names]") String topicName);
 
-    @POST("subscribes/")
+    @POST("./")
     Call<ResponseBody> addSubscription(@Body Subscription subscription);
 
     @GET("?filter[type]=TelegramMessage&include=channel&sort=-_id&page[size]=10")
@@ -57,11 +57,11 @@ public interface ApiService {
             @Query("page[offset]") Integer offset
     );
 
-    @DELETE("subscribes/{id}/")
+    @DELETE("{id}/")
     Call<ResponseBody> removeSubscription(@Path("id") String id);
 
 
-    @GET("?filter[type]=Subscribe&me&include=argument&fields=argument")
+    @GET("?filter[type]=Subscribe&me&include=argument&fields=argument,id")
     Call<SubscribesResponse> getSubscriptions();
 
 

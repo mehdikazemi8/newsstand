@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class TopicData {
 
-    @SerializedName("_id")
+    @SerializedName("id")
     private String id;
     @SerializedName("argument")
     private String argument;

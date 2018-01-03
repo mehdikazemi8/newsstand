@@ -3,6 +3,7 @@ package com.nebeek.newsstand.ui.topic;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,9 @@ public class TopicController extends BaseController implements TopicContract.Vie
     }
 
     public static TopicController newInstance(Topic topicObject) {
+
+        Log.d("TAG", "newInstance " + topicObject.serialize());
+
         TopicController instance = new TopicController();
         instance.keyword = null;
         instance.topicObject = topicObject;
@@ -140,7 +144,6 @@ public class TopicController extends BaseController implements TopicContract.Vie
     public void addOnClick() {
         if (addButton.getText().toString().equals(getResources().getString(R.string.icon_add_circle))) {
             presenter.subscribeToTopic();
-
         } else {
             presenter.removeFromLibrary();
         }

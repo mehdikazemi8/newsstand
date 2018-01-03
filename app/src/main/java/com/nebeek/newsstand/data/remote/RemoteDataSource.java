@@ -171,11 +171,16 @@ public class RemoteDataSource extends DataSource {
                 } else {
                     callback.onFailure();
                 }
+
+                Log.d("Aeoa", "onResponse " + response.isSuccessful());
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+
                 callback.onFailure();
+                Log.d("Aeoa", "onFailure " + t.getCause());
+                Log.d("Aeoa", "onFailure " + t.getMessage());
             }
         });
     }

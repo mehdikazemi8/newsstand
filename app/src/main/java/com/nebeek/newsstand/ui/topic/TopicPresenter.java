@@ -1,5 +1,7 @@
 package com.nebeek.newsstand.ui.topic;
 
+import android.util.Log;
+
 import com.nebeek.newsstand.data.DataRepository;
 import com.nebeek.newsstand.data.DataSource;
 import com.nebeek.newsstand.data.models.Topic;
@@ -94,6 +96,7 @@ public class TopicPresenter implements TopicContract.Presenter {
 
     @Override
     public void removeFromLibrary() {
+        Log.d("TAG", "removeFromLibrary " + (topicObject == null));
         if (topicObject == null) {
             return;
         }
