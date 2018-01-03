@@ -64,7 +64,9 @@ public class SnippetViewAdapter extends RecyclerView.Adapter<SnippetViewAdapter.
 //            );
 
 //            GlideApp.with(context).asBitmap().load(bmp).into(holder.sourcePhoto);
-            GlideApp.with(context).load(items.get(position).getSource().getImageSets().get(0).getImages().get(0).getData()).into(holder.sourcePhoto);
+            GlideApp.with(context).load(items.get(position).getSource().getImageSets().get(0).getImages().get(0).getData())
+                    .circleCrop()
+                    .into(holder.sourcePhoto);
 //            holder.sourcePhoto.setImageBitmap(items.get(position).getSource().getImageSets().get(0).getImages().get(0).getData());
 //            holder.photo.setImageBitmap(bmp);
             if (items.get(position).getImageSets().size() > 0) {

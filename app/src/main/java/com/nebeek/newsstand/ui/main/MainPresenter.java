@@ -111,7 +111,7 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void onSuggestionClicked(String suggestion) {
         for (Topic topic : topicList) {
-            if (topic.getNames().size() > 0 && topic.getNames().get(0).equals(suggestion)) {
+            if (topic.getNames().size() > 0 && topic.getNames().get(0).getFa().equals(suggestion)) {
                 Log.d("TAG", "abcd onSuggestionClicked " + topic.serialize());
                 mainView.showSearchUI(topic);
             }

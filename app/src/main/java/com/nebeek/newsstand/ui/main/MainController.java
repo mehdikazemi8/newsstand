@@ -18,7 +18,6 @@ import com.bluelinelabs.conductor.RouterTransaction;
 import com.bluelinelabs.conductor.changehandler.FadeChangeHandler;
 import com.bluelinelabs.conductor.support.RouterPagerAdapter;
 import com.lapism.searchview.SearchAdapter;
-import com.lapism.searchview.SearchFilter;
 import com.lapism.searchview.SearchItem;
 import com.nebeek.newsstand.R;
 import com.nebeek.newsstand.controller.base.BaseBackStackController;
@@ -163,6 +162,7 @@ public class MainController extends BaseController implements MainContract.View 
     private void test(View view) {
         mSearchView = view.findViewById(R.id.searchView); // from API 26
         if (mSearchView != null) {
+
             mSearchView.setVersionMargins(com.lapism.searchview.SearchView.VersionMargins.TOOLBAR_SMALL);
             mSearchView.setHint("جست و جو");
             mSearchView.setOnQueryTextListener(
@@ -241,13 +241,17 @@ public class MainController extends BaseController implements MainContract.View 
 //            suggestionsList.add(new SearchItem("tehraaaan"));
             searchAdapter.notifyDataSetChanged();
 
-            List<SearchFilter> filter = new ArrayList<>();
-            filter.add(new SearchFilter("Filter1", true));
-            filter.add(new SearchFilter("Filter2", true));
-            mSearchView.setFilters(filter);
+            searchAdapter.setOnSearchItemClickListener((theView, position, text) -> {
+                Log.d("TAG", "onSearchItemClick " + text);
+                presenter.onSuggestionClicked(text);
+            });
+
+//            List<SearchFilter> filter = new ArrayList<>();
+//            filter.add(new SearchFilter("Filter1", true));
+//            filter.add(new SearchFilter("Filter2", true));
+//            mSearchView.setFilters(filter);
             //use mSearchView.getFiltersStates() to consider filter when performing search
         }
-
     }
 
     @Override
@@ -370,7 +374,7 @@ public class MainController extends BaseController implements MainContract.View 
 //        searchAdapter.setData();
         searchAdapter.notifyDataSetChanged();
         mSearchView.setQuery(mSearchView.getQuery(), false);
-
+//        mSearchView.showSuggestions();
 //        searchAdapter.notifyItemRangeInserted(0, suggestions.size());
 //        searchAdapter.setData(items);
     }
