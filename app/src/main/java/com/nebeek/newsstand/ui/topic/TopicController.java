@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bluelinelabs.conductor.RouterTransaction;
+import com.bluelinelabs.conductor.changehandler.FadeChangeHandler;
 import com.nebeek.newsstand.R;
 import com.nebeek.newsstand.controller.base.BaseController;
 import com.nebeek.newsstand.data.DataRepository;
@@ -78,7 +80,7 @@ public class TopicController extends BaseController implements TopicContract.Vie
             topics.add(topicObject);
         }
 
-        snippetViewAdapter = new SnippetViewAdapter(topicObject, topics, snippetList, this::openWebView);
+        snippetViewAdapter = new SnippetViewAdapter(topicObject, topics, snippetList, this::openWebView, this::showTopicControllerUI);
         layoutManager = new LinearLayoutManager(getActivity());
         snippets.setLayoutManager(layoutManager);
         snippets.setAdapter(snippetViewAdapter);
@@ -99,6 +101,14 @@ public class TopicController extends BaseController implements TopicContract.Vie
                 super.onScrolled(recyclerView, dx, dy);
             }
         });
+    }
+
+    private void showTopicControllerUI(Topic toOpenTopic) {
+        getRouter().pushController(
+                RouterTransaction.with(TopicController.newInstance(toOpenTopic))
+                        .pushChangeHandler(new FadeChangeHandler())
+                        .popChangeHandler(new FadeChangeHandler())
+        );
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.nebeek.newsstand.ui.topic;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
@@ -10,7 +11,6 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
 import android.text.util.Linkify;
-import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,12 +39,16 @@ public class SnippetViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private List<Topic> topics = null;
     private ShowUrlCallback showUrlCallback;
     private Topic parentTopic;
+    private OnItemSelectedListener<Topic> relatedTopicSelectedListener;
 
-    public SnippetViewAdapter(Topic parentTopic, List<Topic> topics, List<Snippet> items, ShowUrlCallback showUrlCallback) {
+    public SnippetViewAdapter(Topic parentTopic, List<Topic> topics, List<Snippet> items,
+                              ShowUrlCallback showUrlCallback,
+                              @Nullable OnItemSelectedListener<Topic> relatedTopicSelectedListener) {
         this.parentTopic = parentTopic;
         this.topics = topics;
         this.items = items;
         this.showUrlCallback = showUrlCallback;
+        this.relatedTopicSelectedListener = relatedTopicSelectedListener;
     }
 
     @Override
@@ -95,17 +99,7 @@ public class SnippetViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         );
         TopicViewAdapter adapter = new TopicViewAdapter(
                 topics,
-                new OnItemSelectedListener<Topic>() {
-                    @Override
-                    public void onSelect(Topic object) {
-
-                    }
-
-                    @Override
-                    public void onDeselect(Topic object) {
-
-                    }
-                },
+                relatedTopic -> relatedTopicSelectedListener.onSelect(relatedTopic),
                 R.layout.template_topic_browse
         );
         ((ListViewHolder) holder).topics.setAdapter(adapter);

@@ -14,8 +14,8 @@ import com.nebeek.newsstand.R;
 import com.nebeek.newsstand.controller.base.BaseBackStackController;
 import com.nebeek.newsstand.data.DataRepository;
 import com.nebeek.newsstand.data.models.Topic;
-import com.nebeek.newsstand.ui.topic.TopicController;
 import com.nebeek.newsstand.ui.customview.TopicDecoration;
+import com.nebeek.newsstand.ui.topic.TopicController;
 import com.nebeek.newsstand.util.listener.OnItemSelectedListener;
 
 import java.util.ArrayList;
@@ -48,11 +48,6 @@ public class SubscribesController extends BaseBackStackController implements Sub
         @Override
         public void onSelect(Topic topic) {
             presenter.onKeywordSelected(topic);
-        }
-
-        @Override
-        public void onDeselect(Topic object) {
-
         }
     };
 
