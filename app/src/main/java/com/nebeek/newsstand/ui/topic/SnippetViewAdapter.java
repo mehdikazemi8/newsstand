@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.nebeek.newsstand.R;
 import com.nebeek.newsstand.data.models.Snippet;
 import com.nebeek.newsstand.data.models.Topic;
+import com.nebeek.newsstand.data.remote.ApiService;
 import com.nebeek.newsstand.ui.subscribes.TopicViewAdapter;
 import com.nebeek.newsstand.util.DateManager;
 import com.nebeek.newsstand.util.imagehandler.GlideApp;
@@ -119,20 +120,27 @@ public class SnippetViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 //            );
 
 //            GlideApp.with(context).asBitmap().load(bmp).into(holder.sourcePhoto);
-            GlideApp.with(context).load(items.get(position).getSource().getImageSets().get(0).getImages().get(0).getData())
+            GlideApp.with(context)
+                    .load(
+                            ApiService.BASE_URL + items.get(position).getSource().getImageSets().get(0).getImages().get(0).getData() + "/data"
+                    )
                     .circleCrop()
                     .into(((ViewHolder) holder).sourcePhoto);
 //            holder.sourcePhoto.setImageBitmap(items.get(position).getSource().getImageSets().get(0).getImages().get(0).getData());
 //            holder.photo.setImageBitmap(bmp);
             if (items.get(position).getImageSets().size() > 0) {
                 ((ViewHolder) holder).photo.setVisibility(View.VISIBLE);
-                GlideApp.with(context).load(items.get(position).getImageSets().get(0).getImages().get(0).getData()).into(((ViewHolder) holder).photo);
+                GlideApp.with(context)
+                        .load(
+                                ApiService.BASE_URL + items.get(position).getImageSets().get(0).getImages().get(0).getData() + "/data"
+                        )
+                        .into(((ViewHolder) holder).photo);
             } else {
                 ((ViewHolder) holder).photo.setVisibility(View.GONE);
             }
 
 //            Glide.with(context).load(bmp).into(holder.sourcePhoto);
-
+            ((ViewHolder) holder).source.setText(items.get(position).getSource().getNames().get(0).getFa());
         } catch (NullPointerException e) {
             e.printStackTrace();
             ((ViewHolder) holder).photo.setVisibility(View.GONE);
@@ -144,7 +152,6 @@ public class SnippetViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         ((ViewHolder) holder).date.setText(
                 DateManager.convertStringToDate(items.get(position).getDateCreated())
         );
-        ((ViewHolder) holder).source.setText(items.get(position).getSource().getNames().get(0).getFa());
 
         ((ViewHolder) holder).description.setText(items.get(position).getFullText().getFa());
 
