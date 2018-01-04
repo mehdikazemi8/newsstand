@@ -39,7 +39,7 @@ public class SubscribesController extends BaseBackStackController implements Sub
 //        RxBus.getInstance().getEvents().subscribe(new NewSubscription())
 
         topics.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new TopicViewAdapter(topicList, onItemSelectedListener);
+        adapter = new TopicViewAdapter(topicList, onItemSelectedListener, R.layout.template_topic);
         topics.addItemDecoration(new TopicDecoration(getActivity(), TopicDecoration.VERTICAL));
         topics.setAdapter(adapter);
     }

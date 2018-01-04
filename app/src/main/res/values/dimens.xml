@@ -4,6 +4,7 @@
     <dimen name="space_4">4dp</dimen>
     <dimen name="space_8">8dp</dimen>
     <dimen name="space_16">16dp</dimen>
+    <dimen name="space_20">20dp</dimen>
 
     <dimen name="check_mark_size">30dp</dimen>
     <dimen name="material_actionbar_size">56dp</dimen>

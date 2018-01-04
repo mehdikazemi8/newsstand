@@ -72,7 +72,13 @@ public class TopicController extends BaseController implements TopicContract.Vie
         }
 
         keywordContent.setText(keyword);
-        snippetViewAdapter = new SnippetViewAdapter(snippetList, this::openWebView);
+
+        List<Topic> topics = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            topics.add(topicObject);
+        }
+
+        snippetViewAdapter = new SnippetViewAdapter(topicObject, topics, snippetList, this::openWebView);
         layoutManager = new LinearLayoutManager(getActivity());
         snippets.setLayoutManager(layoutManager);
         snippets.setAdapter(snippetViewAdapter);
@@ -127,8 +133,16 @@ public class TopicController extends BaseController implements TopicContract.Vie
 
     @Override
     public void showMessages(List<Snippet> items, boolean scrollToEnd) {
-        snippetList.addAll(0, items);
-        snippetViewAdapter.notifyItemRangeInserted(0, items.size());
+        // todo :( must be handled in AdapterClass not here
+        if (snippetList.size() == 0) {
+            items.add(items.size() - 1, items.get(items.size() - 1));
+            snippetList.addAll(0, items);
+            snippetViewAdapter.notifyItemRangeInserted(0, items.size());
+        } else {
+            snippetList.addAll(0, items);
+            snippetViewAdapter.notifyItemRangeInserted(0, items.size());
+        }
+
 //        Log.d("TAG", "scrollToEnd " + scrollToEnd);
 //        if (scrollToEnd) {
 //            snippets.smoothScrollToPosition(snippetList.size() - 1);

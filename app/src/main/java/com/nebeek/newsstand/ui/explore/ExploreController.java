@@ -52,7 +52,7 @@ public class ExploreController extends BaseBackStackController implements Explor
     }
 
     private void init() {
-        snippetViewAdapter = new SnippetViewAdapter(messageList, this::openWebView);
+        snippetViewAdapter = new SnippetViewAdapter(null,null, messageList, this::openWebView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         messages.setLayoutManager(layoutManager);
         messages.setAdapter(snippetViewAdapter);

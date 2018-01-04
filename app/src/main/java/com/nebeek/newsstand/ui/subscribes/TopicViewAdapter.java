@@ -2,6 +2,7 @@ package com.nebeek.newsstand.ui.subscribes;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,28 +26,33 @@ public class TopicViewAdapter extends RecyclerView.Adapter<TopicViewAdapter.View
     private Context context;
     private List<Topic> items;
     private OnItemSelectedListener<Topic> onItemSelectedListener;
+    private int layoutId;
 
-    public TopicViewAdapter(List<Topic> items, OnItemSelectedListener<Topic> onItemSelectedListener) {
+    public TopicViewAdapter(List<Topic> items, OnItemSelectedListener<Topic> onItemSelectedListener, int layoutId) {
         this.items = items;
         this.onItemSelectedListener = onItemSelectedListener;
+        this.layoutId = layoutId;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
 
-        View view = LayoutInflater.from(context).inflate(R.layout.template_topic, parent, false);
+        View view = LayoutInflater.from(context).inflate(layoutId, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         try {
+            Log.d("TAG", "hhhh "
+                    + (items.get(position).getNames().get(0).getFa()));
+
             holder.content.setText(items.get(position).getNames().get(0).getFa());
         } catch (Exception e) {
+            Log.d("TAG", "hhhh bbbbb");
             e.printStackTrace();
         }
-
 
         if (items.get(position).getPhotoURL() == null) {
             items.get(position).setPhotoURL(
