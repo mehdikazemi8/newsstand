@@ -198,26 +198,27 @@ public class SnippetViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             return;
         }
 
-        URLSpan urlSpan = textView.getUrls()[0];
+        URLSpan[] urlSpans = textView.getUrls();
         SpannableString ss = new SpannableString(message);
-        String url = urlSpan.getURL();
 
-        Pair<Integer, Integer> startEnd = findStartEnd(message, url);
+        for (int current = 0; current < urlSpans.length; current++) {
+            String url = urlSpans[current].getURL();
+            Pair<Integer, Integer> startEnd = findStartEnd(message, url);
+            ClickableSpan clickableSpan = new ClickableSpan() {
+                @Override
+                public void onClick(View textView) {
+                    showUrlCallback.onShowUrl(url);
+                }
 
-        ClickableSpan clickableSpan = new ClickableSpan() {
-            @Override
-            public void onClick(View textView) {
-                showUrlCallback.onShowUrl(url);
-            }
+                @Override
+                public void updateDrawState(TextPaint ds) {
+                    super.updateDrawState(ds);
+                    ds.setUnderlineText(true);
+                }
+            };
+            ss.setSpan(clickableSpan, startEnd.first, startEnd.second + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
 
-            @Override
-            public void updateDrawState(TextPaint ds) {
-                super.updateDrawState(ds);
-                ds.setUnderlineText(true);
-            }
-        };
-
-        ss.setSpan(clickableSpan, startEnd.first, startEnd.second + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         textView.setText(ss);
         textView.setMovementMethod(LinkMovementMethod.getInstance());
     }

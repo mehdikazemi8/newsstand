@@ -144,14 +144,12 @@ public class TopicController extends BaseController implements TopicContract.Vie
     @Override
     public void showMessages(List<Snippet> items, boolean scrollToEnd) {
         // todo :( must be handled in AdapterClass not here
-        if (snippetList.size() == 0) {
+        if (snippetList.size() == 0 && items.size() > 0) {
             items.add(items.size() - 1, items.get(items.size() - 1));
-            snippetList.addAll(0, items);
-            snippetViewAdapter.notifyItemRangeInserted(0, items.size());
-        } else {
-            snippetList.addAll(0, items);
-            snippetViewAdapter.notifyItemRangeInserted(0, items.size());
         }
+
+        snippetList.addAll(0, items);
+        snippetViewAdapter.notifyItemRangeInserted(0, items.size());
 
 //        Log.d("TAG", "scrollToEnd " + scrollToEnd);
 //        if (scrollToEnd) {
