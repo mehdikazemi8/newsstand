@@ -3,10 +3,10 @@ package com.nebeek.newsstand.ui.explore;
 import com.nebeek.newsstand.controller.base.BaseMessageListPresenter;
 import com.nebeek.newsstand.data.DataRepository;
 import com.nebeek.newsstand.data.DataSource;
-import com.nebeek.newsstand.data.models.Snippet;
+import com.nebeek.newsstand.data.models.TelegramMessage;
 import com.nebeek.newsstand.data.remote.ApiService;
 import com.nebeek.newsstand.data.remote.response.MessagesResponse;
-import com.nebeek.newsstand.ui.topic.SnippetRowView;
+import com.nebeek.newsstand.ui.topic.MessageRowView;
 import com.nebeek.newsstand.util.DateManager;
 
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ public class ExplorePresenter implements ExploreContract.Presenter, BaseMessageL
     private ExploreContract.View exploreView;
     private int currentPage = -1;
     private boolean isLoading = false;
-    private final List<Snippet> messageList = new ArrayList<>();
+    private final List<TelegramMessage> messageList = new ArrayList<>();
 
     public ExplorePresenter(ExploreContract.View exploreView, DataRepository dataRepository) {
         this.exploreView = exploreView;
@@ -66,7 +66,7 @@ public class ExplorePresenter implements ExploreContract.Presenter, BaseMessageL
     }
 
     @Override
-    public void onBindRowViewAtPosition(int position, SnippetRowView view) {
+    public void onBindRowViewAtPosition(int position, MessageRowView view) {
         if (messageList.get(position).getSource() != null) {
             view.setSourcePhoto(ApiService.BASE_URL + messageList.get(position).getSource().getImageSets().get(0).getImages().get(0).getData() + "/data");
             view.setSource(messageList.get(position).getSource().getNames().get(0).getFa());

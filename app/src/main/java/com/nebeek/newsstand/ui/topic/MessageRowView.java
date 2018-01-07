@@ -1,6 +1,6 @@
 package com.nebeek.newsstand.ui.topic;
 
-public interface SnippetRowView {
+public interface MessageRowView {
 
     void setTitle(String title);
 

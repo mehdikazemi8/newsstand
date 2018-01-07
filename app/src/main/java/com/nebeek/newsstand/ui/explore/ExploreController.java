@@ -11,7 +11,7 @@ import com.nebeek.newsstand.R;
 import com.nebeek.newsstand.controller.base.BaseBackStackController;
 import com.nebeek.newsstand.controller.base.BaseMessageListPresenter;
 import com.nebeek.newsstand.data.DataRepository;
-import com.nebeek.newsstand.ui.topic.SnippetViewAdapter;
+import com.nebeek.newsstand.ui.topic.MessageViewAdapter;
 
 import butterknife.BindView;
 
@@ -20,7 +20,7 @@ public class ExploreController extends BaseBackStackController implements Explor
     @BindView(R.id.messages)
     RecyclerView messages;
 
-    private SnippetViewAdapter snippetViewAdapter;
+    private MessageViewAdapter messageViewAdapter;
     private ExploreContract.Presenter presenter;
 
     public static ExploreController getInstance() {
@@ -47,10 +47,10 @@ public class ExploreController extends BaseBackStackController implements Explor
     }
 
     private void init() {
-        snippetViewAdapter = new SnippetViewAdapter(null, null, this::openWebView, null, (BaseMessageListPresenter) presenter);
+        messageViewAdapter = new MessageViewAdapter(null, null, this::openWebView, null, (BaseMessageListPresenter) presenter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         messages.setLayoutManager(layoutManager);
-        messages.setAdapter(snippetViewAdapter);
+        messages.setAdapter(messageViewAdapter);
         layoutManager.setStackFromEnd(true);
 
         messages.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -75,6 +75,6 @@ public class ExploreController extends BaseBackStackController implements Explor
 //        if (scrollToEnd) {
 //            messages.smoothScrollToPosition(messageList.size() - 1);
 //        }
-        snippetViewAdapter.notifyItemRangeInserted(0, messagesCount);
+        messageViewAdapter.notifyItemRangeInserted(0, messagesCount);
     }
 }

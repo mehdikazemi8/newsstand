@@ -31,15 +31,15 @@ public class TopicController extends BaseController implements TopicContract.Vie
     TextView keywordContent;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
-    @BindView(R.id.snippets)
-    RecyclerView snippets;
+    @BindView(R.id.messages)
+    RecyclerView messages;
     @BindView(R.id.add_button)
     TextView addButton;
 
     private int PAGE_SIZE = 10;
     private LinearLayoutManager layoutManager;
     private TopicContract.Presenter presenter;
-    private SnippetViewAdapter snippetViewAdapter;
+    private MessageViewAdapter messageViewAdapter;
     private String keyword;
     private Topic topicObject;
 
@@ -80,13 +80,13 @@ public class TopicController extends BaseController implements TopicContract.Vie
         }
 
         // todo, send null presenter?
-        snippetViewAdapter = new SnippetViewAdapter(topicObject, topics, this::openWebView, this::showTopicControllerUI, (BaseMessageListPresenter) presenter);
+        messageViewAdapter = new MessageViewAdapter(topicObject, topics, this::openWebView, this::showTopicControllerUI, (BaseMessageListPresenter) presenter);
         layoutManager = new LinearLayoutManager(getActivity());
-        snippets.setLayoutManager(layoutManager);
-        snippets.setAdapter(snippetViewAdapter);
+        messages.setLayoutManager(layoutManager);
+        messages.setAdapter(messageViewAdapter);
         layoutManager.setStackFromEnd(true);
 
-        snippets.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        messages.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
@@ -149,11 +149,11 @@ public class TopicController extends BaseController implements TopicContract.Vie
 //            items.add(items.size() - 1, items.get(items.size() - 1));
 //        }
 
-        snippetViewAdapter.notifyItemRangeInserted(0, messagesCount);
+        messageViewAdapter.notifyItemRangeInserted(0, messagesCount);
 
 //        Log.d("TAG", "scrollToEnd " + scrollToEnd);
 //        if (scrollToEnd) {
-//            snippets.smoothScrollToPosition(snippetList.size() - 1);
+//            messages.smoothScrollToPosition(snippetList.size() - 1);
 //        }
     }
 

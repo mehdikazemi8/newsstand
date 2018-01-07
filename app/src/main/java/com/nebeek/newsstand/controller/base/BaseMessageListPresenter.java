@@ -1,10 +1,10 @@
 package com.nebeek.newsstand.controller.base;
 
-import com.nebeek.newsstand.ui.topic.SnippetRowView;
+import com.nebeek.newsstand.ui.topic.MessageRowView;
 
 public interface BaseMessageListPresenter {
 
     int getMessagesCount();
 
-    void onBindRowViewAtPosition(int position, SnippetRowView view);
+    void onBindRowViewAtPosition(int position, MessageRowView view);
 }

@@ -3,7 +3,7 @@ package com.nebeek.newsstand.fcm;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.nebeek.newsstand.fcm.action.BaseNotificationAction;
-import com.nebeek.newsstand.fcm.action.ShowSnippetAction;
+import com.nebeek.newsstand.fcm.action.ShowMessageAction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public static final String CAFEBAZAAR_PACKAGE = "com.farsitel.bazaar";
     public static final String CHROME_PACKAGE = "com.android.chrome";
 
-    public static final String SHOW_SNIPPET = "showSnippet";
+    public static final String SHOW_MESSAGE = "showSnippet";
 
     private List<BaseNotificationAction> availableActions = null;
 
@@ -25,7 +25,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
 
         availableActions = new ArrayList<>();
-        availableActions.add(new ShowSnippetAction());
+        availableActions.add(new ShowMessageAction());
     }
 
     @Override

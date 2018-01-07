@@ -1,7 +1,7 @@
 package com.nebeek.newsstand.data;
 
 import com.nebeek.newsstand.data.models.LikeRequest;
-import com.nebeek.newsstand.data.models.Snippet;
+import com.nebeek.newsstand.data.models.TelegramMessage;
 import com.nebeek.newsstand.data.models.Topic;
 import com.nebeek.newsstand.data.models.User;
 import com.nebeek.newsstand.data.remote.response.MessagesResponse;
@@ -15,7 +15,7 @@ public abstract class DataSource {
 
     public interface SearchKeywordCallback {
 
-        void onResponse(List<Snippet> snippetList);
+        void onResponse(List<TelegramMessage> telegramMessageList);
 
         void onFailure();
 

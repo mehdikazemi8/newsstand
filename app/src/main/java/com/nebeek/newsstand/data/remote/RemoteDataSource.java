@@ -9,7 +9,7 @@ import com.nebeek.newsstand.data.MyAdapterFactory;
 import com.nebeek.newsstand.data.local.ChannelsManager;
 import com.nebeek.newsstand.data.local.PreferenceManager;
 import com.nebeek.newsstand.data.models.LikeRequest;
-import com.nebeek.newsstand.data.models.Snippet;
+import com.nebeek.newsstand.data.models.TelegramMessage;
 import com.nebeek.newsstand.data.models.Topic;
 import com.nebeek.newsstand.data.models.TopicData;
 import com.nebeek.newsstand.data.models.User;
@@ -307,8 +307,8 @@ public class RemoteDataSource extends DataSource {
                 if (response.isSuccessful()) {
                     ChannelsManager.getInstance().addAll(response.body().getChannels());
 
-                    for (Snippet snippet : response.body().getResults()) {
-                        snippet.setSource(ChannelsManager.getInstance().getChannel(snippet.getChannelId()));
+                    for (TelegramMessage telegramMessage : response.body().getResults()) {
+                        telegramMessage.setSource(ChannelsManager.getInstance().getChannel(telegramMessage.getChannelId()));
                     }
                     callback.onResponse(response.body());
                 } else {

@@ -20,7 +20,7 @@ import android.widget.TextView;
 
 import com.nebeek.newsstand.R;
 import com.nebeek.newsstand.controller.base.BaseMessageListPresenter;
-import com.nebeek.newsstand.data.models.Snippet;
+import com.nebeek.newsstand.data.models.TelegramMessage;
 import com.nebeek.newsstand.data.models.Topic;
 import com.nebeek.newsstand.ui.subscribes.TopicViewAdapter;
 import com.nebeek.newsstand.util.imagehandler.GlideApp;
@@ -33,7 +33,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SnippetViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class MessageViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context context;
     private List<Topic> topics = null;
@@ -42,7 +42,7 @@ public class SnippetViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private OnItemSelectedListener<Topic> relatedTopicSelectedListener;
     private BaseMessageListPresenter messageListPresenter;
 
-    public SnippetViewAdapter(Topic parentTopic, List<Topic> topics,
+    public MessageViewAdapter(Topic parentTopic, List<Topic> topics,
                               ShowUrlCallback showUrlCallback,
                               @Nullable OnItemSelectedListener<Topic> relatedTopicSelectedListener,
                               BaseMessageListPresenter messageListPresenter) {
@@ -62,7 +62,7 @@ public class SnippetViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         if (position == messageListPresenter.getMessagesCount() - 2) {
             return 1; // another recyclerView
         } else {
-            return 0; // Snippet
+            return 0; // TelegramMessage
         }
     }
 
@@ -71,7 +71,7 @@ public class SnippetViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         context = parent.getContext();
 
         if (viewType == 0) {
-            View view = LayoutInflater.from(context).inflate(R.layout.template_snippet, parent, false);
+            View view = LayoutInflater.from(context).inflate(R.layout.template_message, parent, false);
             return new ViewHolder(view);
         } else {
             View view = LayoutInflater.from(context).inflate(R.layout.template_list_row, parent, false);
@@ -80,8 +80,8 @@ public class SnippetViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     }
 
-    private String getSourceDate(Snippet snippet) {
-        return String.format(context.getString(R.string.template_date_source), snippet.getSource().getNames().get(0).getFa(), snippet.getDateCreated());
+    private String getSourceDate(TelegramMessage telegramMessage) {
+        return String.format(context.getString(R.string.template_date_source), telegramMessage.getSource().getNames().get(0).getFa(), telegramMessage.getDateCreated());
     }
 
     @Override
@@ -111,7 +111,7 @@ public class SnippetViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     private void bindData(RecyclerView.ViewHolder holder, int position) {
         // todo remove
-        messageListPresenter.onBindRowViewAtPosition(position, (SnippetRowView) holder);
+        messageListPresenter.onBindRowViewAtPosition(position, (MessageRowView) holder);
     }
 
     private Pair<Integer, Integer> findStartEnd(String message, String url) {
@@ -179,7 +179,7 @@ public class SnippetViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         return messageListPresenter.getMessagesCount();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder implements SnippetRowView {
+    class ViewHolder extends RecyclerView.ViewHolder implements MessageRowView {
 
         @BindView(R.id.title)
         TextView title;

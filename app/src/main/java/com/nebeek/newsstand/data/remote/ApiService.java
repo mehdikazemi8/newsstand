@@ -1,7 +1,7 @@
 package com.nebeek.newsstand.data.remote;
 
 import com.nebeek.newsstand.data.models.LikeRequest;
-import com.nebeek.newsstand.data.models.Snippet;
+import com.nebeek.newsstand.data.models.TelegramMessage;
 import com.nebeek.newsstand.data.models.User;
 import com.nebeek.newsstand.data.remote.request.FCMRequest;
 import com.nebeek.newsstand.data.remote.request.Subscription;
@@ -70,8 +70,8 @@ public interface ApiService {
     Call<ResponseBody> sendFcmIDToServer(@Body FCMRequest fcmRequest);
 
 
-    @GET("url/{snippetID}")
-    Call<Snippet> getSingleSnippet(@Path("snippetID") String snippetID);
+    @GET("url/{messageID}")
+    Call<TelegramMessage> getSingleMessage(@Path("messageID") String messageID);
 
     @FormUrlEncoded
     @POST("59a07c3d110000810464427a")

@@ -2,7 +2,7 @@ package com.nebeek.newsstand.data.remote.response;
 
 import com.google.gson.annotations.SerializedName;
 import com.nebeek.newsstand.data.models.Channel;
-import com.nebeek.newsstand.data.models.Snippet;
+import com.nebeek.newsstand.data.models.TelegramMessage;
 
 import java.util.List;
 
@@ -10,15 +10,15 @@ public class MessagesResponse {
     private Integer count;
     private String next;
     private String previous;
-    private List<Snippet> data = null;
+    private List<TelegramMessage> data = null;
     @SerializedName("included")
     private List<Channel> channels;
 
-    public List<Snippet> getResults() {
+    public List<TelegramMessage> getResults() {
         return data;
     }
 
-    public void setResults(List<Snippet> results) {
+    public void setResults(List<TelegramMessage> results) {
         this.data = results;
     }
 
