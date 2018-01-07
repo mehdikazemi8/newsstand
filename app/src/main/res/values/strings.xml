@@ -19,6 +19,10 @@
     <string name="icon_check_circle">J</string>
     <string name="icon_add_circle">K</string>
     <string name="icon_close">L</string>
+    <string name="thumb_down_empty">M</string>
+    <string name="thumb_down_full">N</string>
+    <string name="thumb_up_empty">O</string>
+    <string name="thumb_up_full">P</string>
 
     <string name="dash">-</string>
 </resources>

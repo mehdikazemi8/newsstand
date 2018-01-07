@@ -1,5 +1,6 @@
 package com.nebeek.newsstand.data.remote;
 
+import com.nebeek.newsstand.data.models.LikeRequest;
 import com.nebeek.newsstand.data.models.Snippet;
 import com.nebeek.newsstand.data.models.User;
 import com.nebeek.newsstand.data.remote.request.FCMRequest;
@@ -79,5 +80,8 @@ public interface ApiService {
 
     @GET
     Call<ResponseBody> downloadPhoto(@Url String photoURL);
+
+    @POST("./")
+    Call<ResponseBody> likeMessage(@Body LikeRequest request);
 
 }

@@ -9,12 +9,9 @@ import android.view.ViewGroup;
 
 import com.nebeek.newsstand.R;
 import com.nebeek.newsstand.controller.base.BaseBackStackController;
+import com.nebeek.newsstand.controller.base.BaseMessageListPresenter;
 import com.nebeek.newsstand.data.DataRepository;
-import com.nebeek.newsstand.data.models.Snippet;
 import com.nebeek.newsstand.ui.topic.SnippetViewAdapter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 
@@ -23,7 +20,6 @@ public class ExploreController extends BaseBackStackController implements Explor
     @BindView(R.id.messages)
     RecyclerView messages;
 
-    private List<Snippet> messageList = new ArrayList<>();
     private SnippetViewAdapter snippetViewAdapter;
     private ExploreContract.Presenter presenter;
 
@@ -45,14 +41,13 @@ public class ExploreController extends BaseBackStackController implements Explor
     protected void onViewBound(@NonNull View view) {
         super.onViewBound(view);
 
-        init();
-
         presenter = new ExplorePresenter(this, DataRepository.getInstance());
+        init();
         presenter.start();
     }
 
     private void init() {
-        snippetViewAdapter = new SnippetViewAdapter(null,null, messageList, this::openWebView, null);
+        snippetViewAdapter = new SnippetViewAdapter(null, null, this::openWebView, null, (BaseMessageListPresenter) presenter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         messages.setLayoutManager(layoutManager);
         messages.setAdapter(snippetViewAdapter);
@@ -76,11 +71,10 @@ public class ExploreController extends BaseBackStackController implements Explor
     }
 
     @Override
-    public void showMessages(List<Snippet> items, boolean scrollToEnd) {
-        messageList.addAll(0, items);
+    public void refreshMessagesList(int messagesCount, boolean scrollToEnd) {
 //        if (scrollToEnd) {
 //            messages.smoothScrollToPosition(messageList.size() - 1);
 //        }
-        snippetViewAdapter.notifyItemRangeInserted(0, items.size());
+        snippetViewAdapter.notifyItemRangeInserted(0, messagesCount);
     }
 }

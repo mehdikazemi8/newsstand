@@ -1,5 +1,6 @@
 package com.nebeek.newsstand.data;
 
+import com.nebeek.newsstand.data.models.LikeRequest;
 import com.nebeek.newsstand.data.models.Snippet;
 import com.nebeek.newsstand.data.models.Topic;
 import com.nebeek.newsstand.data.models.User;
@@ -102,6 +103,15 @@ public abstract class DataSource {
         void onNetworkFailure();
     }
 
+    public interface LikeMessageCallback {
+
+        void onSuccess();
+
+        void onFailure();
+
+        void onNetworkFailure();
+    }
+
     public abstract void prepareDataSource();
 
     public abstract void searchKeyword(String keyword, SearchKeywordCallback callback);
@@ -123,4 +133,6 @@ public abstract class DataSource {
     public abstract void getAllTopics(String topicName, TopicsResponseCallback callback);
 
     public abstract void getMessages(Integer currentPage, String topicID, GetMessagesCallback callback);
+
+    public abstract void likeMessage(LikeRequest request, LikeMessageCallback callback);
 }

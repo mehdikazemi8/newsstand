@@ -19,11 +19,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nebeek.newsstand.R;
+import com.nebeek.newsstand.controller.base.BaseMessageListPresenter;
 import com.nebeek.newsstand.data.models.Snippet;
 import com.nebeek.newsstand.data.models.Topic;
-import com.nebeek.newsstand.data.remote.ApiService;
 import com.nebeek.newsstand.ui.subscribes.TopicViewAdapter;
-import com.nebeek.newsstand.util.DateManager;
 import com.nebeek.newsstand.util.imagehandler.GlideApp;
 import com.nebeek.newsstand.util.listener.OnItemSelectedListener;
 import com.nebeek.newsstand.util.listener.ShowUrlCallback;
@@ -32,24 +31,26 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class SnippetViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context context;
-    private List<Snippet> items;
     private List<Topic> topics = null;
     private ShowUrlCallback showUrlCallback;
     private Topic parentTopic;
     private OnItemSelectedListener<Topic> relatedTopicSelectedListener;
+    private BaseMessageListPresenter messageListPresenter;
 
-    public SnippetViewAdapter(Topic parentTopic, List<Topic> topics, List<Snippet> items,
+    public SnippetViewAdapter(Topic parentTopic, List<Topic> topics,
                               ShowUrlCallback showUrlCallback,
-                              @Nullable OnItemSelectedListener<Topic> relatedTopicSelectedListener) {
+                              @Nullable OnItemSelectedListener<Topic> relatedTopicSelectedListener,
+                              BaseMessageListPresenter messageListPresenter) {
         this.parentTopic = parentTopic;
         this.topics = topics;
-        this.items = items;
         this.showUrlCallback = showUrlCallback;
         this.relatedTopicSelectedListener = relatedTopicSelectedListener;
+        this.messageListPresenter = messageListPresenter;
     }
 
     @Override
@@ -58,7 +59,7 @@ public class SnippetViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             return 0;
         }
 
-        if (position == items.size() - 2) {
+        if (position == messageListPresenter.getMessagesCount() - 2) {
             return 1; // another recyclerView
         } else {
             return 0; // Snippet
@@ -110,64 +111,7 @@ public class SnippetViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     private void bindData(RecyclerView.ViewHolder holder, int position) {
         // todo remove
-        try {
-//            byte[] result = items.get(position).getPayload().getMedia().getPhoto().getSizes().get(0).getBytes().getData();
-//
-//            Bitmap bmp = BitmapFactory.decodeByteArray(
-//                    items.get(position).getPayload().getMedia().getPhoto().getSizes().get(0).getBytes().getData(),
-//                    0,
-//                    items.get(position).getPayload().getMedia().getPhoto().getSizes().get(0).getBytes().getData().length
-//            );
-
-//            GlideApp.with(context).asBitmap().load(bmp).into(holder.sourcePhoto);
-            GlideApp.with(context)
-                    .load(
-                            ApiService.BASE_URL + items.get(position).getSource().getImageSets().get(0).getImages().get(0).getData() + "/data"
-                    )
-                    .circleCrop()
-                    .into(((ViewHolder) holder).sourcePhoto);
-//            holder.sourcePhoto.setImageBitmap(items.get(position).getSource().getImageSets().get(0).getImages().get(0).getData());
-//            holder.photo.setImageBitmap(bmp);
-            if (items.get(position).getImageSets().size() > 0) {
-                ((ViewHolder) holder).photo.setVisibility(View.VISIBLE);
-                GlideApp.with(context)
-                        .load(
-                                ApiService.BASE_URL + items.get(position).getImageSets().get(0).getImages().get(0).getData() + "/data"
-                        )
-                        .into(((ViewHolder) holder).photo);
-            } else {
-                ((ViewHolder) holder).photo.setVisibility(View.GONE);
-            }
-
-//            Glide.with(context).load(bmp).into(holder.sourcePhoto);
-            ((ViewHolder) holder).source.setText(items.get(position).getSource().getNames().get(0).getFa());
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-            ((ViewHolder) holder).photo.setVisibility(View.GONE);
-        }
-
-//        holder.title.setVisibility(View.GONE);
-//        holder.title.setText(items.get(position).getTitle());
-
-        ((ViewHolder) holder).date.setText(
-                DateManager.convertStringToDate(items.get(position).getDateCreated())
-        );
-
-        ((ViewHolder) holder).description.setText(items.get(position).getFullText().getFa());
-
-        Linkify.addLinks(((ViewHolder) holder).description, Linkify.WEB_URLS);
-
-        showLinks(((ViewHolder) holder).description, ((ViewHolder) holder).description.getText().toString());
-
-//        if (position % 2 == 0) {
-//            holder.photo.setVisibility(View.VISIBLE);
-////            Glide.with(context).load("http://lorempixel.com/output/sports-q-c-50-50-5.jpg").into(holder.photo);
-//        } else {
-//            holder.photo.setVisibility(View.GONE);
-//        }
-
-//        Glide.with(context).load("http://lorempixel.com/output/sports-q-c-50-50-5.jpg").into(holder.sourcePhoto);
-
+        messageListPresenter.onBindRowViewAtPosition(position, (SnippetRowView) holder);
     }
 
     private Pair<Integer, Integer> findStartEnd(String message, String url) {
@@ -232,10 +176,10 @@ public class SnippetViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return messageListPresenter.getMessagesCount();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder implements SnippetRowView {
 
         @BindView(R.id.title)
         TextView title;
@@ -249,11 +193,68 @@ public class SnippetViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         ImageView photo;
         @BindView(R.id.source_photo)
         ImageView sourcePhoto;
+        @BindView(R.id.bookmark_button)
+        TextView bookmarkButton;
+        @BindView(R.id.like_button)
+        TextView likeButton;
+
+        @OnClick(R.id.like_button)
+        public void likeOnClick() {
+            likeButton.setText(context.getString(R.string.thumb_up_full));
+        }
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             ButterKnife.bind(this, itemView);
+        }
+
+        @Override
+        public void makePhotoVisible() {
+            photo.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        public void makePhotoInvisible() {
+            photo.setVisibility(View.INVISIBLE);
+        }
+
+        @Override
+        public void setTitle(String title) {
+            this.title.setText(title);
+        }
+
+        @Override
+        public void setSourcePhoto(String sourcePhotoUrl) {
+            GlideApp.with(context)
+                    .load(sourcePhotoUrl)
+                    .circleCrop()
+                    .into(sourcePhoto);
+        }
+
+        @Override
+        public void setPhoto(String photoUrl) {
+            GlideApp.with(context)
+                    .load(photoUrl)
+                    .into(photo);
+        }
+
+        @Override
+        public void setSource(String source) {
+            this.source.setText(source);
+        }
+
+        @Override
+        public void setDate(String date) {
+            this.date.setText(date);
+        }
+
+        @Override
+        public void setDescription(String description) {
+            this.description.setText(description);
+
+            Linkify.addLinks(this.description, Linkify.WEB_URLS);
+            showLinks(this.description, description);
         }
     }
 

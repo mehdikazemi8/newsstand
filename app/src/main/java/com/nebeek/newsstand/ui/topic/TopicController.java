@@ -14,8 +14,8 @@ import com.bluelinelabs.conductor.RouterTransaction;
 import com.bluelinelabs.conductor.changehandler.FadeChangeHandler;
 import com.nebeek.newsstand.R;
 import com.nebeek.newsstand.controller.base.BaseController;
+import com.nebeek.newsstand.controller.base.BaseMessageListPresenter;
 import com.nebeek.newsstand.data.DataRepository;
-import com.nebeek.newsstand.data.models.Snippet;
 import com.nebeek.newsstand.data.models.Topic;
 import com.nebeek.newsstand.util.GlobalToast;
 
@@ -38,7 +38,6 @@ public class TopicController extends BaseController implements TopicContract.Vie
 
     private int PAGE_SIZE = 10;
     private LinearLayoutManager layoutManager;
-    private List<Snippet> snippetList = new ArrayList<>();
     private TopicContract.Presenter presenter;
     private SnippetViewAdapter snippetViewAdapter;
     private String keyword;
@@ -80,7 +79,8 @@ public class TopicController extends BaseController implements TopicContract.Vie
             topics.add(topicObject);
         }
 
-        snippetViewAdapter = new SnippetViewAdapter(topicObject, topics, snippetList, this::openWebView, this::showTopicControllerUI);
+        // todo, send null presenter?
+        snippetViewAdapter = new SnippetViewAdapter(topicObject, topics, this::openWebView, this::showTopicControllerUI, (BaseMessageListPresenter) presenter);
         layoutManager = new LinearLayoutManager(getActivity());
         snippets.setLayoutManager(layoutManager);
         snippets.setAdapter(snippetViewAdapter);
@@ -115,10 +115,11 @@ public class TopicController extends BaseController implements TopicContract.Vie
     protected void onViewBound(@NonNull View view) {
         super.onViewBound(view);
 
+        presenter = new TopicPresenter(topicObject, this, DataRepository.getInstance());
+
         initView();
 
         setActive(true);
-        presenter = new TopicPresenter(topicObject, this, DataRepository.getInstance());
 
         if (topicObject != null) {
             presenter.setTopicObject(topicObject);
@@ -142,14 +143,13 @@ public class TopicController extends BaseController implements TopicContract.Vie
     }
 
     @Override
-    public void showMessages(List<Snippet> items, boolean scrollToEnd) {
+    public void refreshMessagesList(int messagesCount, boolean scrollToEnd) {
         // todo :( must be handled in AdapterClass not here
-        if (snippetList.size() == 0 && items.size() > 0) {
-            items.add(items.size() - 1, items.get(items.size() - 1));
-        }
+//        if (snippetList.size() == 0 && items.size() > 0) {
+//            items.add(items.size() - 1, items.get(items.size() - 1));
+//        }
 
-        snippetList.addAll(0, items);
-        snippetViewAdapter.notifyItemRangeInserted(0, items.size());
+        snippetViewAdapter.notifyItemRangeInserted(0, messagesCount);
 
 //        Log.d("TAG", "scrollToEnd " + scrollToEnd);
 //        if (scrollToEnd) {

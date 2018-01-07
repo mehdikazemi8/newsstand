@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="gray_reyhoon">#f4f4f4</color>
+    <color name="gray_reyhoon_trans">#99f4f4f4</color>
 
     <color name="green">#33aa33</color>
 </resources>

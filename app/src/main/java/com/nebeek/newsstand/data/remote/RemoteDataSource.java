@@ -8,6 +8,7 @@ import com.nebeek.newsstand.data.DataSource;
 import com.nebeek.newsstand.data.MyAdapterFactory;
 import com.nebeek.newsstand.data.local.ChannelsManager;
 import com.nebeek.newsstand.data.local.PreferenceManager;
+import com.nebeek.newsstand.data.models.LikeRequest;
 import com.nebeek.newsstand.data.models.Snippet;
 import com.nebeek.newsstand.data.models.Topic;
 import com.nebeek.newsstand.data.models.TopicData;
@@ -317,6 +318,26 @@ public class RemoteDataSource extends DataSource {
 
             @Override
             public void onFailure(Call<MessagesResponse> call, Throwable t) {
+                callback.onFailure();
+            }
+        });
+    }
+
+    @Override
+    public void likeMessage(LikeRequest request, LikeMessageCallback callback) {
+        Call<ResponseBody> call = apiService.likeMessage(request);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    callback.onSuccess();
+                } else {
+                    callback.onFailure();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
                 callback.onFailure();
             }
         });

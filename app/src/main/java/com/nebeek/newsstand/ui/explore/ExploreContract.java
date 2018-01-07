@@ -10,7 +10,7 @@ public class ExploreContract {
 
     public interface View extends BaseView<Presenter> {
 
-        void showMessages(List<Snippet> messages, boolean scrollToEnd);
+        void refreshMessagesList(int messagesCount, boolean scrollToEnd);
     }
 
     public interface Presenter extends BasePresenter {

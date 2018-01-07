@@ -2,6 +2,7 @@ package com.nebeek.newsstand.data;
 
 import android.util.Log;
 
+import com.nebeek.newsstand.data.models.LikeRequest;
 import com.nebeek.newsstand.data.models.User;
 import com.nebeek.newsstand.util.NetworkHelper;
 
@@ -119,6 +120,15 @@ public class DataRepository extends DataSource {
             callback.onNetworkFailure();
         } else {
             remoteDataSource.getMessages(currentPage, topicID, callback);
+        }
+    }
+
+    @Override
+    public void likeMessage(LikeRequest request, LikeMessageCallback callback) {
+        if (!networkHelper.isNetworkAvailable()) {
+            callback.onNetworkFailure();
+        } else {
+            remoteDataSource.likeMessage(request, callback);
         }
     }
 }

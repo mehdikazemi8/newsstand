@@ -1,6 +1,7 @@
 package com.nebeek.newsstand.data.local;
 
 import com.nebeek.newsstand.data.DataSource;
+import com.nebeek.newsstand.data.models.LikeRequest;
 import com.nebeek.newsstand.data.models.User;
 
 public class LocalDataSource extends DataSource {
@@ -56,6 +57,11 @@ public class LocalDataSource extends DataSource {
 
     @Override
     public void getMessages(Integer currentPage, String topicID, GetMessagesCallback callback) {
+
+    }
+
+    @Override
+    public void likeMessage(LikeRequest request, LikeMessageCallback callback) {
 
     }
 }
