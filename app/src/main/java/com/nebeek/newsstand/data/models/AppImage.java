@@ -1,16 +1,20 @@
 package com.nebeek.newsstand.data.models;
 
 public class AppImage {
-    private String data;
+    private String url;
     private Integer width;
     private Integer height;
 
-    public String getData() {
-        return data;
+    public AppImage(String url) {
+        this.url = url;
     }
 
-    public void setData(String data) {
-        this.data = data;
+    public String getData() {
+        return url;
+    }
+
+    public void setData(String url) {
+        this.url = url;
     }
 
     public Integer getWidth() {

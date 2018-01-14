@@ -305,6 +305,7 @@ public class RemoteDataSource extends DataSource {
             @Override
             public void onResponse(Call<MessagesResponse> call, Response<MessagesResponse> response) {
                 if (response.isSuccessful()) {
+
                     ChannelsManager.getInstance().addAll(response.body().getChannels());
 
                     for (TelegramMessage telegramMessage : response.body().getResults()) {

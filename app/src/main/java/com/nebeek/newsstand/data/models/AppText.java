@@ -4,6 +4,10 @@ public class AppText {
     private String fa;
     private String en;
 
+    public AppText(String fa) {
+        this.fa = fa;
+    }
+
     public String getFa() {
         return fa;
     }

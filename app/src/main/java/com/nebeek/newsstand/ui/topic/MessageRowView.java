@@ -17,4 +17,8 @@ public interface MessageRowView {
     void makePhotoVisible();
 
     void makePhotoInvisible();
+
+    void showLikeIcon();
+
+    void hideLikeIcon();
 }

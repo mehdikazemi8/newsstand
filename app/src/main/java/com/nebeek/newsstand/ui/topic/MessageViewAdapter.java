@@ -222,6 +222,16 @@ public class MessageViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
 
         @Override
+        public void showLikeIcon() {
+            likeButton.setText(context.getString(R.string.thumb_up_full));
+        }
+
+        @Override
+        public void hideLikeIcon() {
+            likeButton.setText(context.getString(R.string.thumb_up_empty));
+        }
+
+        @Override
         public void setTitle(String title) {
             this.title.setText(title);
         }

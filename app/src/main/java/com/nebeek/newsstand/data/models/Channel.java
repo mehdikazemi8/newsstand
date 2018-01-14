@@ -1,10 +1,11 @@
 package com.nebeek.newsstand.data.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Channel {
-    private List<AppImageSet> imageSets = null;
-    private List<AppText> names = null;
+    private List<AppImageSet> imageSets = new ArrayList<>();
+    private List<AppText> names = new ArrayList<>();
     private String id;
     private String likes;
 

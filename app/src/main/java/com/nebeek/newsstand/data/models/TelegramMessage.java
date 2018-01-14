@@ -1,20 +1,42 @@
 package com.nebeek.newsstand.data.models;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.TypeConverters;
+import android.support.annotation.NonNull;
+
 import com.google.gson.annotations.SerializedName;
+import com.nebeek.newsstand.data.local.converter.AppTextConverter;
+import com.nebeek.newsstand.data.local.converter.ChannelConverter;
+import com.nebeek.newsstand.data.local.converter.ListAppImageSetConverter;
 
 import java.util.List;
 
+@Entity
+@TypeConverters({AppTextConverter.class, ChannelConverter.class, ListAppImageSetConverter.class})
 public class TelegramMessage {
+
+    @PrimaryKey
+    @NonNull
+    private String id;
 
     private List<AppImageSet> imageSets = null;
     private AppText fullText;
     private String dateCreated;
     private Integer likes;
     private String type;
-    private String id;
     @SerializedName("channel")
     private String channelId;
     private Channel source;
+    private Boolean liked;
+
+    public Boolean getLiked() {
+        return liked;
+    }
+
+    public void setLiked(Boolean liked) {
+        this.liked = liked;
+    }
 
     public List<AppImageSet> getImageSets() {
         return imageSets;
