@@ -329,6 +329,9 @@ public class RemoteDataSource extends DataSource {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                Log.d("TAG", "onResponse " + response.isSuccessful());
+                Log.d("TAG", "onResponse " + response.code());
                 if (response.isSuccessful()) {
                     callback.onSuccess();
                 } else {

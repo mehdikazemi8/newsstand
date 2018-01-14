@@ -4,6 +4,10 @@ public class LikeRequest {
     private String type = "Like";
     private String argument;
 
+    public LikeRequest(String argument) {
+        this.argument = argument;
+    }
+
     public LikeRequest() {
     }
 

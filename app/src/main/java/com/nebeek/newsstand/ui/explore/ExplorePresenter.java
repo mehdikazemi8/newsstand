@@ -3,6 +3,7 @@ package com.nebeek.newsstand.ui.explore;
 import com.nebeek.newsstand.controller.base.BaseMessageListPresenter;
 import com.nebeek.newsstand.data.DataRepository;
 import com.nebeek.newsstand.data.DataSource;
+import com.nebeek.newsstand.data.models.LikeRequest;
 import com.nebeek.newsstand.data.models.TelegramMessage;
 import com.nebeek.newsstand.data.remote.ApiService;
 import com.nebeek.newsstand.data.remote.response.MessagesResponse;
@@ -82,5 +83,26 @@ public class ExplorePresenter implements ExploreContract.Presenter, BaseMessageL
         view.setDate(DateManager.convertStringToDate(messageList.get(position).getDateCreated()));
 
         view.setDescription(messageList.get(position).getFullText().getFa());
+    }
+
+    @Override
+    public void likeMessage(int position) {
+        dataRepository.likeMessage(new LikeRequest(messageList.get(position).getId()),
+                new DataSource.LikeMessageCallback() {
+                    @Override
+                    public void onSuccess() {
+
+                    }
+
+                    @Override
+                    public void onFailure() {
+
+                    }
+
+                    @Override
+                    public void onNetworkFailure() {
+
+                    }
+                });
     }
 }

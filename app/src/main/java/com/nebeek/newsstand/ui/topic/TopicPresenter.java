@@ -164,4 +164,9 @@ public class TopicPresenter implements TopicContract.Presenter, BaseMessageListP
 
         view.setDescription(messageList.get(position).getFullText().getFa());
     }
+
+    @Override
+    public void likeMessage(int position) {
+        // todo
+    }
 }

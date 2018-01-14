@@ -200,6 +200,8 @@ public class MessageViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         @OnClick(R.id.like_button)
         public void likeOnClick() {
+            // todo
+            messageListPresenter.likeMessage(getAdapterPosition());
             likeButton.setText(context.getString(R.string.thumb_up_full));
         }
 
