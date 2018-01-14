@@ -5,6 +5,7 @@ import android.util.Log;
 import com.nebeek.newsstand.controller.base.BaseMessageListPresenter;
 import com.nebeek.newsstand.data.DataRepository;
 import com.nebeek.newsstand.data.DataSource;
+import com.nebeek.newsstand.data.models.LikeRequest;
 import com.nebeek.newsstand.data.models.TelegramMessage;
 import com.nebeek.newsstand.data.models.Topic;
 import com.nebeek.newsstand.data.remote.ApiService;
@@ -160,6 +161,12 @@ public class TopicPresenter implements TopicContract.Presenter, BaseMessageListP
             view.makePhotoInvisible();
         }
 
+        if (messageList.get(position).getLiked() != null && messageList.get(position).getLiked()) {
+            view.showLikeIcon();
+        } else {
+            view.hideLikeIcon();
+        }
+
         view.setDate(DateManager.convertStringToDate(messageList.get(position).getDateCreated()));
 
         view.setDescription(messageList.get(position).getFullText().getFa());
@@ -167,6 +174,24 @@ public class TopicPresenter implements TopicContract.Presenter, BaseMessageListP
 
     @Override
     public void likeMessage(int position) {
-        // todo
+        // todo duplicate with ExplorePresenter
+        messageList.get(position).setLiked(true);
+        dataRepository.likeMessage(new LikeRequest(messageList.get(position).getId()),
+                new DataSource.LikeMessageCallback() {
+                    @Override
+                    public void onSuccess() {
+
+                    }
+
+                    @Override
+                    public void onFailure() {
+
+                    }
+
+                    @Override
+                    public void onNetworkFailure() {
+
+                    }
+                });
     }
 }
