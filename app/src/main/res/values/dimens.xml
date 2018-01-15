@@ -11,6 +11,7 @@
 
     <dimen name="text_size_small">15sp</dimen>
     <dimen name="text_size_normal">18sp</dimen>
+    <dimen name="text_size_large">28sp</dimen>
 
     <dimen name="icon_size_normal">20sp</dimen>
     <dimen name="icon_size_large">25sp</dimen>

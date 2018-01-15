@@ -23,7 +23,7 @@ public class SplashPresenter implements SplashContract.Presenter {
     @Override
     public void start() {
         Handler handler = new Handler();
-        handler.postDelayed(() -> doFakeRegisterIfNeeded(), 1000);
+        handler.postDelayed(() -> doFakeRegisterIfNeeded(), 2500);
     }
 
     private void doFakeRegisterIfNeeded() {

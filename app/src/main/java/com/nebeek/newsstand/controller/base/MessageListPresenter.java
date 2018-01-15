@@ -5,6 +5,8 @@ import com.nebeek.newsstand.data.DataSource;
 import com.nebeek.newsstand.data.models.LikeRequest;
 import com.nebeek.newsstand.data.models.TelegramMessage;
 import com.nebeek.newsstand.data.remote.ApiService;
+import com.nebeek.newsstand.event.NewBookmarkAdded;
+import com.nebeek.newsstand.event.RxBus;
 import com.nebeek.newsstand.ui.topic.MessageRowView;
 import com.nebeek.newsstand.util.DateManager;
 
@@ -84,6 +86,8 @@ public class MessageListPresenter implements BaseMessageListPresenter {
         long bookmarkTime = System.currentTimeMillis();
         messageList.get(position).setBookmarkTime(bookmarkTime);
         dataRepository.addBookmark(messageList.get(position).getId(), bookmarkTime);
+
+        RxBus.getInstance().send(new NewBookmarkAdded());
     }
 
     @Override

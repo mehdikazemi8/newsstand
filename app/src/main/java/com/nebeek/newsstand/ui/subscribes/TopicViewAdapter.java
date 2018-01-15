@@ -67,7 +67,7 @@ public class TopicViewAdapter extends RecyclerView.Adapter<TopicViewAdapter.View
                 .into(holder.photo);
 
         holder.unreadCount.setText(String.valueOf(
-                Math.abs(new Random().nextInt() % 10 + 3)
+                Math.abs(new Random().nextInt() % 10) + 3
         ));
     }
 

@@ -2,7 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     android:clickable="true"
+    android:focusable="true"
     android:orientation="vertical">
 
     <TextView
@@ -10,6 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="Splash" />
+        android:text="Nebeek"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/text_size_large" />
 
 </LinearLayout>
