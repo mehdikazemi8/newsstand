@@ -21,4 +21,8 @@ public interface MessageRowView {
     void showLikeIcon();
 
     void hideLikeIcon();
+
+    void showBookmark();
+
+    void hideBookmark();
 }

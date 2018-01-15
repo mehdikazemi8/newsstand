@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         pushRootController(savedInstanceState);
 
-//        List<TelegramMessage> all = AppDatabase.getInMemoryDatabase(this).messageModel().findAllMessages();
+//        List<TelegramMessage> all = AppDatabase.getInMemoryDatabase(this).messageModel().fetchAll();
 //        Log.d("TAG, ", "likedCount all size " + all.size());
 //        int likeCount = Stream.of(all).map(TelegramMessage::getLiked).filter(value -> value != null && value.equals(true)).toList().size();
 //        Log.d("TAG, ", "likedCount " + likeCount);

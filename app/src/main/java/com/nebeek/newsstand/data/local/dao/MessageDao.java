@@ -1,4 +1,4 @@
-package com.nebeek.newsstand.data.local;
+package com.nebeek.newsstand.data.local.dao;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
@@ -14,12 +14,14 @@ import static android.arch.persistence.room.OnConflictStrategy.IGNORE;
 public interface MessageDao {
 
     @Query("SELECT * from TelegramMessage")
-    List<TelegramMessage> findAllMessages();
+    List<TelegramMessage> fetchAll();
 
     @Query("UPDATE TelegramMessage SET liked=:liked WHERE id=:id")
     void likeMessage(String id, boolean liked);
 
-    @Insert(onConflict = IGNORE)
-    void insertMessages(List<TelegramMessage> messages);
+    @Query("UPDATE TelegramMessage SET archive=:archive WHERE id=:id")
+    void bookmarkMessage(String id, boolean archive);
 
+    @Insert(onConflict = IGNORE)
+    void insertAll(List<TelegramMessage> messages);
 }

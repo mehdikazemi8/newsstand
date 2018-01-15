@@ -346,4 +346,9 @@ public class RemoteDataSource extends DataSource {
             }
         });
     }
+
+    @Override
+    public void bookmarkMessage(String id) {
+
+    }
 }

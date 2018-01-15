@@ -10,4 +10,6 @@ public interface BaseMessageListPresenter {
     void onBindRowViewAtPosition(int position, MessageRowView view);
 
     void likeMessage(int position);
+
+    void bookmarkMessage(int position);
 }

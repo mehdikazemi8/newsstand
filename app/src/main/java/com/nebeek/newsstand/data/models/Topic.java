@@ -1,18 +1,30 @@
 package com.nebeek.newsstand.data.models;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.TypeConverters;
+import android.support.annotation.NonNull;
+
+import com.nebeek.newsstand.data.local.converter.ListAppTextConverter;
+
 import java.util.List;
 
+@Entity
+@TypeConverters({ListAppTextConverter.class})
 public class Topic extends BaseModel {
+
+    @PrimaryKey
+    @NonNull
     private String id;
     private List<AppText> names;
     private Integer subscribes;
     private Integer likes;
     private String deleteId;
 
-    String text;
-    String photoURL;
-    Boolean receiveNotification;
-    Boolean inLibrary = false;
+    private String text;
+    private String photoURL;
+    private Boolean receiveNotification;
+    private Boolean inLibrary = false;
 
     public List<AppText> getNames() {
         return names;

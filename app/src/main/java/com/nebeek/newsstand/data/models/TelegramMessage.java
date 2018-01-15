@@ -29,6 +29,15 @@ public class TelegramMessage {
     private String channelId;
     private Channel source;
     private Boolean liked;
+    private Boolean archive;
+
+    public Boolean getArchive() {
+        return archive;
+    }
+
+    public void setArchive(Boolean archive) {
+        this.archive = archive;
+    }
 
     public Boolean getLiked() {
         return liked;

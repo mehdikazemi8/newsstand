@@ -64,4 +64,9 @@ public class LocalDataSource extends DataSource {
     public void likeMessage(LikeRequest request, LikeMessageCallback callback) {
 
     }
+
+    @Override
+    public void bookmarkMessage(String id) {
+
+    }
 }

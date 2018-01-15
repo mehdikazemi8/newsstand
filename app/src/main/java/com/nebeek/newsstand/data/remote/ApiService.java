@@ -47,7 +47,7 @@ public interface ApiService {
     // todo @Path("id") String id, put it in User (in body)
 
     @GET("?filter[type]=Topic")
-    Call<TopicsResponse> getAllTopics(@Query("filter[names]") String topicName);
+    Call<TopicsResponse> getAllTopics(@Query("filter[names.suggest]") String topicName);
 
     @POST("./")
     Call<ResponseBody> addSubscription(@Body Subscription subscription);

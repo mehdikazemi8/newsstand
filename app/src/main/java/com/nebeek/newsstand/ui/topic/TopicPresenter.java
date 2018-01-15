@@ -167,6 +167,12 @@ public class TopicPresenter implements TopicContract.Presenter, BaseMessageListP
             view.hideLikeIcon();
         }
 
+        if (messageList.get(position).getArchive() != null && messageList.get(position).getArchive()) {
+            view.showBookmark();
+        } else {
+            view.hideBookmark();
+        }
+
         view.setDate(DateManager.convertStringToDate(messageList.get(position).getDateCreated()));
 
         view.setDescription(messageList.get(position).getFullText().getFa());
@@ -193,5 +199,11 @@ public class TopicPresenter implements TopicContract.Presenter, BaseMessageListP
 
                     }
                 });
+    }
+
+    @Override
+    public void bookmarkMessage(int position) {
+        messageList.get(position).setArchive(true);
+        dataRepository.bookmarkMessage(messageList.get(position).getId());
     }
 }

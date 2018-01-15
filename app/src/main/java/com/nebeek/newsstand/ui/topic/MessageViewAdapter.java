@@ -198,6 +198,23 @@ public class MessageViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         @BindView(R.id.like_button)
         TextView likeButton;
 
+
+        @Override
+        public void showBookmark() {
+            bookmarkButton.setText(context.getString(R.string.icon_bookmark_full));
+        }
+
+        @Override
+        public void hideBookmark() {
+            bookmarkButton.setText(context.getString(R.string.icon_bookmark_empty));
+        }
+
+        @OnClick(R.id.bookmark_button)
+        public void bookmarkOnClick() {
+            messageListPresenter.bookmarkMessage(getAdapterPosition());
+            bookmarkButton.setText(context.getString(R.string.icon_bookmark_full));
+        }
+
         @OnClick(R.id.like_button)
         public void likeOnClick() {
             // todo

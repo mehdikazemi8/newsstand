@@ -135,4 +135,6 @@ public abstract class DataSource {
     public abstract void getMessages(Integer currentPage, String topicID, GetMessagesCallback callback);
 
     public abstract void likeMessage(LikeRequest request, LikeMessageCallback callback);
+
+    public abstract void bookmarkMessage(String id);
 }

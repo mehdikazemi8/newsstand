@@ -86,6 +86,12 @@ public class ExplorePresenter implements ExploreContract.Presenter, BaseMessageL
             view.hideLikeIcon();
         }
 
+        if (messageList.get(position).getArchive() != null && messageList.get(position).getArchive()) {
+            view.showBookmark();
+        } else {
+            view.hideBookmark();
+        }
+
         view.setDate(DateManager.convertStringToDate(messageList.get(position).getDateCreated()));
 
         view.setDescription(messageList.get(position).getFullText().getFa());
@@ -111,5 +117,11 @@ public class ExplorePresenter implements ExploreContract.Presenter, BaseMessageL
 
                     }
                 });
+    }
+
+    @Override
+    public void bookmarkMessage(int position) {
+        messageList.get(position).setArchive(true);
+        dataRepository.bookmarkMessage(messageList.get(position).getId());
     }
 }

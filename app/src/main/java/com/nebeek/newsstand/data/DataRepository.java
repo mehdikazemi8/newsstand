@@ -5,6 +5,7 @@ import android.util.Log;
 import com.nebeek.newsstand.data.local.AppDatabase;
 import com.nebeek.newsstand.data.models.LikeRequest;
 import com.nebeek.newsstand.data.models.TelegramMessage;
+import com.nebeek.newsstand.data.models.Topic;
 import com.nebeek.newsstand.data.models.User;
 import com.nebeek.newsstand.data.remote.response.MessagesResponse;
 import com.nebeek.newsstand.util.NetworkHelper;
@@ -54,7 +55,32 @@ public class DataRepository extends DataSource {
             callback.onNetworkFailure();
         } else {
             Log.d("TAG", "want to get keywords");
-            remoteDataSource.getSubscribes(callback);
+            remoteDataSource.getSubscribes(new GetSubscribesCallback() {
+                @Override
+                public void onResponse(List<Topic> topicList) {
+                    Log.d("TAG", "want to get keywords " + appDatabase.topicModel().count());
+                    appDatabase.topicModel().insertAll(topicList);
+                    Log.d("TAG", "want to get keywords " + appDatabase.topicModel().count());
+
+                    for (Topic topic : topicList) {
+                        Log.d("TAG", "want to " + topic.serialize());
+                    }
+
+                    Log.d("TAG", "want to get keywords " + appDatabase.topicModel().fetchAll().size());
+
+                    callback.onResponse(topicList);
+                }
+
+                @Override
+                public void onFailure() {
+                    callback.onFailure();
+                }
+
+                @Override
+                public void onNetworkFailure() {
+                    callback.onNetworkFailure();
+                }
+            });
         }
     }
 
@@ -129,15 +155,16 @@ public class DataRepository extends DataSource {
             remoteDataSource.getMessages(currentPage, topicID, new GetMessagesCallback() {
                 @Override
                 public void onResponse(MessagesResponse response) {
-                    appDatabase.messageModel().insertMessages(response.getResults());
+                    appDatabase.messageModel().insertAll(response.getResults());
 
 
                     // todo
-                    List<TelegramMessage> dbMessages = appDatabase.messageModel().findAllMessages();
+                    List<TelegramMessage> dbMessages = appDatabase.messageModel().fetchAll();
                     for (TelegramMessage currentMessage : response.getResults()) {
                         for (TelegramMessage cache : dbMessages) {
                             if (currentMessage.getId().equals(cache.getId())) {
                                 currentMessage.setLiked(cache.getLiked());
+                                currentMessage.setArchive(cache.getArchive());
                             }
                         }
                     }
@@ -182,5 +209,10 @@ public class DataRepository extends DataSource {
                 }
             });
         }
+    }
+
+    @Override
+    public void bookmarkMessage(String id) {
+        appDatabase.messageModel().bookmarkMessage(id, true);
     }
 }
