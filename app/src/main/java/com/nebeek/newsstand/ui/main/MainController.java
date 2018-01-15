@@ -5,7 +5,6 @@ import android.os.Parcel;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,8 +45,6 @@ public class MainController extends BaseController implements MainContract.View 
     TabLayout tabLayout;
     @BindView(R.id.view_pager)
     ViewPager viewPager;
-    @BindView(R.id.search_view)
-    SearchView searchView;
     @BindView(R.id.search_box)
     FloatingSearchView searchBox;
 
@@ -154,7 +151,7 @@ public class MainController extends BaseController implements MainContract.View 
 
         setActive(true);
         presenter = new MainPresenter(PreferenceManager.getInstance(getActivity()), DataRepository.getInstance(), this);
-        searchView.setOnQueryTextListener(presenter);
+//        searchView.setOnQueryTextListener(presenter);
         presenter.start();
 
         test(view);
