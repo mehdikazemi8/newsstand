@@ -64,17 +64,19 @@ public class ExplorePresenter extends MessageListPresenter implements ExploreCon
                     }
 
                     // todo remove
-                    if (!found || newList.size() == 0) {
+                    if (!found/* || newList.size() == 0*/) {
                         Log.d("TAG", "hhhh " + newList.size());
                         newList.add(message);
                     }
                 }
 
-                messageList.addAll(messageList.size(), newList);
-                if (exploreView.isActive()) {
-                    exploreView.refreshMessagesList(newList.size(), true);
+                if (newList.size() > 0) {
+                    messageList.addAll(messageList.size(), newList);
+                    if (exploreView.isActive()) {
+                        exploreView.refreshMessagesList(newList.size(), true);
+                    }
+                    offset += newList.size();
                 }
-                offset += newList.size();
             }
 
             @Override

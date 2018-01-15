@@ -228,24 +228,19 @@ public class MainController extends BaseController implements MainContract.View 
 //            suggestionsList.add(new SearchItem("search3"));
 
             searchAdapter = new SearchAdapter(getActivity(), suggestionsList);
-            searchAdapter.setOnSearchItemClickListener(new SearchAdapter.OnSearchItemClickListener() {
-                @Override
-                public void onSearchItemClick(View view, int position, String text) {
-//                    mHistoryDatabase.addItem(new SearchItem(text));
-                    mSearchView.close(false);
-                }
+            searchAdapter.setOnSearchItemClickListener((theView, position, text) -> {
+                Log.d("TAG", "onSearchItemClick " + text);
+                mSearchView.close(false);
+                mSearchView.setQuery("", false);
+                presenter.onSuggestionClicked(text);
             });
+
             mSearchView.setAdapter(searchAdapter);
 
 //            suggestionsList.add(new SearchItem("tehran"));
 //            suggestionsList.add(new SearchItem("tehban"));
 //            suggestionsList.add(new SearchItem("tehraaaan"));
-            searchAdapter.notifyDataSetChanged();
-
-            searchAdapter.setOnSearchItemClickListener((theView, position, text) -> {
-                Log.d("TAG", "onSearchItemClick " + text);
-                presenter.onSuggestionClicked(text);
-            });
+//            searchAdapter.notifyDataSetChanged();
 
 //            List<SearchFilter> filter = new ArrayList<>();
 //            filter.add(new SearchFilter("Filter1", true));

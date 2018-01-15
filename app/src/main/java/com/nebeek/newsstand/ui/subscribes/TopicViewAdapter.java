@@ -60,6 +60,10 @@ public class TopicViewAdapter extends RecyclerView.Adapter<TopicViewAdapter.View
             );
         }
 
+        holder.followersCount.setText(
+                context.getString(R.string.followers_count, Math.abs(new Random(System.currentTimeMillis()).nextInt()) % 1000 + 750)
+        );
+
         GlideApp.with(context).load(items.get(position).getPhotoURL())
 //                .apply(RequestOptions.circleCropTransform())
                 .placeholder(R.drawable.loading_circle)

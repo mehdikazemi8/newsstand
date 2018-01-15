@@ -76,7 +76,7 @@ public class ExploreController extends BaseBackStackController implements Explor
     @Override
     public void refreshMessagesList(int messagesCount, boolean pushedAtEnd) {
         if (pushedAtEnd) {
-            GlobalToast.makeToast(getActivity(), "pushed", Toast.LENGTH_SHORT);
+//            GlobalToast.makeToast(getActivity(), "pushed", Toast.LENGTH_SHORT);
             messageViewAdapter.notifyItemRangeInserted(messages.getAdapter().getItemCount(), messagesCount);
         } else {
             messageViewAdapter.notifyItemRangeInserted(0, messagesCount);

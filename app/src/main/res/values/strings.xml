@@ -6,6 +6,7 @@
     <string name="try_again_later">مشکلی پیش اومده، لطفا دوباره امتحان کنید.</string>
     <string name="no_internet_connection">عدم دسترسی به اینترنت!</string>
     <string name="template_parent_topic_name">مطالب مرتبط با %s</string>
+    <string name="followers_count">%d دنبال کننده</string>
 
     <string name="icon_menu">A</string>
     <string name="icon_share">B</string>
