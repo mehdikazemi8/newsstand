@@ -79,10 +79,16 @@ public class MessageListPresenter implements BaseMessageListPresenter {
     }
 
     @Override
-    public void bookmarkMessage(int position) {
+    public void addBookmark(int position) {
         messageList.get(position).setBookmarked(true);
         long bookmarkTime = System.currentTimeMillis();
         messageList.get(position).setBookmarkTime(bookmarkTime);
-        dataRepository.bookmarkMessage(messageList.get(position).getId(), bookmarkTime);
+        dataRepository.addBookmark(messageList.get(position).getId(), bookmarkTime);
+    }
+
+    @Override
+    public void removeBookmark(int position) {
+        messageList.get(position).setBookmarked(false);
+        dataRepository.removeBookmark(messageList.get(position).getId());
     }
 }

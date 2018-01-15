@@ -1,6 +1,5 @@
 package com.nebeek.newsstand.controller.base;
 
-import com.nebeek.newsstand.data.models.TelegramMessage;
 import com.nebeek.newsstand.ui.topic.MessageRowView;
 
 public interface BaseMessageListPresenter {
@@ -11,5 +10,7 @@ public interface BaseMessageListPresenter {
 
     void likeMessage(int position);
 
-    void bookmarkMessage(int position);
+    void addBookmark(int position);
+
+    void removeBookmark(int position);
 }

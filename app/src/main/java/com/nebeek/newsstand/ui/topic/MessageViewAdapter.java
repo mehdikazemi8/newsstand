@@ -211,8 +211,14 @@ public class MessageViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         @OnClick(R.id.bookmark_button)
         public void bookmarkOnClick() {
-            messageListPresenter.bookmarkMessage(getAdapterPosition());
-            bookmarkButton.setText(context.getString(R.string.icon_bookmark_full));
+            if (bookmarkButton.getText().toString().equals(context.getString(R.string.icon_bookmark_full))) {
+                messageListPresenter.removeBookmark(getAdapterPosition());
+                bookmarkButton.setText(context.getString(R.string.icon_bookmark_empty));
+            } else {
+                messageListPresenter.addBookmark(getAdapterPosition());
+                bookmarkButton.setText(context.getString(R.string.icon_bookmark_full));
+            }
+
         }
 
         @OnClick(R.id.like_button)

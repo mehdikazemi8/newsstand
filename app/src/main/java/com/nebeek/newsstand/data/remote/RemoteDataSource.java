@@ -350,7 +350,12 @@ public class RemoteDataSource extends DataSource {
     }
 
     @Override
-    public void bookmarkMessage(String id, Long bookmarkTime) {
+    public void addBookmark(String id, Long bookmarkTime) {
+
+    }
+
+    @Override
+    public void removeBookmark(String id) {
 
     }
 

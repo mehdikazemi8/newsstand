@@ -136,7 +136,9 @@ public abstract class DataSource {
 
     public abstract void likeMessage(LikeRequest request, LikeMessageCallback callback);
 
-    public abstract void bookmarkMessage(String id, Long bookmarkTime);
+    public abstract void addBookmark(String id, Long bookmarkTime);
+
+    public abstract void removeBookmark(String id);
 
     public abstract List<TelegramMessage> getAllBookmarked();
 }

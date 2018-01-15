@@ -211,8 +211,13 @@ public class DataRepository extends DataSource {
     }
 
     @Override
-    public void bookmarkMessage(String id, Long bookmarkTime) {
+    public void addBookmark(String id, Long bookmarkTime) {
         appDatabase.messageModel().bookmarkMessage(id, true, bookmarkTime);
+    }
+
+    @Override
+    public void removeBookmark(String id) {
+        appDatabase.messageModel().bookmarkMessage(id, false, 0);
     }
 
     @Override
