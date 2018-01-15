@@ -200,7 +200,6 @@ public class DataRepository extends DataSource {
                 @Override
                 public void onFailure() {
                     callback.onFailure();
-                    ;
                 }
 
                 @Override
@@ -214,5 +213,10 @@ public class DataRepository extends DataSource {
     @Override
     public void bookmarkMessage(String id) {
         appDatabase.messageModel().bookmarkMessage(id, true);
+    }
+
+    @Override
+    public List<TelegramMessage> getAllBookmarked() {
+        return appDatabase.messageModel().fetchAllArchive();
     }
 }

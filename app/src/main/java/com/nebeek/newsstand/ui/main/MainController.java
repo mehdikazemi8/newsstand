@@ -25,6 +25,7 @@ import com.nebeek.newsstand.controller.base.BaseController;
 import com.nebeek.newsstand.data.DataRepository;
 import com.nebeek.newsstand.data.local.PreferenceManager;
 import com.nebeek.newsstand.data.models.Topic;
+import com.nebeek.newsstand.ui.bookmark.BookmarkController;
 import com.nebeek.newsstand.ui.explore.ExploreController;
 import com.nebeek.newsstand.ui.subscribes.SubscribesController;
 import com.nebeek.newsstand.ui.temp.TempController;
@@ -92,7 +93,7 @@ public class MainController extends BaseController implements MainContract.View 
                 break;
 
             case 1:
-                controllers[1] = new TempController();
+                controllers[1] = BookmarkController.newInstance();
                 break;
 
             case 2:

@@ -20,6 +20,8 @@ import com.nebeek.newsstand.data.remote.response.SubscribesResponse;
 import com.nebeek.newsstand.data.remote.response.TokenResponse;
 import com.nebeek.newsstand.data.remote.response.TopicsResponse;
 
+import java.util.List;
+
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.ResponseBody;
@@ -350,5 +352,10 @@ public class RemoteDataSource extends DataSource {
     @Override
     public void bookmarkMessage(String id) {
 
+    }
+
+    @Override
+    public List<TelegramMessage> getAllBookmarked() {
+        return null;
     }
 }

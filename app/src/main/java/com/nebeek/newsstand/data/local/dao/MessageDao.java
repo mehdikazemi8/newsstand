@@ -16,6 +16,9 @@ public interface MessageDao {
     @Query("SELECT * from TelegramMessage")
     List<TelegramMessage> fetchAll();
 
+    @Query("SELECT * from TelegramMessage WHERE archive=1")
+    List<TelegramMessage> fetchAllArchive();
+
     @Query("UPDATE TelegramMessage SET liked=:liked WHERE id=:id")
     void likeMessage(String id, boolean liked);
 

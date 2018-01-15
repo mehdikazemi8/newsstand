@@ -2,7 +2,10 @@ package com.nebeek.newsstand.data.local;
 
 import com.nebeek.newsstand.data.DataSource;
 import com.nebeek.newsstand.data.models.LikeRequest;
+import com.nebeek.newsstand.data.models.TelegramMessage;
 import com.nebeek.newsstand.data.models.User;
+
+import java.util.List;
 
 public class LocalDataSource extends DataSource {
     @Override
@@ -68,5 +71,10 @@ public class LocalDataSource extends DataSource {
     @Override
     public void bookmarkMessage(String id) {
 
+    }
+
+    @Override
+    public List<TelegramMessage> getAllBookmarked() {
+        return null;
     }
 }
