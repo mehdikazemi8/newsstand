@@ -132,7 +132,7 @@ public abstract class DataSource {
 
     public abstract void getAllTopics(String topicName, TopicsResponseCallback callback);
 
-    public abstract void getMessages(Integer currentPage, String topicID, GetMessagesCallback callback);
+    public abstract void getMessages(Integer offset, String topicID, GetMessagesCallback callback);
 
     public abstract void likeMessage(LikeRequest request, LikeMessageCallback callback);
 

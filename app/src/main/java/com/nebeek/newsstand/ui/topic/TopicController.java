@@ -143,18 +143,13 @@ public class TopicController extends BaseController implements TopicContract.Vie
     }
 
     @Override
-    public void refreshMessagesList(int messagesCount, boolean scrollToEnd) {
+    public void refreshMessagesList(int messagesCount, boolean pushedAtEnd) {
         // todo :( must be handled in AdapterClass not here
 //        if (snippetList.size() == 0 && items.size() > 0) {
 //            items.add(items.size() - 1, items.get(items.size() - 1));
 //        }
 
         messageViewAdapter.notifyItemRangeInserted(0, messagesCount);
-
-//        Log.d("TAG", "scrollToEnd " + scrollToEnd);
-//        if (scrollToEnd) {
-//            messages.smoothScrollToPosition(snippetList.size() - 1);
-//        }
     }
 
     @OnClick(R.id.back_button)

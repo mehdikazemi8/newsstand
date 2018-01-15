@@ -148,11 +148,11 @@ public class DataRepository extends DataSource {
     }
 
     @Override
-    public void getMessages(Integer currentPage, String topicID, GetMessagesCallback callback) {
+    public void getMessages(Integer offset, String topicID, GetMessagesCallback callback) {
         if (!networkHelper.isNetworkAvailable()) {
             callback.onNetworkFailure();
         } else {
-            remoteDataSource.getMessages(currentPage, topicID, new GetMessagesCallback() {
+            remoteDataSource.getMessages(offset, topicID, new GetMessagesCallback() {
                 @Override
                 public void onResponse(MessagesResponse response) {
                     appDatabase.messageModel().insertAll(response.getResults());

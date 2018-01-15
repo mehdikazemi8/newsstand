@@ -16,7 +16,7 @@ public class TopicPresenter extends MessageListPresenter implements TopicContrac
 
     private Topic topicObject = null;
     private TopicContract.View topicView;
-    private int currentPage = -1;
+    private int offset = 0;
     private boolean isLoading = false;
 
     public TopicPresenter(Topic topicObject, TopicContract.View topicView, DataRepository dataRepository) {
@@ -38,9 +38,8 @@ public class TopicPresenter extends MessageListPresenter implements TopicContrac
             return;
         }
         isLoading = true;
-        currentPage++;
 
-        dataRepository.getMessages(currentPage, topicObject.getId(), new DataSource.GetMessagesCallback() {
+        dataRepository.getMessages(offset, topicObject.getId(), new DataSource.GetMessagesCallback() {
             @Override
             public void onResponse(MessagesResponse response) {
                 isLoading = false;
@@ -48,7 +47,9 @@ public class TopicPresenter extends MessageListPresenter implements TopicContrac
                 topicView.hideLoading();
                 Collections.reverse(response.getResults());
                 messageList.addAll(0, response.getResults());
-                topicView.refreshMessagesList(response.getResults().size(), (currentPage == 0));
+                topicView.refreshMessagesList(response.getResults().size(), false);
+
+                offset += 10;
             }
 
             @Override

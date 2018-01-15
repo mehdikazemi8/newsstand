@@ -12,7 +12,7 @@ public class TopicContract {
 
         void hideLoading();
 
-        void refreshMessagesList(int messagesCount, boolean scrollToEnd);
+        void refreshMessagesList(int messagesCount, boolean pushedAtEnd);
 
         void changePlusToCheck();
 

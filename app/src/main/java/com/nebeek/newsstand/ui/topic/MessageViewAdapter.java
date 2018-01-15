@@ -218,7 +218,6 @@ public class MessageViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 messageListPresenter.addBookmark(getAdapterPosition());
                 bookmarkButton.setText(context.getString(R.string.icon_bookmark_full));
             }
-
         }
 
         @OnClick(R.id.like_button)
