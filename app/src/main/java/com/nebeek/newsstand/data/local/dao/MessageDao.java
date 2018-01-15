@@ -16,14 +16,14 @@ public interface MessageDao {
     @Query("SELECT * from TelegramMessage")
     List<TelegramMessage> fetchAll();
 
-    @Query("SELECT * from TelegramMessage WHERE archive=1")
-    List<TelegramMessage> fetchAllArchive();
+    @Query("SELECT * from TelegramMessage WHERE bookmarked=1 ORDER BY bookmarkTime")
+    List<TelegramMessage> fetchAllBookmarked();
 
     @Query("UPDATE TelegramMessage SET liked=:liked WHERE id=:id")
     void likeMessage(String id, boolean liked);
 
-    @Query("UPDATE TelegramMessage SET archive=:archive WHERE id=:id")
-    void bookmarkMessage(String id, boolean archive);
+    @Query("UPDATE TelegramMessage SET bookmarked=:bookmarked, bookmarkTime=:bookmarkTime WHERE id=:id")
+    void bookmarkMessage(String id, boolean bookmarked, long bookmarkTime);
 
     @Insert(onConflict = IGNORE)
     void insertAll(List<TelegramMessage> messages);

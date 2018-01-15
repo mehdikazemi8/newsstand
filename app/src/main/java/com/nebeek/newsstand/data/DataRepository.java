@@ -164,7 +164,7 @@ public class DataRepository extends DataSource {
                         for (TelegramMessage cache : dbMessages) {
                             if (currentMessage.getId().equals(cache.getId())) {
                                 currentMessage.setLiked(cache.getLiked());
-                                currentMessage.setArchive(cache.getArchive());
+                                currentMessage.setBookmarked(cache.getBookmarked());
                             }
                         }
                     }
@@ -211,12 +211,12 @@ public class DataRepository extends DataSource {
     }
 
     @Override
-    public void bookmarkMessage(String id) {
-        appDatabase.messageModel().bookmarkMessage(id, true);
+    public void bookmarkMessage(String id, Long bookmarkTime) {
+        appDatabase.messageModel().bookmarkMessage(id, true, bookmarkTime);
     }
 
     @Override
     public List<TelegramMessage> getAllBookmarked() {
-        return appDatabase.messageModel().fetchAllArchive();
+        return appDatabase.messageModel().fetchAllBookmarked();
     }
 }

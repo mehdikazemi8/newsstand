@@ -29,14 +29,23 @@ public class TelegramMessage {
     private String channelId;
     private Channel source;
     private Boolean liked;
-    private Boolean archive;
+    private Boolean bookmarked;
+    private Long bookmarkTime;
 
-    public Boolean getArchive() {
-        return archive;
+    public Long getBookmarkTime() {
+        return bookmarkTime;
     }
 
-    public void setArchive(Boolean archive) {
-        this.archive = archive;
+    public void setBookmarkTime(Long bookmarkTime) {
+        this.bookmarkTime = bookmarkTime;
+    }
+
+    public Boolean getBookmarked() {
+        return bookmarked;
+    }
+
+    public void setBookmarked(Boolean bookmarked) {
+        this.bookmarked = bookmarked;
     }
 
     public Boolean getLiked() {

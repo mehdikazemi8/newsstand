@@ -45,7 +45,7 @@ public class MessageListPresenter implements BaseMessageListPresenter {
             view.hideLikeIcon();
         }
 
-        if (messageList.get(position).getArchive() != null && messageList.get(position).getArchive()) {
+        if (messageList.get(position).getBookmarked() != null && messageList.get(position).getBookmarked()) {
             view.showBookmark();
         } else {
             view.hideBookmark();
@@ -80,7 +80,9 @@ public class MessageListPresenter implements BaseMessageListPresenter {
 
     @Override
     public void bookmarkMessage(int position) {
-        messageList.get(position).setArchive(true);
-        dataRepository.bookmarkMessage(messageList.get(position).getId());
+        messageList.get(position).setBookmarked(true);
+        long bookmarkTime = System.currentTimeMillis();
+        messageList.get(position).setBookmarkTime(bookmarkTime);
+        dataRepository.bookmarkMessage(messageList.get(position).getId(), bookmarkTime);
     }
 }
