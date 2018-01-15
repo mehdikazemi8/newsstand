@@ -240,7 +240,7 @@ public class MessageViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         @Override
         public void makePhotoInvisible() {
-            photo.setVisibility(View.INVISIBLE);
+            photo.setVisibility(View.GONE);
         }
 
         @Override
