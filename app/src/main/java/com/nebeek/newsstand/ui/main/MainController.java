@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
@@ -38,6 +39,7 @@ import butterknife.BindView;
 public class MainController extends BaseController implements MainContract.View {
 
     private String[] pageTitles = {"پروفایل", "آرشیو", "آخرین اخبار", "منتخب شما"};
+    private String[] pageIcons = {"Q", "H", "S", "R"};
 
     private int NUMBER_OF_TABS = 4;
 
@@ -155,6 +157,38 @@ public class MainController extends BaseController implements MainContract.View 
         presenter.start();
 
         test(view);
+
+        setUpTabLayout();
+    }
+
+    private void setUpTabLayout() {
+        for (int tabId = 0; tabId < NUMBER_OF_TABS; tabId++) {
+            View tabView = LayoutInflater.from(getActivity()).inflate(
+                    R.layout.template_tab, null
+            );
+            TextView tabText = tabView.findViewById(R.id.tab_text);
+            TextView tabIcon = tabView.findViewById(R.id.tab_icon);
+            tabText.setText(pageTitles[tabId]);
+            tabIcon.setText(pageIcons[tabId]);
+            tabLayout.getTabAt(tabId).setCustomView(tabView);
+        }
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
     private void test(View view) {

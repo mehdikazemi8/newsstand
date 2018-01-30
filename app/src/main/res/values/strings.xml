@@ -24,6 +24,9 @@
     <string name="thumb_down_full">N</string>
     <string name="thumb_up_empty">O</string>
     <string name="thumb_up_full">P</string>
+    <string name="horizontal_three_dots">Q</string>
+    <string name="personalized_list_grid">R</string>
+    <string name="newspaper">S</string>
 
     <string name="dash">-</string>
 </resources>
