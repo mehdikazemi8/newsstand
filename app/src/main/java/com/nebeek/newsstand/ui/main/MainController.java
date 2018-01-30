@@ -28,7 +28,6 @@ import com.nebeek.newsstand.data.models.Topic;
 import com.nebeek.newsstand.ui.bookmark.BookmarkController;
 import com.nebeek.newsstand.ui.explore.ExploreController;
 import com.nebeek.newsstand.ui.subscribes.SubscribesController;
-import com.nebeek.newsstand.ui.temp.TempController;
 import com.nebeek.newsstand.ui.topic.TopicController;
 
 import java.util.ArrayList;
@@ -38,10 +37,14 @@ import butterknife.BindView;
 
 public class MainController extends BaseController implements MainContract.View {
 
-    private String[] pageTitles = {"پروفایل", "آرشیو", "آخرین اخبار", "منتخب شما"};
-    private String[] pageIcons = {"Q", "H", "S", "R"};
+//    private String[] pageTitles = {"پروفایل", "آرشیو", "آخرین اخبار", "منتخب شما"};
+//    private String[] pageIcons = {"Q", "H", "S", "R"};
 
-    private int NUMBER_OF_TABS = 4;
+    private String[] pageTitles = {"آرشیو", "آخرین اخبار", "منتخب شما"};
+    private String[] pageIcons = {"H", "S", "R"};
+
+
+    private int NUMBER_OF_TABS = 3;
 
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
@@ -87,20 +90,20 @@ public class MainController extends BaseController implements MainContract.View 
 
     private BaseController getPage(int position) {
         switch (position) {
+//            case 0:
+//                controllers[0] = new TempController();
+//                break;
+
             case 0:
-                controllers[0] = new TempController();
+                controllers[0] = BookmarkController.newInstance();
                 break;
 
             case 1:
-                controllers[1] = BookmarkController.newInstance();
-                break;
-
-            case 2:
-                controllers[2] = new ExploreController();
+                controllers[1] = new ExploreController();
                 break;
 
             default:
-                controllers[3] = new SubscribesController();
+                controllers[2] = new SubscribesController();
                 break;
         }
 
