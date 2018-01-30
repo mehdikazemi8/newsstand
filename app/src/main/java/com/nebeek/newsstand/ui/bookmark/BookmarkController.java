@@ -3,15 +3,14 @@ package com.nebeek.newsstand.ui.bookmark;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.nebeek.newsstand.R;
 import com.nebeek.newsstand.controller.base.BaseBackStackController;
-import com.nebeek.newsstand.controller.base.BaseController;
 import com.nebeek.newsstand.controller.base.BaseMessageListPresenter;
 import com.nebeek.newsstand.data.DataRepository;
 import com.nebeek.newsstand.ui.topic.MessageViewAdapter;
@@ -24,6 +23,8 @@ public class BookmarkController extends BaseBackStackController implements Bookm
     ProgressBar progressBar;
     @BindView(R.id.messages)
     RecyclerView messages;
+    @BindView(R.id.empty_list_message)
+    TextView emptyListMessage;
 
     private LinearLayoutManager layoutManager;
     private BookmarkContract.Presenter presenter;
@@ -74,5 +75,10 @@ public class BookmarkController extends BaseBackStackController implements Bookm
     @Override
     public boolean canHandleBackStack() {
         return false;
+    }
+
+    @Override
+    public void showEmptyListMessage() {
+        emptyListMessage.setVisibility(View.VISIBLE);
     }
 }

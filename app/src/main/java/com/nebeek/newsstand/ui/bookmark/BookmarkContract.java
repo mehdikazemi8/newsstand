@@ -11,6 +11,8 @@ public class BookmarkContract {
         void hideLoading();
 
         void refreshMessagesList();
+
+        void showEmptyListMessage();
     }
 
     public interface Presenter extends BasePresenter {
