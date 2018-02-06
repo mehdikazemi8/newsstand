@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Channel {
-    private List<AppImageSet> imageSets = new ArrayList<>();
+    private List<AppImageSet> images = new ArrayList<>();
     private List<AppText> names = new ArrayList<>();
     private String id;
     private String likes;
 
-    public List<AppImageSet> getImageSets() {
-        return imageSets;
+    public List<AppImageSet> getImages() {
+        return images;
     }
 
-    public void setImageSets(List<AppImageSet> imageSets) {
-        this.imageSets = imageSets;
+    public void setImages(List<AppImageSet> images) {
+        this.images = images;
     }
 
     public List<AppText> getNames() {

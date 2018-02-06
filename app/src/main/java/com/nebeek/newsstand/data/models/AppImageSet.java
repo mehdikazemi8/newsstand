@@ -4,18 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AppImageSet {
-    private List<AppImage> set = new ArrayList<>();
+    private List<AppImage> sizes = new ArrayList<>();
+    private AppImage original;
 
     public AppImageSet addImage(AppImage appImage) {
-        set.add(appImage);
+        sizes.add(appImage);
         return this;
     }
 
     public List<AppImage> getImages() {
-        return set;
+        return sizes;
     }
 
     public void setImages(List<AppImage> images) {
-        this.set = images;
+        this.sizes = images;
     }
 }

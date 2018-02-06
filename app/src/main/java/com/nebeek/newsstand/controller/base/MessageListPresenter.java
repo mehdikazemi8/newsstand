@@ -30,7 +30,7 @@ public class MessageListPresenter implements BaseMessageListPresenter {
     @Override
     public void onBindRowViewAtPosition(int position, MessageRowView view) {
         if (messageList.get(position).getSource() != null) {
-            view.setSourcePhoto(ApiService.BASE_URL + messageList.get(position).getSource().getImageSets().get(0).getImages().get(0).getData());
+            view.setSourcePhoto(ApiService.BASE_URL + messageList.get(position).getSource().getImages().get(0).getImages().get(0).getData());
             view.setSource(messageList.get(position).getSource().getNames().get(0).getFa());
         }
 
