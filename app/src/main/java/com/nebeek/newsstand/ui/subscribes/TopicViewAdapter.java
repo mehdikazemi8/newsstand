@@ -67,11 +67,18 @@ public class TopicViewAdapter extends RecyclerView.Adapter<TopicViewAdapter.View
                 )
         );
 
-        GlideApp.with(context).load(items.get(position).getPhotoURL())
+        try {
+            GlideApp.with(context).load(items.get(position).getImages().get(0).getImages().get(0).getData())
 //                .apply(RequestOptions.circleCropTransform())
-                .placeholder(R.drawable.loading_circle)
-                .circleCrop()
-                .into(holder.photo);
+                    .placeholder(R.drawable.loading_circle)
+                    .circleCrop()
+                    .into(holder.photo);
+        } catch (Exception e) {
+            GlideApp.with(context).load(items.get(position).getPhotoURL())
+                    .placeholder(R.drawable.loading_circle)
+                    .circleCrop()
+                    .into(holder.photo);
+        }
 
         holder.unreadCount.setText(String.valueOf(
                 Math.abs(new Random().nextInt() % 10) + 3

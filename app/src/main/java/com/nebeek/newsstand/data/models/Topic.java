@@ -28,6 +28,17 @@ public class Topic extends BaseModel {
     private Boolean receiveNotification;
     private Boolean inLibrary = false;
 
+    @Ignore
+    private List<AppImageSet> images = null;
+
+    public List<AppImageSet> getImages() {
+        return images;
+    }
+
+    public void setImages(List<AppImageSet> images) {
+        this.images = images;
+    }
+
     public List<AppText> getNames() {
         return names;
     }
