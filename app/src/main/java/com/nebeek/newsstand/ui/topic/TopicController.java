@@ -42,6 +42,7 @@ public class TopicController extends BaseController implements TopicContract.Vie
     private MessageViewAdapter messageViewAdapter;
     private String keyword;
     private Topic topicObject;
+    private List<Topic> relatedTopics;
 
     public static TopicController newInstance(String keyword) {
         TopicController instance = new TopicController();
@@ -74,13 +75,8 @@ public class TopicController extends BaseController implements TopicContract.Vie
 
         keywordContent.setText(keyword);
 
-        List<Topic> topics = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            topics.add(topicObject);
-        }
-
         // todo, send null presenter?
-        messageViewAdapter = new MessageViewAdapter(topicObject, topics, this::openWebView, this::showTopicControllerUI, (BaseMessageListPresenter) presenter);
+        messageViewAdapter = new MessageViewAdapter(topicObject, relatedTopics, this::openWebView, this::showTopicControllerUI, (BaseMessageListPresenter) presenter);
         layoutManager = new LinearLayoutManager(getActivity());
         messages.setLayoutManager(layoutManager);
         messages.setAdapter(messageViewAdapter);
@@ -117,6 +113,21 @@ public class TopicController extends BaseController implements TopicContract.Vie
 
         presenter = new TopicPresenter(topicObject, this, DataRepository.getInstance());
 
+        if (topicObject == null || topicObject.getRelations() == null) {
+            continueAfterRelatedTopics();
+        } else {
+            List<List<Object>> request = new ArrayList<>();
+            for (String id : topicObject.getRelations()) {
+                List<Object> push = new ArrayList<>();
+                push.add(id);
+                push.add(0);
+                request.add(push);
+            }
+            presenter.fetchRelatedTopics(request);
+        }
+    }
+
+    private void continueAfterRelatedTopics() {
         initView();
 
         setActive(true);
@@ -179,5 +190,11 @@ public class TopicController extends BaseController implements TopicContract.Vie
     @Override
     public void showAddToLibraryError() {
         GlobalToast.showError(getActivity());
+    }
+
+    @Override
+    public void refreshRelatedTopics(List<Topic> topicList) {
+        relatedTopics = topicList;
+        continueAfterRelatedTopics();
     }
 }

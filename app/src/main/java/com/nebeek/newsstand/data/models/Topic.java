@@ -22,11 +22,13 @@ public class Topic extends BaseModel {
     private AppSize subscribes;
     private Integer likes;
     private String deleteId;
-
     private String text;
     private String photoURL;
     private Boolean receiveNotification;
     private Boolean inLibrary = false;
+
+    @Ignore
+    private List<String> relations;
 
     @Ignore
     private List<AppImageSet> images = null;
@@ -37,6 +39,14 @@ public class Topic extends BaseModel {
 
     public void setImages(List<AppImageSet> images) {
         this.images = images;
+    }
+
+    public List<String> getRelations() {
+        return relations;
+    }
+
+    public void setRelations(List<String> relations) {
+        this.relations = relations;
     }
 
     public List<AppText> getNames() {

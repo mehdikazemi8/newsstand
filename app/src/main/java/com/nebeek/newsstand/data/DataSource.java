@@ -6,6 +6,7 @@ import com.nebeek.newsstand.data.models.Topic;
 import com.nebeek.newsstand.data.models.User;
 import com.nebeek.newsstand.data.remote.response.MessagesResponse;
 import com.nebeek.newsstand.data.remote.response.TokenResponse;
+import com.nebeek.newsstand.data.remote.response.TopicsResponse;
 
 import java.util.List;
 
@@ -141,4 +142,6 @@ public abstract class DataSource {
     public abstract void removeBookmark(String id);
 
     public abstract List<TelegramMessage> getAllBookmarked();
+
+    public abstract void fetchRelatedTopics(List<List<Object>> request, TopicsResponseCallback callback);
 }

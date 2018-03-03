@@ -35,6 +35,7 @@ import butterknife.OnClick;
 
 public class MessageViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private TopicViewAdapter topicAdapter;
     private Context context;
     private List<Topic> topics = null;
     private ShowUrlCallback showUrlCallback;
@@ -99,12 +100,12 @@ public class MessageViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         ((ListViewHolder) holder).parentTopicName.setText(
                 context.getString(R.string.template_parent_topic_name, parentTopic.getNames().get(0).getFa())
         );
-        TopicViewAdapter adapter = new TopicViewAdapter(
+        topicAdapter = new TopicViewAdapter(
                 topics,
                 relatedTopic -> relatedTopicSelectedListener.onSelect(relatedTopic),
                 R.layout.template_topic_browse
         );
-        ((ListViewHolder) holder).topics.setAdapter(adapter);
+        ((ListViewHolder) holder).topics.setAdapter(topicAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, true);
         ((ListViewHolder) holder).topics.setLayoutManager(layoutManager);
     }
@@ -307,6 +308,12 @@ public class MessageViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             ButterKnife.bind(this, itemView);
         }
+    }
+
+    public void updateRelatedTopics(List<Topic> topicList) {
+        topics.clear();
+        topics.addAll(topicList);
+        topicAdapter.notifyDataSetChanged();
     }
 
 }

@@ -82,4 +82,9 @@ public class LocalDataSource extends DataSource {
     public List<TelegramMessage> getAllBookmarked() {
         return null;
     }
+
+    @Override
+    public void fetchRelatedTopics(List<List<Object>> request, TopicsResponseCallback callback) {
+
+    }
 }

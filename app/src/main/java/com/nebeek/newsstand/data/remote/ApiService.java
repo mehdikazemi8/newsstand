@@ -10,6 +10,8 @@ import com.nebeek.newsstand.data.remote.response.SubscribesResponse;
 import com.nebeek.newsstand.data.remote.response.TokenResponse;
 import com.nebeek.newsstand.data.remote.response.TopicsResponse;
 
+import java.util.List;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -77,11 +79,13 @@ public interface ApiService {
     @POST("59a07c3d110000810464427a")
     Call<MessagesResponse> searchKeyword(@Field("keyword") String keyword);
 
-
     @GET
     Call<ResponseBody> downloadPhoto(@Url String photoURL);
 
     @POST("./")
     Call<ResponseBody> likeMessage(@Body LikeRequest request);
+
+    @POST("batch/")
+    Call<TopicsResponse> fetchTopics(@Body List<List<Object>> request);
 
 }

@@ -366,4 +366,24 @@ public class RemoteDataSource extends DataSource {
     public List<TelegramMessage> getAllBookmarked() {
         return null;
     }
+
+    @Override
+    public void fetchRelatedTopics(List<List<Object>> request, TopicsResponseCallback callback) {
+        Call<TopicsResponse> call = apiService.fetchTopics(request);
+        call.enqueue(new Callback<TopicsResponse>() {
+            @Override
+            public void onResponse(Call<TopicsResponse> call, Response<TopicsResponse> response) {
+                if (response.isSuccessful()) {
+                    callback.onResponse(response.body().getTopics());
+                } else {
+                    callback.onFailure();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TopicsResponse> call, Throwable t) {
+                callback.onFailure();
+            }
+        });
+    }
 }

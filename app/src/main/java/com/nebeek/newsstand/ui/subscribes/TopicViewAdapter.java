@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.nebeek.newsstand.R;
 import com.nebeek.newsstand.data.models.Topic;
+import com.nebeek.newsstand.data.remote.ApiService;
 import com.nebeek.newsstand.util.customview.SquareImageView;
 import com.nebeek.newsstand.util.imagehandler.GlideApp;
 import com.nebeek.newsstand.util.listener.OnItemSelectedListener;
@@ -60,21 +61,25 @@ public class TopicViewAdapter extends RecyclerView.Adapter<TopicViewAdapter.View
             );
         }
 
-        holder.followersCount.setText(
-                context.getString(
-                        R.string.followers_count,
-                        items.get(position).getSubscribes().getSize()
-                )
-        );
+        try {
+            holder.followersCount.setText(
+                    context.getString(
+                            R.string.followers_count,
+                            items.get(position).getSubscribes().getSize()
+                    )
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         try {
-            GlideApp.with(context).load(items.get(position).getImages().get(0).getImages().get(0).getData())
+            GlideApp.with(context).load(ApiService.BASE_URL + items.get(position).getImages().get(0).getImages().get(0).getData())
 //                .apply(RequestOptions.circleCropTransform())
                     .placeholder(R.drawable.loading_circle)
                     .circleCrop()
                     .into(holder.photo);
         } catch (Exception e) {
-            GlideApp.with(context).load(items.get(position).getPhotoURL())
+            GlideApp.with(context).load("")
                     .placeholder(R.drawable.loading_circle)
                     .circleCrop()
                     .into(holder.photo);

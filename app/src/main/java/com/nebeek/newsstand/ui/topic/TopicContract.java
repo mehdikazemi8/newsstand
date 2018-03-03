@@ -4,6 +4,8 @@ import com.nebeek.newsstand.controller.base.BasePresenter;
 import com.nebeek.newsstand.controller.base.BaseView;
 import com.nebeek.newsstand.data.models.Topic;
 
+import java.util.List;
+
 public class TopicContract {
 
     public interface View extends BaseView<Presenter> {
@@ -19,6 +21,8 @@ public class TopicContract {
         void changeCheckToPlus();
 
         void showAddToLibraryError();
+
+        void refreshRelatedTopics(List<Topic> topicList);
     }
 
     public interface Presenter extends BasePresenter {
@@ -30,5 +34,7 @@ public class TopicContract {
         void setTopicObject(Topic topicObject);
 
         void loadOlderMessages();
+
+        void fetchRelatedTopics(List<List<Object>> request);
     }
 }

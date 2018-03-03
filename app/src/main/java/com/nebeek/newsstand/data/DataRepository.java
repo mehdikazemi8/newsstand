@@ -224,4 +224,13 @@ public class DataRepository extends DataSource {
     public List<TelegramMessage> getAllBookmarked() {
         return appDatabase.messageModel().fetchAllBookmarked();
     }
+
+    @Override
+    public void fetchRelatedTopics(List<List<Object>> request, TopicsResponseCallback callback) {
+        if(!networkHelper.isNetworkAvailable()) {
+            callback.onNetworkFailure();
+        } else {
+            remoteDataSource.fetchRelatedTopics(request, callback);
+        }
+    }
 }

@@ -11,6 +11,7 @@ import com.nebeek.newsstand.event.NewSubscription;
 import com.nebeek.newsstand.event.RxBus;
 
 import java.util.Collections;
+import java.util.List;
 
 public class TopicPresenter extends MessageListPresenter implements TopicContract.Presenter {
 
@@ -133,5 +134,25 @@ public class TopicPresenter extends MessageListPresenter implements TopicContrac
     @Override
     public void setTopicObject(Topic topicObject) {
         this.topicObject = topicObject;
+    }
+
+    @Override
+    public void fetchRelatedTopics(List<List<Object>> request) {
+        dataRepository.fetchRelatedTopics(request, new DataSource.TopicsResponseCallback() {
+            @Override
+            public void onResponse(List<Topic> topicList) {
+                topicView.refreshRelatedTopics(topicList);
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+
+            @Override
+            public void onNetworkFailure() {
+
+            }
+        });
     }
 }
