@@ -1,6 +1,7 @@
 package com.nebeek.newsstand.data.models;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 import android.support.annotation.NonNull;
@@ -17,7 +18,8 @@ public class Topic extends BaseModel {
     @NonNull
     private String id;
     private List<AppText> names;
-    private Integer subscribes;
+    @Ignore
+    private AppSize subscribes;
     private Integer likes;
     private String deleteId;
 
@@ -42,11 +44,11 @@ public class Topic extends BaseModel {
         this.likes = likes;
     }
 
-    public Integer getSubscribes() {
+    public AppSize getSubscribes() {
         return subscribes;
     }
 
-    public void setSubscribes(Integer subscribes) {
+    public void setSubscribes(AppSize subscribes) {
         this.subscribes = subscribes;
     }
 

@@ -34,9 +34,13 @@ public class MessageListPresenter implements BaseMessageListPresenter {
             view.setSource(messageList.get(position).getSource().getNames().get(0).getFa());
         }
 
-        if (messageList.get(position).getImageSets() != null && messageList.get(position).getImageSets().size() > 0) {
+        if (messageList.get(position).getImages() != null && messageList.get(position).getImages().size() > 0) {
             view.makePhotoVisible();
-            view.setPhoto(ApiService.BASE_URL + messageList.get(position).getImageSets().get(0).getImages().get(0).getData());
+            view.setPhoto(
+                    messageList.get(position).getImages().get(0).getImages().get(0).getWidth(),
+                    messageList.get(position).getImages().get(0).getImages().get(0).getHeight(),
+                    ApiService.BASE_URL + messageList.get(position).getImages().get(0).getImages().get(0).getData()
+            );
         } else {
             view.makePhotoInvisible();
         }

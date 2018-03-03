@@ -31,20 +31,20 @@ public class ExplorePresenter extends MessageListPresenter implements ExploreCon
 
         loadOlderMessages();
 
-        countDownTimer = new CountDownTimer(300000, 8000) {
-            @Override
-            public void onTick(long l) {
-                if (!isLoading) {
-                    fetchNewMessages();
-                }
-            }
-
-            @Override
-            public void onFinish() {
-
-            }
-        };
-        countDownTimer.start();
+//        countDownTimer = new CountDownTimer(300000, 8000) {
+//            @Override
+//            public void onTick(long l) {
+//                if (!isLoading) {
+//                    fetchNewMessages();
+//                }
+//            }
+//
+//            @Override
+//            public void onFinish() {
+//
+//            }
+//        };
+//        countDownTimer.start();
     }
 
     private void fetchNewMessages() {

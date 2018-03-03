@@ -267,9 +267,12 @@ public class MessageViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
 
         @Override
-        public void setPhoto(String photoUrl) {
+        public void setPhoto(int width, int height, String photoUrl) {
+
             GlideApp.with(context)
                     .load(photoUrl)
+                    .placeholder(R.drawable.loading)
+                    .override(width, height)
                     .into(photo);
         }
 

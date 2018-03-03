@@ -20,7 +20,8 @@ public class TelegramMessage {
     @NonNull
     private String id;
 
-    private List<AppImageSet> imageSets = null;
+    private List<AppImageSet> images = null;
+    @SerializedName("text")
     private AppText fullText;
     private String dateCreated;
     private Integer likes;
@@ -56,12 +57,12 @@ public class TelegramMessage {
         this.liked = liked;
     }
 
-    public List<AppImageSet> getImageSets() {
-        return imageSets;
+    public List<AppImageSet> getImages() {
+        return images;
     }
 
-    public void setImageSets(List<AppImageSet> imageSets) {
-        this.imageSets = imageSets;
+    public void setImages(List<AppImageSet> images) {
+        this.images = images;
     }
 
     public AppText getFullText() {

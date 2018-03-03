@@ -111,7 +111,6 @@ public class MainController extends BaseController implements MainContract.View 
         return controllers[position];
     }
 
-
     @Override
     protected void onViewBound(@NonNull View view) {
         super.onViewBound(view);

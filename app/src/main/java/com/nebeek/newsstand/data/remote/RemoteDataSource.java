@@ -113,8 +113,11 @@ public class RemoteDataSource extends DataSource {
         call.enqueue(new Callback<SubscribesResponse>() {
             @Override
             public void onResponse(Call<SubscribesResponse> call, Response<SubscribesResponse> response) {
+                Log.d("TAG", "remoteDataSource getSubscriptions -- " + response.isSuccessful());
+                Log.d("TAG", "remoteDataSource getSubscriptions -- " + response.code());
 
                 if (response.isSuccessful()) {
+                    Log.d("TAG", "remoteDataSource getSubscriptions -- " + response.body().getTopics().size());
 
                     for (Topic topic : response.body().getTopics()) {
                         for (TopicData topicData : response.body().getData()) {

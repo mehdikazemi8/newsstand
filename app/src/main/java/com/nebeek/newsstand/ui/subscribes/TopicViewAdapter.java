@@ -61,7 +61,10 @@ public class TopicViewAdapter extends RecyclerView.Adapter<TopicViewAdapter.View
         }
 
         holder.followersCount.setText(
-                context.getString(R.string.followers_count, Math.abs(new Random(System.currentTimeMillis()).nextInt()) % 1000 + 750)
+                context.getString(
+                        R.string.followers_count,
+                        items.get(position).getSubscribes().getSize()
+                )
         );
 
         GlideApp.with(context).load(items.get(position).getPhotoURL())

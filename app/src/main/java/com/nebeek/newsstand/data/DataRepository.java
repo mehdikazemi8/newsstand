@@ -62,9 +62,9 @@ public class DataRepository extends DataSource {
                     appDatabase.topicModel().insertAll(topicList);
                     Log.d("TAG", "want to get keywords " + appDatabase.topicModel().count());
 
-                    for (Topic topic : topicList) {
-                        Log.d("TAG", "want to " + topic.serialize());
-                    }
+//                    for (Topic topic : topicList) {
+//                        Log.d("TAG", "want to " + topic.serialize());
+//                    }
 
                     Log.d("TAG", "want to get keywords " + appDatabase.topicModel().fetchAll().size());
 

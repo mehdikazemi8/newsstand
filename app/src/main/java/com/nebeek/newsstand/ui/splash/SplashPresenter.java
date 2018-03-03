@@ -1,6 +1,7 @@
 package com.nebeek.newsstand.ui.splash;
 
 import android.os.Handler;
+import android.util.Log;
 
 import com.nebeek.newsstand.data.DataRepository;
 import com.nebeek.newsstand.data.DataSource;
@@ -36,6 +37,7 @@ public class SplashPresenter implements SplashContract.Presenter {
                 public void onSuccess(User user) {
 
                     user.setPassword(tempUser.getPassword());
+                    Log.d("TAG", "aaabbb " + user.serialize());
                     preferenceManager.putUser(user);
 //                    preferenceManager.putTokenResponse(tokenResponse);
 //                    dataRepository.prepareDataSource();
@@ -56,7 +58,18 @@ public class SplashPresenter implements SplashContract.Presenter {
                 }
             });
         } else {
+            afterAuthentication();
+        }
+    }
+
+    /**
+     * Let user choose some trending topics, or show Main UI
+     */
+    private void afterAuthentication() {
+        if (preferenceManager.getSelectedTrendingTopics() || true) {
             splashView.showMainPageUI();
+        } else {
+            splashView.showTrendingTopicsUI();
         }
     }
 
@@ -67,7 +80,7 @@ public class SplashPresenter implements SplashContract.Presenter {
             public void onResponse(TokenResponse tokenResponse) {
                 preferenceManager.putTokenResponse(tokenResponse);
                 dataRepository.prepareDataSource();
-                splashView.showMainPageUI();
+                afterAuthentication();
             }
 
             @Override

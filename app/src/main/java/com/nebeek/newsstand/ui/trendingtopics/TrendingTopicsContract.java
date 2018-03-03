@@ -1,18 +1,12 @@
-package com.nebeek.newsstand.ui.splash;
-
+package com.nebeek.newsstand.ui.trendingtopics;
 
 import com.nebeek.newsstand.controller.base.BasePresenter;
 import com.nebeek.newsstand.controller.base.BaseView;
 
-public class SplashContract {
+public class TrendingTopicsContract {
 
     interface View extends BaseView<Presenter> {
 
-        void showMainPageUI();
-
-        void showTrendingTopicsUI();
-
-        void showNetworkFailureError();
     }
 
     interface Presenter extends BasePresenter {

@@ -22,7 +22,8 @@ public class PreferenceManager {
         USER,
         TOKEN,
         FCM_ID,
-        UNIQUE_ID
+        UNIQUE_ID,
+        HAS_SELECTED_TOPICS
     }
 
     public static PreferenceManager getInstance(Context context) {
@@ -165,5 +166,14 @@ public class PreferenceManager {
         return get(Key.USER, User.class);
     }
 
+    //*************************************************************
+
+    public void putSelectedTrendingTopics(boolean selectedTrendingTopics) {
+        put(Key.HAS_SELECTED_TOPICS, selectedTrendingTopics);
+    }
+
+    public boolean getSelectedTrendingTopics() {
+        return getBoolean(Key.HAS_SELECTED_TOPICS);
+    }
 }
 

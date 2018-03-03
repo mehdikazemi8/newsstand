@@ -6,7 +6,7 @@ public interface MessageRowView {
 
     void setSourcePhoto(String sourcePhotoUrl);
 
-    void setPhoto(String photoUrl);
+    void setPhoto(int width, int height, String photoUrl);
 
     void setSource(String source);
 

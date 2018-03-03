@@ -74,7 +74,11 @@ public class SubscribesController extends BaseBackStackController implements Sub
 
     @Override
     public void showLoading() {
-        progressBar.setVisibility(View.VISIBLE);
+        try {
+            progressBar.setVisibility(View.VISIBLE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

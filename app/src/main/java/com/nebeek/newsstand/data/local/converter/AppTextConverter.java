@@ -9,7 +9,11 @@ public class AppTextConverter {
     @TypeConverter
     public static String toString(AppText appText) {
         // todo, only takes FA
-        return appText.getFa();
+        try {
+            return appText.getFa();
+        } catch (NullPointerException e) {
+            return "";
+        }
     }
 
     @TypeConverter
