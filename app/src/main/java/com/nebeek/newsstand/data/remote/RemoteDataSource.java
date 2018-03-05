@@ -8,6 +8,7 @@ import com.nebeek.newsstand.data.DataSource;
 import com.nebeek.newsstand.data.MyAdapterFactory;
 import com.nebeek.newsstand.data.local.ChannelsManager;
 import com.nebeek.newsstand.data.local.PreferenceManager;
+import com.nebeek.newsstand.data.models.AppSize;
 import com.nebeek.newsstand.data.models.LikeRequest;
 import com.nebeek.newsstand.data.models.TelegramMessage;
 import com.nebeek.newsstand.data.models.Topic;
@@ -108,18 +109,13 @@ public class RemoteDataSource extends DataSource {
 
     @Override
     public void getSubscribes(GetSubscribesCallback callback) {
-        Log.d("TAG", "remoteDataSource getSubscriptions ");
         Call<SubscribesResponse> call = apiService.getSubscriptions();
         call.enqueue(new Callback<SubscribesResponse>() {
             @Override
             public void onResponse(Call<SubscribesResponse> call, Response<SubscribesResponse> response) {
-                Log.d("TAG", "remoteDataSource getSubscriptions -- " + response.isSuccessful());
-                Log.d("TAG", "remoteDataSource getSubscriptions -- " + response.code());
-
                 if (response.isSuccessful()) {
-                    Log.d("TAG", "remoteDataSource getSubscriptions -- " + response.body().getTopics().size());
-
                     for (Topic topic : response.body().getTopics()) {
+                        Log.d("TAG", "content size " + topic.getContents().getSize());
                         for (TopicData topicData : response.body().getData()) {
                             if (topic.getId().equals(topicData.getArgument())) {
                                 topic.setDeleteId(topicData.getId());
@@ -385,5 +381,10 @@ public class RemoteDataSource extends DataSource {
                 callback.onFailure();
             }
         });
+    }
+
+    @Override
+    public void updateTopicReadCount(AppSize readCount, String topicId) {
+
     }
 }

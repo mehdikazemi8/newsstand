@@ -6,20 +6,23 @@ import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 import android.support.annotation.NonNull;
 
+import com.nebeek.newsstand.data.local.converter.AppSizeConverter;
 import com.nebeek.newsstand.data.local.converter.ListAppTextConverter;
 
 import java.util.List;
 
 @Entity
-@TypeConverters({ListAppTextConverter.class})
+@TypeConverters({ListAppTextConverter.class, AppSizeConverter.class})
 public class Topic extends BaseModel {
 
     @PrimaryKey
     @NonNull
     private String id;
     private List<AppText> names;
-    @Ignore
-    private AppSize subscribes;
+    private AppSize subscribes = new AppSize(0);
+    private AppSize contents = new AppSize(0);
+    private AppSize readCount = new AppSize(0);
+
     private Integer likes;
     private String deleteId;
     private String text;
@@ -32,6 +35,22 @@ public class Topic extends BaseModel {
 
     @Ignore
     private List<AppImageSet> images = null;
+
+    public AppSize getReadCount() {
+        return readCount;
+    }
+
+    public void setReadCount(AppSize readCount) {
+        this.readCount = readCount;
+    }
+
+    public AppSize getContents() {
+        return contents;
+    }
+
+    public void setContents(AppSize contents) {
+        this.contents = contents;
+    }
 
     public List<AppImageSet> getImages() {
         return images;

@@ -71,6 +71,8 @@ public class SubscribesPresenter implements SubscribesContract.Presenter {
 
     @Override
     public void onKeywordSelected(Topic topic) {
+        dataRepository.updateTopicReadCount(topic.getContents(), topic.getId());
+
         topic.setInLibrary(true);
         libraryView.showSearchUI(topic);
     }

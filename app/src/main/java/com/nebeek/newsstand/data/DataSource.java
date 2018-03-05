@@ -1,5 +1,6 @@
 package com.nebeek.newsstand.data;
 
+import com.nebeek.newsstand.data.models.AppSize;
 import com.nebeek.newsstand.data.models.LikeRequest;
 import com.nebeek.newsstand.data.models.TelegramMessage;
 import com.nebeek.newsstand.data.models.Topic;
@@ -144,4 +145,6 @@ public abstract class DataSource {
     public abstract List<TelegramMessage> getAllBookmarked();
 
     public abstract void fetchRelatedTopics(List<List<Object>> request, TopicsResponseCallback callback);
+
+    public abstract void updateTopicReadCount(AppSize readCount, String topicId);
 }

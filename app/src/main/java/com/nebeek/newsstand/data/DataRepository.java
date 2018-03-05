@@ -1,8 +1,7 @@
 package com.nebeek.newsstand.data;
 
-import android.util.Log;
-
 import com.nebeek.newsstand.data.local.AppDatabase;
+import com.nebeek.newsstand.data.models.AppSize;
 import com.nebeek.newsstand.data.models.LikeRequest;
 import com.nebeek.newsstand.data.models.TelegramMessage;
 import com.nebeek.newsstand.data.models.Topic;
@@ -11,6 +10,8 @@ import com.nebeek.newsstand.data.remote.response.MessagesResponse;
 import com.nebeek.newsstand.util.NetworkHelper;
 
 import java.util.List;
+
+import static com.nebeek.newsstand.util.AppUtils.updateTopics;
 
 public class DataRepository extends DataSource {
     private DataSource remoteDataSource;
@@ -54,19 +55,15 @@ public class DataRepository extends DataSource {
         if (!networkHelper.isNetworkAvailable()) {
             callback.onNetworkFailure();
         } else {
-            Log.d("TAG", "want to get keywords");
             remoteDataSource.getSubscribes(new GetSubscribesCallback() {
                 @Override
                 public void onResponse(List<Topic> topicList) {
-                    Log.d("TAG", "want to get keywords " + appDatabase.topicModel().count());
+
+                    List<Topic> cachedTopics = appDatabase.topicModel().fetchAll();
+
+                    updateTopics(topicList, cachedTopics);
+
                     appDatabase.topicModel().insertAll(topicList);
-                    Log.d("TAG", "want to get keywords " + appDatabase.topicModel().count());
-
-//                    for (Topic topic : topicList) {
-//                        Log.d("TAG", "want to " + topic.serialize());
-//                    }
-
-                    Log.d("TAG", "want to get keywords " + appDatabase.topicModel().fetchAll().size());
 
                     callback.onResponse(topicList);
                 }
@@ -227,10 +224,15 @@ public class DataRepository extends DataSource {
 
     @Override
     public void fetchRelatedTopics(List<List<Object>> request, TopicsResponseCallback callback) {
-        if(!networkHelper.isNetworkAvailable()) {
+        if (!networkHelper.isNetworkAvailable()) {
             callback.onNetworkFailure();
         } else {
             remoteDataSource.fetchRelatedTopics(request, callback);
         }
+    }
+
+    @Override
+    public void updateTopicReadCount(AppSize readCount, String topicId) {
+        appDatabase.topicModel().updateReadCount(readCount.getSize(), topicId);
     }
 }

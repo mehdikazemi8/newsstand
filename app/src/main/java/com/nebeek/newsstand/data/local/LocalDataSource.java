@@ -1,6 +1,7 @@
 package com.nebeek.newsstand.data.local;
 
 import com.nebeek.newsstand.data.DataSource;
+import com.nebeek.newsstand.data.models.AppSize;
 import com.nebeek.newsstand.data.models.LikeRequest;
 import com.nebeek.newsstand.data.models.TelegramMessage;
 import com.nebeek.newsstand.data.models.User;
@@ -85,6 +86,11 @@ public class LocalDataSource extends DataSource {
 
     @Override
     public void fetchRelatedTopics(List<List<Object>> request, TopicsResponseCallback callback) {
+
+    }
+
+    @Override
+    public void updateTopicReadCount(AppSize readCount, String topicId) {
 
     }
 }

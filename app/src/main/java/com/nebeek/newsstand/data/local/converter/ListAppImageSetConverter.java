@@ -23,7 +23,7 @@ public class ListAppImageSetConverter {
 
     @TypeConverter
     public static String toString(List<AppImageSet> list) {
-        if (list == null || list.size() == 0) {
+        if (list == null || list.size() == 0 || list.get(0).getImages() == null) {
             return null;
         }
 

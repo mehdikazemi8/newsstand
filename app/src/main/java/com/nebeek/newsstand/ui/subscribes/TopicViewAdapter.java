@@ -16,7 +16,6 @@ import com.nebeek.newsstand.util.imagehandler.GlideApp;
 import com.nebeek.newsstand.util.listener.OnItemSelectedListener;
 
 import java.util.List;
-import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,9 +45,7 @@ public class TopicViewAdapter extends RecyclerView.Adapter<TopicViewAdapter.View
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         try {
-            Log.d("TAG", "hhhh "
-                    + (items.get(position).getNames().get(0).getFa()));
-
+            Log.d("TAG", "hhhh " + (items.get(position).getNames().get(0).getFa()));
             holder.content.setText(items.get(position).getNames().get(0).getFa());
         } catch (Exception e) {
             Log.d("TAG", "hhhh bbbbb");
@@ -56,9 +53,7 @@ public class TopicViewAdapter extends RecyclerView.Adapter<TopicViewAdapter.View
         }
 
         if (items.get(position).getPhotoURL() == null) {
-            items.get(position).setPhotoURL(
-                    generatePhotoUrl(position)
-            );
+            items.get(position).setPhotoURL(generatePhotoUrl(position));
         }
 
         try {
@@ -85,9 +80,13 @@ public class TopicViewAdapter extends RecyclerView.Adapter<TopicViewAdapter.View
                     .into(holder.photo);
         }
 
-        holder.unreadCount.setText(String.valueOf(
-                Math.abs(new Random().nextInt() % 10) + 3
-        ));
+        int unreadCount = items.get(position).getContents().getSize() - items.get(position).getReadCount().getSize();
+        if (unreadCount == 0) {
+            holder.unreadCount.setVisibility(View.INVISIBLE);
+        } else {
+            holder.unreadCount.setVisibility(View.VISIBLE);
+            holder.unreadCount.setText(String.valueOf(unreadCount));
+        }
     }
 
     private String generatePhotoUrl(int position) {
@@ -119,6 +118,10 @@ public class TopicViewAdapter extends RecyclerView.Adapter<TopicViewAdapter.View
 
         @OnClick(R.id.root_view)
         public void rootViewOnClick() {
+            items.get(getAdapterPosition()).setReadCount(
+                    items.get(getAdapterPosition()).getContents()
+            );
+            notifyItemChanged(getAdapterPosition());
             onItemSelectedListener.onSelect(items.get(getAdapterPosition()));
         }
 
