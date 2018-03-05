@@ -1,4 +1,4 @@
-package com.nebeek.newsstand.util.customview;
+package com.nebeek.newsstand.customview;
 
 import android.content.Context;
 import android.support.v7.widget.AppCompatImageView;

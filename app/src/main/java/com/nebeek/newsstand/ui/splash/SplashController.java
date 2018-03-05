@@ -1,6 +1,6 @@
 package com.nebeek.newsstand.ui.splash;
 
-import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -13,12 +13,13 @@ import com.bluelinelabs.conductor.RouterTransaction;
 import com.bluelinelabs.conductor.changehandler.FadeChangeHandler;
 import com.nebeek.newsstand.R;
 import com.nebeek.newsstand.controller.base.BaseController;
+import com.nebeek.newsstand.customview.ConfirmDialog;
 import com.nebeek.newsstand.data.DataRepository;
 import com.nebeek.newsstand.data.local.PreferenceManager;
 import com.nebeek.newsstand.ui.main.MainController;
 import com.nebeek.newsstand.ui.trendingtopics.TrendingTopicsController;
-import com.nebeek.newsstand.util.NewUpdateChecker;
 import com.nebeek.newsstand.util.GlobalToast;
+import com.nebeek.newsstand.util.NewUpdateChecker;
 
 import butterknife.BindView;
 
@@ -72,33 +73,48 @@ public class SplashController extends BaseController implements SplashContract.V
 
     @Override
     public void onUpdateNeeded(String updateUrl) {
-        AlertDialog dialog = new AlertDialog.Builder(getActivity())
-                .setTitle("آپدیت جدید اومده")
-                .setMessage("برای ادامه باید آپدیت کنی وگرنه اپلیکیشن کار نمیکنه :(")
-                .setPositiveButton("اوکی", (dialogInterface, i) -> {
-                    redirectStore(updateUrl);
-                }).setNegativeButton("نمی خوام", (dialogInterface, i) -> {
-                    getActivity().finish();
-                }).create();
+
+        ConfirmDialog dialog = new ConfirmDialog(
+                getActivity(),
+                "آپدیت جدید اومده برای ادامه باید آپدیت کنی وگرنه اپلیکیشن کار نمیکنه :(",
+                "اوکی",
+                "نمی خوام",
+                view -> redirectStore(updateUrl),
+                view -> getActivity().finish()
+        );
+        dialog.setCancelable(false);
         dialog.show();
     }
 
     @Override
     public void onNewUpdateAvailable(String updateUrl) {
-        AlertDialog dialog = new AlertDialog.Builder(getActivity())
-                .setTitle("آپدیت جدید اومده")
-                .setMessage("نظرت چیه بریم برای آپدیت؟")
-                .setPositiveButton("اوکی", (dialogInterface, i) -> {
-                    redirectStore(updateUrl);
-                }).setNegativeButton("بی خیال بذا بعدا", (dialogInterface, i) -> {
-                    presenter.start();
-                }).create();
+        ConfirmDialog dialog = new ConfirmDialog(
+                getActivity(),
+                "آپدیت جدید اومده نظرت چیه بریم برای آپدیت؟",
+                "اوکی",
+                "بی خیال بذا بعدا",
+                view -> redirectStore(updateUrl),
+                view -> presenter.start()
+        );
+        dialog.setCancelable(false);
         dialog.show();
     }
 
     private void redirectStore(String updateUrl) {
-        final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(updateUrl));
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
+        try {
+            final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(updateUrl));
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            getActivity().finish();
+        } catch (ActivityNotFoundException exception) {
+            final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(updateUrl));
+            startActivity(intent);
+            getActivity().finish();
+        }
+    }
+
+    @Override
+    public void noUpdateStartYourFlow() {
+        presenter.start();
     }
 }

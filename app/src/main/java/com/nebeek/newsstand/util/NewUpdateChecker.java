@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 
@@ -11,6 +12,7 @@ public class NewUpdateChecker {
 
     public static final String MINIMUM_SUPPORT_VERSION = "minimum_support_version";
     public static final String CURRENT_VERSION = "current_version";
+    public static final String UPDATE_URL = "update_url";
 
     private OnUpdateNeededListener onUpdateNeededListener;
     private Context context;
@@ -19,6 +21,8 @@ public class NewUpdateChecker {
         void onUpdateNeeded(String updateUrl);
 
         void onNewUpdateAvailable(String updateUrl);
+
+        void noUpdateStartYourFlow();
     }
 
     public static Builder with(@NonNull Context context) {
@@ -35,12 +39,19 @@ public class NewUpdateChecker {
         final FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.getInstance();
 
         try {
+            Log.d("TAG", "remote config " + remoteConfig.getLong(MINIMUM_SUPPORT_VERSION));
+            Log.d("TAG", "remote config " + remoteConfig.getLong(CURRENT_VERSION));
+            Log.d("TAG", "remote config " + remoteConfig.getString(UPDATE_URL));
+
             PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
             int thisVersion = packageInfo.versionCode;
             if (thisVersion < remoteConfig.getLong(MINIMUM_SUPPORT_VERSION)) {
-                onUpdateNeededListener.onUpdateNeeded("https://cafebazaar.ir/app/com.bama.consumer/?l=fa");
+                onUpdateNeededListener.onUpdateNeeded(remoteConfig.getString(UPDATE_URL));
+                // todo remove
             } else if (thisVersion < remoteConfig.getLong(CURRENT_VERSION)) {
-                onUpdateNeededListener.onNewUpdateAvailable("https://cafebazaar.ir/app/com.bama.consumer/?l=fa");
+                onUpdateNeededListener.onNewUpdateAvailable(remoteConfig.getString(UPDATE_URL));
+            } else {
+                onUpdateNeededListener.noUpdateStartYourFlow();
             }
         } catch (PackageManager.NameNotFoundException e) {
 

@@ -19,8 +19,8 @@ import com.nebeek.newsstand.data.local.LocalDataSource;
 import com.nebeek.newsstand.data.local.PreferenceManager;
 import com.nebeek.newsstand.data.remote.RemoteDataSource;
 import com.nebeek.newsstand.ui.splash.SplashController;
-import com.nebeek.newsstand.util.NewUpdateChecker;
 import com.nebeek.newsstand.util.NetworkHelper;
+import com.nebeek.newsstand.util.NewUpdateChecker;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -60,19 +60,18 @@ public class MainActivity extends AppCompatActivity {
 //        for (TelegramMessage message : all) {
 //            Log.d("TAG, ", "likedCount " + message.getId() + " " + message.getLiked() + " " + (message.getLiked() == null));
 //        }
-
     }
 
     private void callFirebaseConfig() {
         final FirebaseRemoteConfig firebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
 
-        // set in-app defaults
-        Map<String, Object> remoteConfigDefaults = new HashMap();
+        Map<String, Object> remoteConfigDefaults = new HashMap<>();
         remoteConfigDefaults.put(NewUpdateChecker.CURRENT_VERSION, 1);
         remoteConfigDefaults.put(NewUpdateChecker.MINIMUM_SUPPORT_VERSION, 1);
-
         firebaseRemoteConfig.setDefaults(remoteConfigDefaults);
-        firebaseRemoteConfig.fetch(150)
+
+        // in seconds, default is 12 hours
+        firebaseRemoteConfig.fetch(3600)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {

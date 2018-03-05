@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.nebeek.newsstand.R;
 import com.nebeek.newsstand.data.models.Topic;
 import com.nebeek.newsstand.data.remote.ApiService;
-import com.nebeek.newsstand.util.customview.SquareImageView;
+import com.nebeek.newsstand.customview.SquareImageView;
 import com.nebeek.newsstand.util.imagehandler.GlideApp;
 import com.nebeek.newsstand.util.listener.OnItemSelectedListener;
 
