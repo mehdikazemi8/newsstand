@@ -12,6 +12,8 @@ public class BookmarkContract {
 
         void refreshMessagesList();
 
+        void hideEmptyListMessage();
+
         void showEmptyListMessage();
     }
 

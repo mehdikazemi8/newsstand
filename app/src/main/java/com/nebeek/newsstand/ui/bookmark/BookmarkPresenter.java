@@ -25,6 +25,7 @@ public class BookmarkPresenter extends MessageListPresenter implements BookmarkC
         if (messageList.size() == 0) {
             bookmarkView.showEmptyListMessage();
         } else {
+            bookmarkView.hideEmptyListMessage();
             bookmarkView.refreshMessagesList();
         }
 

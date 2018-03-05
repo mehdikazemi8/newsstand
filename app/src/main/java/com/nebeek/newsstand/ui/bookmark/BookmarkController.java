@@ -81,4 +81,9 @@ public class BookmarkController extends BaseBackStackController implements Bookm
     public void showEmptyListMessage() {
         emptyListMessage.setVisibility(View.VISIBLE);
     }
+
+    @Override
+    public void hideEmptyListMessage() {
+        emptyListMessage.setVisibility(View.GONE);
+    }
 }
