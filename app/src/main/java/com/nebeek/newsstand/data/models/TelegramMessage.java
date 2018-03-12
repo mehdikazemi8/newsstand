@@ -1,6 +1,7 @@
 package com.nebeek.newsstand.data.models;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 import android.support.annotation.NonNull;
@@ -20,6 +21,10 @@ public class TelegramMessage {
     @NonNull
     private String id;
 
+    @Ignore
+    private Attachment attachment = null;
+    private String link;
+
     private List<AppImageSet> images = null;
     @SerializedName("text")
     private AppText fullText;
@@ -32,6 +37,22 @@ public class TelegramMessage {
     private Boolean liked;
     private Boolean bookmarked;
     private Long bookmarkTime;
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
+    public Attachment getAttachment() {
+        return attachment;
+    }
+
+    public void setAttachment(Attachment attachment) {
+        this.attachment = attachment;
+    }
 
     public Long getBookmarkTime() {
         return bookmarkTime;

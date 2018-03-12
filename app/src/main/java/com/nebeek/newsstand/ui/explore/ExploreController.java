@@ -1,19 +1,19 @@
 package com.nebeek.newsstand.ui.explore;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.nebeek.newsstand.R;
 import com.nebeek.newsstand.controller.base.BaseBackStackController;
 import com.nebeek.newsstand.controller.base.BaseMessageListPresenter;
 import com.nebeek.newsstand.data.DataRepository;
 import com.nebeek.newsstand.ui.topic.MessageViewAdapter;
-import com.nebeek.newsstand.util.GlobalToast;
 
 import butterknife.BindView;
 
@@ -80,6 +80,18 @@ public class ExploreController extends BaseBackStackController implements Explor
             messageViewAdapter.notifyItemRangeInserted(messages.getAdapter().getItemCount(), messagesCount);
         } else {
             messageViewAdapter.notifyItemRangeInserted(0, messagesCount);
+        }
+    }
+
+    @Override
+    public void openTelegramWithSpecificUrl(String url) {
+        try {
+            final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            intent.setPackage("org.telegram.messenger");
+            startActivity(intent);
+        } catch (Exception e) {
+            final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            startActivity(intent);
         }
     }
 }

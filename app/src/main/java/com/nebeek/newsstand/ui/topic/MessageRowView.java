@@ -25,4 +25,8 @@ public interface MessageRowView {
     void showBookmark();
 
     void hideBookmark();
+
+    void showPlayButton();
+
+    void hidePlayButton();
 }

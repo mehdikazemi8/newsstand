@@ -1,14 +1,14 @@
 package com.nebeek.newsstand.ui.topic;
 
+import com.nebeek.newsstand.controller.BaseMessageView;
 import com.nebeek.newsstand.controller.base.BasePresenter;
-import com.nebeek.newsstand.controller.base.BaseView;
 import com.nebeek.newsstand.data.models.Topic;
 
 import java.util.List;
 
 public class TopicContract {
 
-    public interface View extends BaseView<Presenter> {
+    public interface View extends BaseMessageView {
 
         void showLoading();
 

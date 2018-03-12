@@ -312,6 +312,11 @@ public class RemoteDataSource extends DataSource {
                     for (TelegramMessage telegramMessage : response.body().getResults()) {
                         telegramMessage.setSource(ChannelsManager.getInstance().getChannel(telegramMessage.getChannelId()));
                     }
+
+                    for(TelegramMessage message : response.body().getResults()) {
+
+                    }
+
                     callback.onResponse(response.body());
                 } else {
                     callback.onFailure();

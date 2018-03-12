@@ -1,11 +1,12 @@
 package com.nebeek.newsstand.ui.bookmark;
 
+import com.nebeek.newsstand.controller.BaseMessageView;
 import com.nebeek.newsstand.controller.base.BasePresenter;
-import com.nebeek.newsstand.controller.base.BaseView;
 
 public class BookmarkContract {
 
-    public interface View extends BaseView<Presenter> {
+    public interface View extends BaseMessageView {
+
         void showLoading();
 
         void hideLoading();

@@ -1,5 +1,7 @@
 package com.nebeek.newsstand.ui.topic;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -196,5 +198,17 @@ public class TopicController extends BaseController implements TopicContract.Vie
     public void refreshRelatedTopics(List<Topic> topicList) {
         relatedTopics = topicList;
         continueAfterRelatedTopics();
+    }
+
+    @Override
+    public void openTelegramWithSpecificUrl(String url) {
+        try {
+            final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            intent.setPackage("org.telegram.messenger");
+            startActivity(intent);
+        } catch (Exception e) {
+            final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            startActivity(intent);
+        }
     }
 }

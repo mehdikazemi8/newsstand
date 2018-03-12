@@ -6,6 +6,7 @@ import com.nebeek.newsstand.data.models.LikeRequest;
 import com.nebeek.newsstand.data.models.TelegramMessage;
 import com.nebeek.newsstand.data.remote.ApiService;
 import com.nebeek.newsstand.event.NewBookmarkAdded;
+import com.nebeek.newsstand.event.PlayButtonClicked;
 import com.nebeek.newsstand.event.RxBus;
 import com.nebeek.newsstand.ui.topic.MessageRowView;
 import com.nebeek.newsstand.util.DateManager;
@@ -29,6 +30,13 @@ public class MessageListPresenter implements BaseMessageListPresenter {
 
     @Override
     public void onBindRowViewAtPosition(int position, MessageRowView view) {
+
+        if (messageList.get(position).getAttachment() == null) {
+            view.hidePlayButton();
+        } else {
+            view.showPlayButton();
+        }
+
         if (messageList.get(position).getSource() != null) {
             view.setSourcePhoto(ApiService.BASE_URL + messageList.get(position).getSource().getImages().get(0).getImages().get(0).getData());
             view.setSource(messageList.get(position).getSource().getNames().get(0).getFa());
@@ -105,5 +113,10 @@ public class MessageListPresenter implements BaseMessageListPresenter {
     public void removeBookmark(int position) {
         messageList.get(position).setBookmarked(false);
         dataRepository.removeBookmark(messageList.get(position).getId());
+    }
+
+    @Override
+    public void playButtonOnClick(int position) {
+        RxBus.getInstance().send(new PlayButtonClicked(messageList.get(position).getLink()));
     }
 }

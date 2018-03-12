@@ -47,7 +47,6 @@ public class NewUpdateChecker {
             int thisVersion = packageInfo.versionCode;
             if (thisVersion < remoteConfig.getLong(MINIMUM_SUPPORT_VERSION)) {
                 onUpdateNeededListener.onUpdateNeeded(remoteConfig.getString(UPDATE_URL));
-                // todo remove
             } else if (thisVersion < remoteConfig.getLong(CURRENT_VERSION)) {
                 onUpdateNeededListener.onNewUpdateAvailable(remoteConfig.getString(UPDATE_URL));
             } else {

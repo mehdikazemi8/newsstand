@@ -13,4 +13,6 @@ public interface BaseMessageListPresenter {
     void addBookmark(int position);
 
     void removeBookmark(int position);
+
+    void playButtonOnClick(int position);
 }

@@ -198,7 +198,18 @@ public class MessageViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         TextView bookmarkButton;
         @BindView(R.id.like_button)
         TextView likeButton;
+        @BindView(R.id.play_button)
+        ImageView playButton;
 
+        @Override
+        public void showPlayButton() {
+            playButton.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        public void hidePlayButton() {
+            playButton.setVisibility(View.INVISIBLE);
+        }
 
         @Override
         public void showBookmark() {
@@ -208,6 +219,11 @@ public class MessageViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         @Override
         public void hideBookmark() {
             bookmarkButton.setText(context.getString(R.string.icon_bookmark_empty));
+        }
+
+        @OnClick(R.id.play_button)
+        public void playButtonOnClick() {
+            messageListPresenter.playButtonOnClick(getAdapterPosition());
         }
 
         @OnClick(R.id.bookmark_button)
