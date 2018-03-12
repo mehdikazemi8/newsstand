@@ -29,7 +29,6 @@ public class TelegramMessage {
     @SerializedName("text")
     private AppText fullText;
     private String dateCreated;
-    private Integer likes;
     private String type;
     @SerializedName("channel")
     private String channelId;
@@ -37,6 +36,17 @@ public class TelegramMessage {
     private Boolean liked;
     private Boolean bookmarked;
     private Long bookmarkTime;
+
+    @Ignore
+    private AppSize likes = null;
+
+    public AppSize getLikes() {
+        return likes;
+    }
+
+    public void setLikes(AppSize likes) {
+        this.likes = likes;
+    }
 
     public String getLink() {
         return link;
@@ -100,14 +110,6 @@ public class TelegramMessage {
 
     public void setDateCreated(String dateCreated) {
         this.dateCreated = dateCreated;
-    }
-
-    public Integer getLikes() {
-        return likes;
-    }
-
-    public void setLikes(Integer likes) {
-        this.likes = likes;
     }
 
     public String getType() {

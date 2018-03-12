@@ -2,6 +2,7 @@ package com.nebeek.newsstand.controller.base;
 
 import com.nebeek.newsstand.data.DataRepository;
 import com.nebeek.newsstand.data.DataSource;
+import com.nebeek.newsstand.data.models.AppSize;
 import com.nebeek.newsstand.data.models.LikeRequest;
 import com.nebeek.newsstand.data.models.TelegramMessage;
 import com.nebeek.newsstand.data.remote.ApiService;
@@ -31,10 +32,23 @@ public class MessageListPresenter implements BaseMessageListPresenter {
     @Override
     public void onBindRowViewAtPosition(int position, MessageRowView view) {
 
+        if (dataRepository.isMessageLiked(messageList.get(position).getId())) {
+            view.showLikeIcon();
+        } else {
+            view.hideLikeIcon();
+        }
+
         if (messageList.get(position).getAttachment() == null) {
             view.hidePlayButton();
         } else {
             view.showPlayButton();
+        }
+
+        if (messageList.get(position).getLikes() == null) {
+            view.hideLikeCount();
+        } else {
+            view.setLikeCount(messageList.get(position).getLikes().getSize());
+            view.showLikeCount();
         }
 
         if (messageList.get(position).getSource() != null) {
@@ -80,6 +94,15 @@ public class MessageListPresenter implements BaseMessageListPresenter {
     @Override
     public void likeMessage(int position) {
         messageList.get(position).setLiked(true);
+
+        if (messageList.get(position).getLikes() == null) {
+            messageList.get(position).setLikes(new AppSize(1));
+        } else {
+            messageList.get(position).getLikes().setSize(
+                    messageList.get(position).getLikes().getSize() + 1
+            );
+        }
+
         dataRepository.likeMessage(new LikeRequest(messageList.get(position).getId()),
                 new DataSource.LikeMessageCallback() {
                     @Override

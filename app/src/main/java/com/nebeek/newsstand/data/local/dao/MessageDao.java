@@ -27,4 +27,7 @@ public interface MessageDao {
 
     @Insert(onConflict = IGNORE)
     void insertAll(List<TelegramMessage> messages);
+
+    @Query("SELECT liked from TelegramMessage WHERE id=:id")
+    boolean isMessageLiked(String id);
 }

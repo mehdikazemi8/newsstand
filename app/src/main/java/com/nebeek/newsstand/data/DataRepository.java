@@ -1,5 +1,7 @@
 package com.nebeek.newsstand.data;
 
+import android.util.Log;
+
 import com.nebeek.newsstand.data.local.AppDatabase;
 import com.nebeek.newsstand.data.models.AppSize;
 import com.nebeek.newsstand.data.models.LikeRequest;
@@ -184,13 +186,15 @@ public class DataRepository extends DataSource {
 
     @Override
     public void likeMessage(LikeRequest request, LikeMessageCallback callback) {
+        Log.d("tag", "like id " + request.getArgument());
+        appDatabase.messageModel().likeMessage(request.getArgument(), true);
+
         if (!networkHelper.isNetworkAvailable()) {
             callback.onNetworkFailure();
         } else {
             remoteDataSource.likeMessage(request, new LikeMessageCallback() {
                 @Override
                 public void onSuccess() {
-                    appDatabase.messageModel().likeMessage(request.getArgument(), true);
                     callback.onSuccess();
                 }
 
@@ -234,5 +238,12 @@ public class DataRepository extends DataSource {
     @Override
     public void updateTopicReadCount(AppSize readCount, String topicId) {
         appDatabase.topicModel().updateReadCount(readCount.getSize(), topicId);
+    }
+
+    @Override
+    public boolean isMessageLiked(String id) {
+//        Log.d("tag", "is message like id " + id + " " + appDatabase.messageModel().isMessageLiked(id));
+
+        return appDatabase.messageModel().isMessageLiked(id);
     }
 }

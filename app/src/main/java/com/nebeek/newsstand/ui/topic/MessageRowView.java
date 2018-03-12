@@ -29,4 +29,10 @@ public interface MessageRowView {
     void showPlayButton();
 
     void hidePlayButton();
+
+    void showLikeCount();
+
+    void hideLikeCount();
+
+    void setLikeCount(Integer likeCount);
 }

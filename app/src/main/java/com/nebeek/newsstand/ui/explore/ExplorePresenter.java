@@ -1,7 +1,6 @@
 package com.nebeek.newsstand.ui.explore;
 
 import android.os.CountDownTimer;
-import android.util.Log;
 
 import com.nebeek.newsstand.controller.base.MessageListPresenter;
 import com.nebeek.newsstand.data.DataRepository;
@@ -65,7 +64,7 @@ public class ExplorePresenter extends MessageListPresenter implements ExploreCon
 
                     // todo remove
                     if (!found/* || newList.size() == 0*/) {
-                        Log.d("TAG", "hhhh " + newList.size());
+//                        Log.d("TAG", "hhhh " + newList.size());
                         newList.add(message);
                     }
                 }

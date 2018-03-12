@@ -200,6 +200,24 @@ public class MessageViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         TextView likeButton;
         @BindView(R.id.play_button)
         ImageView playButton;
+        @BindView(R.id.like_count)
+        TextView likeCount;
+
+        @Override
+        public void setLikeCount(Integer likeCountInt) {
+            likeCount.setText(String.format("+%d", likeCountInt));
+        }
+
+        @Override
+        public void showLikeCount() {
+            likeCount.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        public void hideLikeCount() {
+            likeCount.setVisibility(View.INVISIBLE);
+            likeCount.setText("");
+        }
 
         @Override
         public void showPlayButton() {
@@ -239,9 +257,20 @@ public class MessageViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         @OnClick(R.id.like_button)
         public void likeOnClick() {
-            // todo
+
+
             messageListPresenter.likeMessage(getAdapterPosition());
             likeButton.setText(context.getString(R.string.thumb_up_full));
+
+            // todo
+            showLikeCount();
+            String likeStr = likeCount.getText().toString();
+            if (likeStr == null || likeStr.isEmpty()) {
+                likeStr = "+1";
+            } else {
+                likeStr = "+" + (Integer.parseInt(likeStr.substring(1)) + 1);
+            }
+            likeCount.setText(likeStr);
         }
 
         public ViewHolder(View itemView) {

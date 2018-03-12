@@ -93,4 +93,9 @@ public class LocalDataSource extends DataSource {
     public void updateTopicReadCount(AppSize readCount, String topicId) {
 
     }
+
+    @Override
+    public boolean isMessageLiked(String id) {
+        return false;
+    }
 }

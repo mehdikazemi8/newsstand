@@ -120,16 +120,29 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/like_count"
+                style="@style/icon_style"
+                android:text=""
+                android:textSize="@dimen/text_size_normal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
                 android:id="@+id/like_button"
                 style="@style/icon_style"
                 android:text="@string/thumb_up_empty"
-                app:layout_constraintRight_toRightOf="parent" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/like_count"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/bookmark_button"
                 style="@style/icon_style"
                 android:text="@string/icon_bookmark_empty"
-                app:layout_constraintRight_toLeftOf="@id/like_button" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/like_button"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </android.support.constraint.ConstraintLayout>
 
