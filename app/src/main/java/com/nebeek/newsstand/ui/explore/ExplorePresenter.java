@@ -1,6 +1,7 @@
 package com.nebeek.newsstand.ui.explore;
 
 import android.os.CountDownTimer;
+import android.util.Log;
 
 import com.nebeek.newsstand.controller.base.MessageListPresenter;
 import com.nebeek.newsstand.data.DataRepository;
@@ -100,6 +101,11 @@ public class ExplorePresenter extends MessageListPresenter implements ExploreCon
         dataRepository.getMessages(offset, null, new DataSource.GetMessagesCallback() {
             @Override
             public void onResponse(MessagesResponse response) {
+
+                for(TelegramMessage m : response.getResults()) {
+                    Log.d("Tag", "hhh " + m.getLink());
+                }
+
                 isLoading = false;
                 Collections.reverse(response.getResults());
                 messageList.addAll(0, response.getResults());

@@ -1,7 +1,6 @@
 package com.nebeek.newsstand.ui.main;
 
 import android.os.Handler;
-import android.os.Parcel;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -11,14 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.arlib.floatingsearchview.FloatingSearchView;
-import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.bluelinelabs.conductor.Router;
 import com.bluelinelabs.conductor.RouterTransaction;
 import com.bluelinelabs.conductor.changehandler.FadeChangeHandler;
 import com.bluelinelabs.conductor.support.RouterPagerAdapter;
-import com.lapism.searchview.SearchAdapter;
-import com.lapism.searchview.SearchItem;
+import com.lapism.searchview.Search;
+import com.lapism.searchview.widget.SearchAdapter;
+import com.lapism.searchview.widget.SearchItem;
+import com.lapism.searchview.widget.SearchView;
 import com.nebeek.newsstand.R;
 import com.nebeek.newsstand.controller.base.BaseBackStackController;
 import com.nebeek.newsstand.controller.base.BaseController;
@@ -50,8 +49,6 @@ public class MainController extends BaseController implements MainContract.View 
     TabLayout tabLayout;
     @BindView(R.id.view_pager)
     ViewPager viewPager;
-    @BindView(R.id.search_box)
-    FloatingSearchView searchBox;
 
     public static MainController newInstance() {
         return new MainController();
@@ -59,7 +56,7 @@ public class MainController extends BaseController implements MainContract.View 
 
     private SearchAdapter searchAdapter;
     private List<SearchItem> suggestionsList;
-    private com.lapism.searchview.SearchView mSearchView;
+    private SearchView mSearchView;
     private String lastQuery = null;
 
     private MainContract.Presenter presenter;
@@ -122,43 +119,11 @@ public class MainController extends BaseController implements MainContract.View 
         viewPager.setCurrentItem(NUMBER_OF_TABS - 1);
         viewPager.setOffscreenPageLimit(NUMBER_OF_TABS - 1);
 
-        searchBox.setOnSearchListener(new FloatingSearchView.OnSearchListener() {
-            @Override
-            public void onSuggestionClicked(SearchSuggestion searchSuggestion) {
-                presenter.onSuggestionClicked(searchSuggestion.getBody());
-            }
-
-            @Override
-            public void onSearchAction(String currentQuery) {
-
-            }
-        });
-
-        searchBox.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
-            @Override
-            public void onSearchTextChanged(String oldQuery, String newQuery) {
-                presenter.getTopics(newQuery);
-            }
-        });
-
-        searchBox.setOnMenuClickListener(new FloatingSearchView.OnLeftMenuClickListener() {
-            @Override
-            public void onMenuOpened() {
-                Log.d("TAG", "abcd onMenuOpened");
-            }
-
-            @Override
-            public void onMenuClosed() {
-                Log.d("TAG", "abcd onMenuClosed");
-            }
-        });
-
         setActive(true);
         presenter = new MainPresenter(PreferenceManager.getInstance(getActivity()), DataRepository.getInstance(), this);
-//        searchView.setOnQueryTextListener(presenter);
         presenter.start();
 
-        test(view);
+        setupSearchView(view);
 
         setUpTabLayout();
     }
@@ -193,93 +158,49 @@ public class MainController extends BaseController implements MainContract.View 
         });
     }
 
-    private void test(View view) {
+    private void setupSearchView(View view) {
         mSearchView = view.findViewById(R.id.searchView); // from API 26
         if (mSearchView != null) {
 
-            mSearchView.setVersionMargins(com.lapism.searchview.SearchView.VersionMargins.TOOLBAR_SMALL);
+            mSearchView.setVersionMargins(Search.VersionMargins.TOOLBAR);
             mSearchView.setHint("جست و جو");
             mSearchView.setOnQueryTextListener(
-                    new com.lapism.searchview.SearchView.OnQueryTextListener() {
+                    new Search.OnQueryTextListener() {
                         @Override
-                        public boolean onQueryTextChange(String newText) {
-
-                            if (newText.equals(lastQuery)) {
-                                return false;
-                            }
-                            lastQuery = newText;
-
-                            Log.d("TAG", "abcd " + newText);
-                            presenter.getTopics(newText);
-
-                            //todo remove
-//                            fakeAddSuggestions(newText);
-
-                            return true;
+                        public void onQueryTextChange(CharSequence newText) {
+//                            if (newText.equals(lastQuery)) {
+//                                return false;
+//                            }
+                            lastQuery = newText.toString();
+                            presenter.getTopics(newText.toString());
                         }
 
                         @Override
-                        public boolean onQueryTextSubmit(String query) {
-
+                        public boolean onQueryTextSubmit(CharSequence query) {
                             // when search icon on keyboard is clicked
                             Log.d("TAG", "abcd query " + query);
-
                             return false;
                         }
                     }
             );
 
-//            mSearchView.setOnOpenCloseListener(new SearchView.OnOpenCloseListener() {
-//                @Override
-//                public boolean onOpen() {
-//                    if (mFab != null) {
-//                        mFab.hide();
-//                    }
-//                    return true;
-//                }
-//
-//                @Override
-//                public boolean onClose() {
-//                    if (mFab != null && !mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-//                        mFab.show();
-//                    }
-//                    return true;
-//                }
-//            });
-
-//            mSearchView.setVoiceText("Set permission on Android 6.0+ !");
-//            searchView.setOnVoiceIconClickListener(new SearchView.OnVoiceIconClickListener() {
-//                @Override
-//                public void onVoiceIconClick() {
-//                     permission
-//                }
-//            });
-
             suggestionsList = new ArrayList<>();
-//            suggestionsList.add(new SearchItem("search1"));
-//            suggestionsList.add(new SearchItem("search2"));
-//            suggestionsList.add(new SearchItem("search3"));
-
-            searchAdapter = new SearchAdapter(getActivity(), suggestionsList);
+//            searchAdapter = new SearchAdapter(getActivity(), suggestionsList);
+            searchAdapter = new SearchAdapter(getActivity());
             searchAdapter.setOnSearchItemClickListener((theView, position, text) -> {
                 Log.d("TAG", "onSearchItemClick " + text);
-                mSearchView.close(false);
+                mSearchView.close();
                 mSearchView.setQuery("", false);
-                presenter.onSuggestionClicked(text);
+                presenter.onSuggestionClicked(text.toString());
             });
 
             mSearchView.setAdapter(searchAdapter);
-
-//            suggestionsList.add(new SearchItem("tehran"));
-//            suggestionsList.add(new SearchItem("tehban"));
-//            suggestionsList.add(new SearchItem("tehraaaan"));
-//            searchAdapter.notifyDataSetChanged();
 
 //            List<SearchFilter> filter = new ArrayList<>();
 //            filter.add(new SearchFilter("Filter1", true));
 //            filter.add(new SearchFilter("Filter2", true));
 //            mSearchView.setFilters(filter);
-            //use mSearchView.getFiltersStates() to consider filter when performing search
+//            use mSearchView.getFiltersStates() to consider filter when performing search
         }
     }
 
@@ -320,57 +241,6 @@ public class MainController extends BaseController implements MainContract.View 
         );
     }
 
-    public static class TopicSuggestion implements SearchSuggestion {
-
-        private String topicName;
-        private boolean isHistory = false;
-
-        public TopicSuggestion(String suggestion) {
-            this.topicName = suggestion.toLowerCase();
-        }
-
-        public TopicSuggestion(Parcel source) {
-            this.topicName = source.readString();
-            this.isHistory = source.readInt() != 0;
-        }
-
-        public void setIsHistory(boolean isHistory) {
-            this.isHistory = isHistory;
-        }
-
-        public boolean getIsHistory() {
-            return this.isHistory;
-        }
-
-        @Override
-        public String getBody() {
-            return topicName;
-        }
-
-        public static final Creator<TopicSuggestion> CREATOR = new Creator<TopicSuggestion>() {
-            @Override
-            public TopicSuggestion createFromParcel(Parcel in) {
-                return new TopicSuggestion(in);
-            }
-
-            @Override
-            public TopicSuggestion[] newArray(int size) {
-                return new TopicSuggestion[size];
-            }
-        };
-
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            dest.writeString(topicName);
-            dest.writeInt(isHistory ? 1 : 0);
-        }
-    }
-
     private void fakeAddSuggestions(String newText) {
         List<String> items = new ArrayList<>();
         for (int i = 0; i < 7; i++) {
@@ -383,28 +253,24 @@ public class MainController extends BaseController implements MainContract.View 
 
     @Override
     public void showSuggestions(List<String> suggestions) {
-//        List<TopicSuggestion> newList = new ArrayList<>();
-//        for (String suggestion : suggestions) {
-//            newList.add(new TopicSuggestion(suggestion));
-//        }
-//        searchBox.swapSuggestions(newList);
 
         Log.d("TAG", "abcd " + suggestions.size());
         for (String str : suggestions) {
-            Log.d("TAG", "abcd " + str);
+            Log.d("TAG", "abcd--- " + str);
         }
 
         suggestionsList.clear();
+
         for (String suggestion : suggestions) {
-            suggestionsList.add(new SearchItem(suggestion));
+            suggestionsList.add(new SearchItem(getActivity()));
         }
 
         // todo use setData, check if it animates
-//        searchAdapter.setData();
+        searchAdapter.setSuggestionsList(suggestionsList);
         searchAdapter.notifyDataSetChanged();
-        mSearchView.setQuery(mSearchView.getQuery(), false);
-//        mSearchView.showSuggestions();
-//        searchAdapter.notifyItemRangeInserted(0, suggestions.size());
-//        searchAdapter.setData(items);
+//        for (SearchItem item : searchAdapter.getSuggestionsList()) {
+//            Log.d("TAG", "abbbbbb " + item.getText().toString());
+//        }
+//        mSearchView.setQuery(mSearchView.getQuery(), false);
     }
 }

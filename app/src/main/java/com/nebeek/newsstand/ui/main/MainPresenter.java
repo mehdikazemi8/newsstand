@@ -62,15 +62,15 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        Log.d("TAG", "abcd " + newText);
-
+        Log.d("TAG", "abcdhhhhhh " + newText);
         getTopics(newText);
-
         return false;
     }
 
     @Override
     public void getTopics(String query) {
+
+        Log.d("TAG", "abcdhhhhhh ddddd " + query);
 
         dataRepository.getAllTopics(query, new DataSource.TopicsResponseCallback() {
             @Override
@@ -78,21 +78,12 @@ public class MainPresenter implements MainContract.Presenter {
                 topicList.clear();
                 topicList.addAll(myList);
 
-                for (Topic topic : topicList) {
-                    Log.d("TAG", "topic " + topic.serialize());
-                }
-
                 List<String> topicNames = new ArrayList<>();
                 for (Topic topic : topicList) {
-                    // todo
-                    if (topicNames.size() > 10) {
-                        break;
-                    }
                     if (topic.getNames().size() > 0) {
                         topicNames.add(topic.getNames().get(0).getFa());
                     }
                 }
-
                 mainView.showSuggestions(topicNames);
             }
 
@@ -110,10 +101,11 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void onSuggestionClicked(String suggestion) {
+        // todo must match the id not the text
         for (Topic topic : topicList) {
             if (topic.getNames().size() > 0 && topic.getNames().get(0).getFa().equals(suggestion)) {
-                Log.d("TAG", "abcd onSuggestionClicked " + topic.serialize());
                 mainView.showSearchUI(topic);
+                break;
             }
         }
     }
