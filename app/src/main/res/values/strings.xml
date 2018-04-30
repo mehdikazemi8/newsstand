@@ -30,4 +30,12 @@
 
     <string name="dash">-</string>
     <string name="nothing_added_to_archive_yet">هنوز خبری به آرشیو اضافه نکردی!</string>
+    <string name="search_in_categories">جست و جو در دسته ها</string>
+    <string name="new_update_available">آپدیت جدید اومده نظرت چیه بریم برای آپدیت؟</string>
+    <string name="ok">اوکی</string>
+    <string name="lets_update_later">بی خیال بذا بعدا</string>
+    <string name="new_force_update">آپدیت جدید اومده برای ادامه باید آپدیت کنی وگرنه اپلیکیشن کار نمیکنه :(</string>
+    <string name="dont_want_to_update">نمی خوام</string>
+    <string name="next_page">بعدی</string>
+    <string name="page_number" formatted="false">صفحه ی %d از %d</string>
 </resources>

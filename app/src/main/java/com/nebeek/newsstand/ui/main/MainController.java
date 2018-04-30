@@ -163,7 +163,7 @@ public class MainController extends BaseController implements MainContract.View 
         if (mSearchView != null) {
 
             mSearchView.setVersionMargins(Search.VersionMargins.TOOLBAR);
-            mSearchView.setHint("جست و جو");
+            mSearchView.setHint(R.string.search_in_categories);
             mSearchView.setOnQueryTextListener(
                     new Search.OnQueryTextListener() {
                         @Override
@@ -187,11 +187,14 @@ public class MainController extends BaseController implements MainContract.View 
             suggestionsList = new ArrayList<>();
 //            searchAdapter = new SearchAdapter(getActivity(), suggestionsList);
             searchAdapter = new SearchAdapter(getActivity());
-            searchAdapter.setOnSearchItemClickListener((theView, position, text) -> {
-                Log.d("TAG", "onSearchItemClick " + text);
+            searchAdapter.setSuggestionsList(suggestionsList);
+            searchAdapter.setOnSearchItemClickListener((position, title, subtitle) -> {
+                Log.d("TAG", "onSearchItemClick " + title);
+                Log.d("TAG", "onSearchItemClick " + searchAdapter.getItemCount());
+
                 mSearchView.close();
                 mSearchView.setQuery("", false);
-                presenter.onSuggestionClicked(text.toString());
+                presenter.onSuggestionClicked(title.toString());
             });
 
             mSearchView.setAdapter(searchAdapter);
@@ -254,7 +257,7 @@ public class MainController extends BaseController implements MainContract.View 
     @Override
     public void showSuggestions(List<String> suggestions) {
 
-        Log.d("TAG", "abcd " + suggestions.size());
+        Log.d("TAG", "abcd--- " + suggestions.size());
         for (String str : suggestions) {
             Log.d("TAG", "abcd--- " + str);
         }
@@ -262,15 +265,21 @@ public class MainController extends BaseController implements MainContract.View 
         suggestionsList.clear();
 
         for (String suggestion : suggestions) {
-            suggestionsList.add(new SearchItem(getActivity()));
+            SearchItem item = new SearchItem(getActivity());
+//            item.setSubtitle(suggestion);
+            item.setTitle(suggestion + lastQuery);
+//            item.set
+            suggestionsList.add(item);
         }
 
+//        SearchHistoryTable searchHistoryTable = new SearchHistoryTable(getActivity());
+//        searchHistoryTable.getAllItems();
+//
+        Log.d("TAG", "abcd sizeeeeee 111 " + suggestionsList.size());
         // todo use setData, check if it animates
         searchAdapter.setSuggestionsList(suggestionsList);
+        Log.d("TAG", "abcd sizeeeeee 222 " + searchAdapter.getSuggestionsList().size());
         searchAdapter.notifyDataSetChanged();
-//        for (SearchItem item : searchAdapter.getSuggestionsList()) {
-//            Log.d("TAG", "abbbbbb " + item.getText().toString());
-//        }
-//        mSearchView.setQuery(mSearchView.getQuery(), false);
+        Log.d("TAG", "abcd sizeeeeee 333 " + searchAdapter.getSuggestionsList().size());
     }
 }

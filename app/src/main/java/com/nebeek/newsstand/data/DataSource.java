@@ -148,4 +148,6 @@ public abstract class DataSource {
     public abstract void fetchRelatedTopics(List<List<Object>> request, TopicsResponseCallback callback);
 
     public abstract void updateTopicReadCount(AppSize readCount, String topicId);
+
+    public abstract void getOnboardingTopics(TopicsResponseCallback callback);
 }

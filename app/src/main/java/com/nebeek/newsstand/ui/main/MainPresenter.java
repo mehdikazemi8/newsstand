@@ -53,24 +53,23 @@ public class MainPresenter implements MainContract.Presenter {
         });
     }
 
-    @Override
-    public boolean onQueryTextSubmit(String keyword) {
+//    @Override
+//    public boolean onQueryTextSubmit(String keyword) {
 //        mainView.showSearchUI(keyword);
-        return false;
-    }
+//        return false;
+//    }
 
 
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        Log.d("TAG", "abcdhhhhhh " + newText);
-        getTopics(newText);
-        return false;
-    }
+//    @Override
+//    public boolean onQueryTextChange(String newText) {
+//        Log.d("TAG", "abcdhhhhhh " + newText);
+//        getTopics(newText);
+//        return false;
+//    }
 
     @Override
     public void getTopics(String query) {
-
-        Log.d("TAG", "abcdhhhhhh ddddd " + query);
+        Log.d("TAG", "abcdzzzzzz " + query);
 
         dataRepository.getAllTopics(query, new DataSource.TopicsResponseCallback() {
             @Override
@@ -82,6 +81,7 @@ public class MainPresenter implements MainContract.Presenter {
                 for (Topic topic : topicList) {
                     if (topic.getNames().size() > 0) {
                         topicNames.add(topic.getNames().get(0).getFa());
+                        Log.d("TAG", "abcdhhhhhh ddddd " + topic.getNames().get(0).getFa());
                     }
                 }
                 mainView.showSuggestions(topicNames);

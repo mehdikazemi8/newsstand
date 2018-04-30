@@ -88,4 +88,8 @@ public interface ApiService {
     @POST("batch/")
     Call<TopicsResponse> fetchTopics(@Body List<List<Object>> request);
 
+    @GET("?filter[onboarding.exists]=true")
+    Call<TopicsResponse> getOnboardingTopcis();
+
+
 }

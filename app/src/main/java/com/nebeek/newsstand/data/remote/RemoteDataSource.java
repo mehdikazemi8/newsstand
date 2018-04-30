@@ -313,10 +313,6 @@ public class RemoteDataSource extends DataSource {
                         telegramMessage.setSource(ChannelsManager.getInstance().getChannel(telegramMessage.getChannelId()));
                     }
 
-                    for(TelegramMessage message : response.body().getResults()) {
-
-                    }
-
                     callback.onResponse(response.body());
                 } else {
                     callback.onFailure();
@@ -396,5 +392,25 @@ public class RemoteDataSource extends DataSource {
     @Override
     public boolean isMessageLiked(String id) {
         return false;
+    }
+
+    @Override
+    public void getOnboardingTopics(TopicsResponseCallback callback) {
+        Call<TopicsResponse> call = apiService.getOnboardingTopcis();
+        call.enqueue(new Callback<TopicsResponse>() {
+            @Override
+            public void onResponse(Call<TopicsResponse> call, Response<TopicsResponse> response) {
+                if (response.isSuccessful()) {
+                    callback.onResponse(response.body().getTopics());
+                } else {
+                    callback.onFailure();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TopicsResponse> call, Throwable t) {
+                callback.onFailure();
+            }
+        });
     }
 }

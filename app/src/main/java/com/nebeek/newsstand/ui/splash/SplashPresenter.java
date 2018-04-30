@@ -63,13 +63,13 @@ public class SplashPresenter implements SplashContract.Presenter {
     }
 
     /**
-     * Let user choose some trending topics, or show Main UI
+     * Let user choose some Onboarding topics, or show Main UI
      */
     private void afterAuthentication() {
-        if (preferenceManager.getSelectedTrendingTopics() || true) {
+        if (preferenceManager.hasSelectedOnboardingTopics()) {
             splashView.showMainPageUI();
         } else {
-            splashView.showTrendingTopicsUI();
+            splashView.showOnboardingTopicsUI();
         }
     }
 

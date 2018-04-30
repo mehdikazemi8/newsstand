@@ -29,12 +29,21 @@ public class Topic extends BaseModel {
     private String photoURL;
     private Boolean receiveNotification;
     private Boolean inLibrary = false;
+    private String onboarding;
 
     @Ignore
     private List<String> relations;
 
     @Ignore
     private List<AppImageSet> images = null;
+
+    public String getOnboarding() {
+        return onboarding;
+    }
+
+    public void setOnboarding(String onboarding) {
+        this.onboarding = onboarding;
+    }
 
     public AppSize getReadCount() {
         return readCount;

@@ -246,4 +246,13 @@ public class DataRepository extends DataSource {
 
         return appDatabase.messageModel().isMessageLiked(id);
     }
+
+    @Override
+    public void getOnboardingTopics(TopicsResponseCallback callback) {
+        if (!networkHelper.isNetworkAvailable()) {
+            callback.onNetworkFailure();
+        } else {
+            remoteDataSource.getOnboardingTopics(callback);
+        }
+    }
 }

@@ -98,4 +98,9 @@ public class LocalDataSource extends DataSource {
     public boolean isMessageLiked(String id) {
         return false;
     }
+
+    @Override
+    public void getOnboardingTopics(TopicsResponseCallback callback) {
+
+    }
 }

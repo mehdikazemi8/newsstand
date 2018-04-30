@@ -1,7 +1,4 @@
-package com.nebeek.newsstand.ui.main;
-
-
-import android.support.v7.widget.SearchView;
+package com.nebeek.newsstand.ui.onboarding;
 
 import com.nebeek.newsstand.controller.base.BasePresenter;
 import com.nebeek.newsstand.controller.base.BaseView;
@@ -9,19 +6,20 @@ import com.nebeek.newsstand.data.models.Topic;
 
 import java.util.List;
 
-public class MainContract {
+public class OnboardingContract {
 
     interface View extends BaseView<Presenter> {
 
-        void showSearchUI(Topic topic);
+        void showOnboardingTopics(List<Topic> topics);
 
-        void showSuggestions(List<String> suggestions);
+        void setPageNumber(int pageNumber, int allPagesCount);
+
+        void showMainPageUI();
     }
 
     interface Presenter extends BasePresenter {
 
-        void getTopics(String query);
+        void fetchNextPage();
 
-        void onSuggestionClicked(String suggestion);
     }
 }

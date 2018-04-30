@@ -17,7 +17,7 @@ import com.nebeek.newsstand.customview.ConfirmDialog;
 import com.nebeek.newsstand.data.DataRepository;
 import com.nebeek.newsstand.data.local.PreferenceManager;
 import com.nebeek.newsstand.ui.main.MainController;
-import com.nebeek.newsstand.ui.trendingtopics.TrendingTopicsController;
+import com.nebeek.newsstand.ui.onboarding.OnboardingController;
 import com.nebeek.newsstand.util.GlobalToast;
 import com.nebeek.newsstand.util.NewUpdateChecker;
 
@@ -57,10 +57,10 @@ public class SplashController extends BaseController implements SplashContract.V
     }
 
     @Override
-    public void showTrendingTopicsUI() {
-        TrendingTopicsController trendingTopicsController = new TrendingTopicsController();
+    public void showOnboardingTopicsUI() {
+        OnboardingController onboardingController = new OnboardingController();
         getRouter().replaceTopController(
-                RouterTransaction.with(trendingTopicsController)
+                RouterTransaction.with(onboardingController)
                         .pushChangeHandler(new FadeChangeHandler())
                         .popChangeHandler(new FadeChangeHandler())
         );
@@ -76,9 +76,9 @@ public class SplashController extends BaseController implements SplashContract.V
 
         ConfirmDialog dialog = new ConfirmDialog(
                 getActivity(),
-                "آپدیت جدید اومده برای ادامه باید آپدیت کنی وگرنه اپلیکیشن کار نمیکنه :(",
-                "اوکی",
-                "نمی خوام",
+                getActivity().getString(R.string.new_force_update),
+                getActivity().getString(R.string.ok),
+                getActivity().getString(R.string.dont_want_to_update),
                 view -> redirectStore(updateUrl),
                 view -> getActivity().finish()
         );
@@ -90,9 +90,9 @@ public class SplashController extends BaseController implements SplashContract.V
     public void onNewUpdateAvailable(String updateUrl) {
         ConfirmDialog dialog = new ConfirmDialog(
                 getActivity(),
-                "آپدیت جدید اومده نظرت چیه بریم برای آپدیت؟",
-                "اوکی",
-                "بی خیال بذا بعدا",
+                getActivity().getString(R.string.new_update_available),
+                getActivity().getString(R.string.ok),
+                getActivity().getString(R.string.lets_update_later),
                 view -> redirectStore(updateUrl),
                 view -> presenter.start()
         );

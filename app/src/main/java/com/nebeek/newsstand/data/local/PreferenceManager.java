@@ -168,11 +168,11 @@ public class PreferenceManager {
 
     //*************************************************************
 
-    public void putSelectedTrendingTopics(boolean selectedTrendingTopics) {
-        put(Key.HAS_SELECTED_TOPICS, selectedTrendingTopics);
+    public void putSelectedOnboardingTopics(boolean selectedOnboardingTopics) {
+        put(Key.HAS_SELECTED_TOPICS, selectedOnboardingTopics);
     }
 
-    public boolean getSelectedTrendingTopics() {
+    public boolean hasSelectedOnboardingTopics() {
         return getBoolean(Key.HAS_SELECTED_TOPICS);
     }
 }

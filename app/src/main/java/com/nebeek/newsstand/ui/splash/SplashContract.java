@@ -10,7 +10,7 @@ public class SplashContract {
 
         void showMainPageUI();
 
-        void showTrendingTopicsUI();
+        void showOnboardingTopicsUI();
 
         void showNetworkFailureError();
     }
