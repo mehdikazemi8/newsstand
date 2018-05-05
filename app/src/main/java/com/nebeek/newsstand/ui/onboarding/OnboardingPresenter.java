@@ -43,8 +43,11 @@ public class OnboardingPresenter implements OnboardingContract.Presenter {
         });
     }
 
+
     @Override
-    public void fetchNextPage() {
+    public void fetchNextPage(List<String> selectedTopicsIDs) {
+        registerTopics(selectedTopicsIDs);
+
         ++currentPage;
 
         if (currentPage == pages.size()) {
@@ -52,6 +55,27 @@ public class OnboardingPresenter implements OnboardingContract.Presenter {
         } else {
             onboardingTopicsView.setPageNumber(currentPage + 1, pages.size());
             onboardingTopicsView.showOnboardingTopics(pages.get(currentPage));
+        }
+    }
+
+    private void registerTopics(List<String> selectedTopicsIDs) {
+        for (String topicID : selectedTopicsIDs) {
+            dataRepository.subscribeToTopic(topicID, new DataSource.SubscribeCallback() {
+                @Override
+                public void onSuccess() {
+
+                }
+
+                @Override
+                public void onFailure() {
+
+                }
+
+                @Override
+                public void onNetworkFailure() {
+
+                }
+            });
         }
     }
 }

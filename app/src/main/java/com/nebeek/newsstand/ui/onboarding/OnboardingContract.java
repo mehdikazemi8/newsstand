@@ -19,7 +19,8 @@ public class OnboardingContract {
 
     interface Presenter extends BasePresenter {
 
-        void fetchNextPage();
+        void fetchNextPage(List<String> selectedTopicsIDs);
+//        void fetchNextPage();
 
     }
 }

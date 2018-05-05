@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.annimon.stream.Stream;
 import com.anton46.collectionitempicker.CollectionPicker;
 import com.anton46.collectionitempicker.Item;
 import com.bluelinelabs.conductor.RouterTransaction;
@@ -19,6 +20,7 @@ import com.nebeek.newsstand.ui.main.MainController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -36,7 +38,7 @@ public class OnboardingController extends BaseController implements OnboardingCo
     public void nextPageOnClick() {
         topicItemPicker.setItems(new ArrayList<>());
         topicItemPicker.drawItemView();
-        presenter.fetchNextPage();
+        presenter.fetchNextPage(Stream.of(topicItemPicker.getCheckedItems().entrySet()).map(Map.Entry::getKey).toList());
     }
 
     OnboardingContract.Presenter presenter;
@@ -63,9 +65,9 @@ public class OnboardingController extends BaseController implements OnboardingCo
 
         topicItemPicker.setItems(onboardingTopicItems);
         topicItemPicker.drawItemView();
-        topicItemPicker.setOnItemClickListener((item, position) -> {
-
-        });
+//        topicItemPicker.setOnItemClickListener((item, position) -> {
+//
+//        });
     }
 
     @Override
