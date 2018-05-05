@@ -48,7 +48,11 @@ public class MessageViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                               @Nullable OnItemSelectedListener<Topic> relatedTopicSelectedListener,
                               BaseMessageListPresenter messageListPresenter) {
         this.parentTopic = parentTopic;
-        this.topics = topics;
+
+        // todo remove this, just for now it must be hidden
+//        this.topics = topics;
+        this.topics = null;
+
         this.showUrlCallback = showUrlCallback;
         this.relatedTopicSelectedListener = relatedTopicSelectedListener;
         this.messageListPresenter = messageListPresenter;

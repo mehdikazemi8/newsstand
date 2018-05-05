@@ -95,8 +95,12 @@ public class OnboardingPresenter implements OnboardingContract.Presenter {
     }
 
     void startShowTopics() {
-        onboardingTopicsView.makeInfoAndKhobInvisible();
-        onboardingTopicsView.setPageNumber(currentPage + 1, pages.size());
-        onboardingTopicsView.showOnboardingTopics(pages.get(currentPage));
+        if (pages.size() == 0) {
+            onboardingTopicsView.showMainPageUI();
+        } else {
+            onboardingTopicsView.makeInfoAndKhobInvisible();
+            onboardingTopicsView.setPageNumber(currentPage + 1, pages.size());
+            onboardingTopicsView.showOnboardingTopics(pages.get(currentPage));
+        }
     }
 }
