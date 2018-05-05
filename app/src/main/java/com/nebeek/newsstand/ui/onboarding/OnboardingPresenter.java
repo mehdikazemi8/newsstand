@@ -12,35 +12,21 @@ public class OnboardingPresenter implements OnboardingContract.Presenter {
     private OnboardingContract.View onboardingTopicsView;
     private DataRepository dataRepository;
     private int currentPage = 0;
+    private int currentInfo = 0;
     private List<List<Topic>> pages;
+    private String[] onboardingInfo;
 
     public OnboardingPresenter(OnboardingContract.View onboardingTopicsView,
-                               DataRepository dataRepository) {
+                               DataRepository dataRepository,
+                               String[] onboardingInfo) {
         this.onboardingTopicsView = onboardingTopicsView;
         this.dataRepository = dataRepository;
+        this.onboardingInfo = onboardingInfo;
     }
 
     @Override
     public void start() {
-
-        dataRepository.getOnboardingTopics(new DataSource.TopicsResponseCallback() {
-            @Override
-            public void onResponse(List<Topic> topicList) {
-                pages = Stream.of(topicList).chunkBy(Topic::getOnboarding).toList();
-                onboardingTopicsView.setPageNumber(currentPage + 1, pages.size());
-                onboardingTopicsView.showOnboardingTopics(pages.get(currentPage));
-            }
-
-            @Override
-            public void onFailure() {
-
-            }
-
-            @Override
-            public void onNetworkFailure() {
-
-            }
-        });
+        getOnboardingTopics();
     }
 
 
@@ -77,5 +63,40 @@ public class OnboardingPresenter implements OnboardingContract.Presenter {
                 }
             });
         }
+    }
+
+    @Override
+    public void fetchNextInfo() {
+        if (currentInfo == onboardingInfo.length) {
+            startShowTopics();
+        } else {
+            onboardingTopicsView.showInfo(onboardingInfo[currentInfo++]);
+        }
+    }
+
+    public void getOnboardingTopics() {
+        dataRepository.getOnboardingTopics(new DataSource.TopicsResponseCallback() {
+            @Override
+            public void onResponse(List<Topic> topicList) {
+                onboardingTopicsView.showInfo(onboardingInfo[currentInfo++]);
+                pages = Stream.of(topicList).chunkBy(Topic::getOnboarding).toList();
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+
+            @Override
+            public void onNetworkFailure() {
+
+            }
+        });
+    }
+
+    void startShowTopics() {
+        onboardingTopicsView.makeInfoAndKhobInvisible();
+        onboardingTopicsView.setPageNumber(currentPage + 1, pages.size());
+        onboardingTopicsView.showOnboardingTopics(pages.get(currentPage));
     }
 }

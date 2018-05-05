@@ -168,6 +168,7 @@ public class PreferenceManager {
 
     //*************************************************************
 
+    // todo use this function
     public void putSelectedOnboardingTopics(boolean selectedOnboardingTopics) {
         put(Key.HAS_SELECTED_TOPICS, selectedOnboardingTopics);
     }

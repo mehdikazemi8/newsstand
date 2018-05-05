@@ -15,6 +15,10 @@ public class OnboardingContract {
         void setPageNumber(int pageNumber, int allPagesCount);
 
         void showMainPageUI();
+
+        void showInfo(String infoStr);
+
+        void makeInfoAndKhobInvisible();
     }
 
     interface Presenter extends BasePresenter {
@@ -22,5 +26,6 @@ public class OnboardingContract {
         void fetchNextPage(List<String> selectedTopicsIDs);
 //        void fetchNextPage();
 
+        void fetchNextInfo();
     }
 }

@@ -1,5 +1,6 @@
 package com.nebeek.newsstand.ui.onboarding;
 
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +34,18 @@ public class OnboardingController extends BaseController implements OnboardingCo
     Button nextPage;
     @BindView(R.id.page_number)
     TextView pageNumber;
+    @BindView(R.id.khob)
+    Button khob;
+    @BindView(R.id.info)
+    TextView info;
+
+    private int currentWordIdx = 0;
+    private String[] words;
+
+    @OnClick(R.id.khob)
+    public void onKhobClick() {
+        presenter.fetchNextInfo();
+    }
 
     @OnClick(R.id.next_page)
     public void nextPageOnClick() {
@@ -52,12 +65,18 @@ public class OnboardingController extends BaseController implements OnboardingCo
     protected void onViewBound(@NonNull View view) {
         super.onViewBound(view);
 
-        presenter = new OnboardingPresenter(this, DataRepository.getInstance());
+        presenter = new OnboardingPresenter(
+                this,
+                DataRepository.getInstance(),
+                getActivity().getResources().getStringArray(R.array.onboarding_info)
+        );
         presenter.start();
     }
 
     @Override
     public void showOnboardingTopics(List<Topic> topics) {
+        nextPage.setVisibility(View.VISIBLE);
+
         List<Item> onboardingTopicItems = new ArrayList<>();
         for (Topic topic : topics) {
             onboardingTopicItems.add(new Item(topic.getId(), topic.getNames().get(0).getFa()));
@@ -83,5 +102,30 @@ public class OnboardingController extends BaseController implements OnboardingCo
                         .pushChangeHandler(new FadeChangeHandler())
                         .popChangeHandler(new FadeChangeHandler())
         );
+    }
+
+    @Override
+    public void showInfo(String infoStr) {
+        khob.setVisibility(View.INVISIBLE);
+        info.setText("");
+        info.setVisibility(View.VISIBLE);
+        currentWordIdx = 0;
+        words = infoStr.split(" ");
+        showNextWord();
+    }
+
+    private void showNextWord() {
+        if (currentWordIdx == words.length) {
+            khob.setVisibility(View.VISIBLE);
+        } else {
+            info.setText(getActivity().getString(R.string.info_template, info.getText().toString(), words[currentWordIdx++]));
+            new Handler().postDelayed(this::showNextWord, 200);
+        }
+    }
+
+    @Override
+    public void makeInfoAndKhobInvisible() {
+        info.setVisibility(View.INVISIBLE);
+        khob.setVisibility(View.INVISIBLE);
     }
 }

@@ -38,4 +38,12 @@
     <string name="dont_want_to_update">نمی خوام</string>
     <string name="next_page">بعدی</string>
     <string name="page_number" formatted="false">صفحه ی %d از %d</string>
+    <string name="khob">خُب</string>
+
+    <string-array name="onboarding_info">
+        <item>نبیک یه اپلیکیشن خبریه!</item>
+        <item>که توی اون می تونید اخبار رو بر اساس موضوعات و علاقه مندی هاتون دنبال کنید!</item>
+    </string-array>
+
+    <string name="info_template" formatted="false">%s %s</string>
 </resources>
