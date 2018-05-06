@@ -10,7 +10,7 @@ import com.nebeek.newsstand.data.local.dao.TopicDao;
 import com.nebeek.newsstand.data.models.TelegramMessage;
 import com.nebeek.newsstand.data.models.Topic;
 
-@Database(entities = {TelegramMessage.class, Topic.class}, version = 3, exportSchema = false)
+@Database(entities = {TelegramMessage.class, Topic.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase instance;
@@ -21,7 +21,7 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public static AppDatabase getInMemoryDatabase(Context context) {
         if (instance == null) {
-            instance = Room.inMemoryDatabaseBuilder(context, AppDatabase.class)
+            instance = Room.databaseBuilder(context, AppDatabase.class, "newsstand.db")
                     // todo remove this
                     .allowMainThreadQueries()
                     .build();
