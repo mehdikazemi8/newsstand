@@ -3,6 +3,7 @@ package com.nebeek.newsstand.ui.onboarding;
 import com.annimon.stream.Stream;
 import com.nebeek.newsstand.data.DataRepository;
 import com.nebeek.newsstand.data.DataSource;
+import com.nebeek.newsstand.data.local.PreferenceManager;
 import com.nebeek.newsstand.data.models.Topic;
 
 import java.util.List;
@@ -15,13 +16,16 @@ public class OnboardingPresenter implements OnboardingContract.Presenter {
     private int currentInfo = 0;
     private List<List<Topic>> pages;
     private String[] onboardingInfo;
+    private PreferenceManager preferenceManager;
 
     public OnboardingPresenter(OnboardingContract.View onboardingTopicsView,
                                DataRepository dataRepository,
-                               String[] onboardingInfo) {
+                               String[] onboardingInfo,
+                               PreferenceManager preferenceManager) {
         this.onboardingTopicsView = onboardingTopicsView;
         this.dataRepository = dataRepository;
         this.onboardingInfo = onboardingInfo;
+        this.preferenceManager = preferenceManager;
     }
 
     @Override
@@ -37,6 +41,7 @@ public class OnboardingPresenter implements OnboardingContract.Presenter {
         ++currentPage;
 
         if (currentPage == pages.size()) {
+            preferenceManager.putSelectedOnboardingTopics(true);
             onboardingTopicsView.showMainPageUI();
         } else {
             onboardingTopicsView.setPageNumber(currentPage + 1, pages.size());

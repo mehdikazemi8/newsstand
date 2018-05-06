@@ -16,6 +16,7 @@ import com.bluelinelabs.conductor.changehandler.FadeChangeHandler;
 import com.nebeek.newsstand.R;
 import com.nebeek.newsstand.controller.base.BaseController;
 import com.nebeek.newsstand.data.DataRepository;
+import com.nebeek.newsstand.data.local.PreferenceManager;
 import com.nebeek.newsstand.data.models.Topic;
 import com.nebeek.newsstand.ui.main.MainController;
 
@@ -41,6 +42,7 @@ public class OnboardingController extends BaseController implements OnboardingCo
 
     private int currentWordIdx = 0;
     private String[] words;
+    OnboardingContract.Presenter presenter;
 
     @OnClick(R.id.khob)
     public void onKhobClick() {
@@ -54,8 +56,6 @@ public class OnboardingController extends BaseController implements OnboardingCo
         presenter.fetchNextPage(Stream.of(topicItemPicker.getCheckedItems().entrySet()).map(Map.Entry::getKey).toList());
     }
 
-    OnboardingContract.Presenter presenter;
-
     @Override
     protected View inflateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container) {
         return inflater.inflate(R.layout.controller_onboarding_topics, container, false);
@@ -68,7 +68,8 @@ public class OnboardingController extends BaseController implements OnboardingCo
         presenter = new OnboardingPresenter(
                 this,
                 DataRepository.getInstance(),
-                getActivity().getResources().getStringArray(R.array.onboarding_info)
+                getActivity().getResources().getStringArray(R.array.onboarding_info),
+                PreferenceManager.getInstance(getActivity())
         );
         presenter.start();
     }
