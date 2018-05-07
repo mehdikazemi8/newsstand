@@ -55,7 +55,7 @@ public class MainPresenter implements MainContract.Presenter {
 
 //    @Override
 //    public boolean onQueryTextSubmit(String keyword) {
-//        mainView.showSearchUI(keyword);
+//        mainView.showTopicUI(keyword);
 //        return false;
 //    }
 

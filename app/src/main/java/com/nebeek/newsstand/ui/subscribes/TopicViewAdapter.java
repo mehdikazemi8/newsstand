@@ -9,9 +9,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.nebeek.newsstand.R;
+import com.nebeek.newsstand.customview.SquareImageView;
 import com.nebeek.newsstand.data.models.Topic;
 import com.nebeek.newsstand.data.remote.ApiService;
-import com.nebeek.newsstand.customview.SquareImageView;
 import com.nebeek.newsstand.util.imagehandler.GlideApp;
 import com.nebeek.newsstand.util.listener.OnItemSelectedListener;
 
@@ -27,11 +27,19 @@ public class TopicViewAdapter extends RecyclerView.Adapter<TopicViewAdapter.View
     private List<Topic> items;
     private OnItemSelectedListener<Topic> onItemSelectedListener;
     private int layoutId;
+    private boolean showUnreadCount = true;
 
     public TopicViewAdapter(List<Topic> items, OnItemSelectedListener<Topic> onItemSelectedListener, int layoutId) {
         this.items = items;
         this.onItemSelectedListener = onItemSelectedListener;
         this.layoutId = layoutId;
+    }
+
+    public TopicViewAdapter(List<Topic> items, OnItemSelectedListener<Topic> onItemSelectedListener, int layoutId, boolean showUnreadCount) {
+        this.items = items;
+        this.onItemSelectedListener = onItemSelectedListener;
+        this.layoutId = layoutId;
+        this.showUnreadCount = showUnreadCount;
     }
 
     @Override
@@ -80,12 +88,16 @@ public class TopicViewAdapter extends RecyclerView.Adapter<TopicViewAdapter.View
                     .into(holder.photo);
         }
 
-        int unreadCount = items.get(position).getContents().getSize() - items.get(position).getReadCount().getSize();
-        if (unreadCount == 0) {
+        if (!showUnreadCount) {
             holder.unreadCount.setVisibility(View.INVISIBLE);
         } else {
-            holder.unreadCount.setVisibility(View.VISIBLE);
-            holder.unreadCount.setText(String.valueOf(unreadCount));
+            int unreadCount = items.get(position).getContents().getSize() - items.get(position).getReadCount().getSize();
+            if (unreadCount == 0) {
+                holder.unreadCount.setVisibility(View.INVISIBLE);
+            } else {
+                holder.unreadCount.setVisibility(View.VISIBLE);
+                holder.unreadCount.setText(String.valueOf(unreadCount));
+            }
         }
     }
 
@@ -118,10 +130,14 @@ public class TopicViewAdapter extends RecyclerView.Adapter<TopicViewAdapter.View
 
         @OnClick(R.id.root_view)
         public void rootViewOnClick() {
-            items.get(getAdapterPosition()).setReadCount(
-                    items.get(getAdapterPosition()).getContents()
-            );
-            notifyItemChanged(getAdapterPosition());
+
+            if (showUnreadCount) {
+                items.get(getAdapterPosition()).setReadCount(
+                        items.get(getAdapterPosition()).getContents()
+                );
+                notifyItemChanged(getAdapterPosition());
+            }
+
             onItemSelectedListener.onSelect(items.get(getAdapterPosition()));
         }
 

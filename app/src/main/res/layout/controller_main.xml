@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="true"
@@ -10,10 +11,47 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:background="@color/colorPrimary" />
+            android:id="@+id/search_icon_container"
+            android:layout_height="@dimen/material_actionbar_size">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/inner_textView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/space_8"
+                android:background="@drawable/round_background"
+                android:fontFamily="@font/iransans"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/space_8"
+                android:paddingRight="@dimen/space_8"
+                android:text="@string/search_in_categories"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_8"
+                android:layout_marginRight="@dimen/space_8"
+                android:src="@drawable/ic_search_black_24dp"
+                app:layout_constraintBottom_toBottomOf="@id/inner_textView"
+                app:layout_constraintLeft_toLeftOf="@id/inner_textView"
+                app:layout_constraintTop_toTopOf="@id/inner_textView" />
+        </android.support.constraint.ConstraintLayout>
 
         <android.support.v4.view.ViewPager
             android:id="@+id/view_pager"
@@ -31,18 +69,18 @@
             android:visibility="visible" />
     </LinearLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:background="@color/colorPrimary" />
+    <!--<TextView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="64dp"-->
+    <!--android:background="@color/colorPrimary" />-->
 
-    <com.lapism.searchview.widget.SearchView
-        android:id="@+id/searchView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+    <!--<com.lapism.searchview.widget.SearchView-->
+    <!--android:id="@+id/searchView"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent" />-->
 
     <!--<com.lapism.searchview.widget.SearchBar-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent" />-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent" />-->
 
 </RelativeLayout>

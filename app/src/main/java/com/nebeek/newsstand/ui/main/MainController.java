@@ -2,6 +2,7 @@ package com.nebeek.newsstand.ui.main;
 
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -14,10 +15,6 @@ import com.bluelinelabs.conductor.Router;
 import com.bluelinelabs.conductor.RouterTransaction;
 import com.bluelinelabs.conductor.changehandler.FadeChangeHandler;
 import com.bluelinelabs.conductor.support.RouterPagerAdapter;
-import com.lapism.searchview.Search;
-import com.lapism.searchview.widget.SearchAdapter;
-import com.lapism.searchview.widget.SearchItem;
-import com.lapism.searchview.widget.SearchView;
 import com.nebeek.newsstand.R;
 import com.nebeek.newsstand.controller.base.BaseBackStackController;
 import com.nebeek.newsstand.controller.base.BaseController;
@@ -26,6 +23,7 @@ import com.nebeek.newsstand.data.local.PreferenceManager;
 import com.nebeek.newsstand.data.models.Topic;
 import com.nebeek.newsstand.ui.bookmark.BookmarkController;
 import com.nebeek.newsstand.ui.explore.ExploreController;
+import com.nebeek.newsstand.ui.search.SearchController;
 import com.nebeek.newsstand.ui.subscribes.SubscribesController;
 import com.nebeek.newsstand.ui.topic.TopicController;
 
@@ -33,6 +31,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
+
+//import com.lapism.searchview.Search;
+//import com.lapism.searchview.widget.SearchAdapter;
+//import com.lapism.searchview.widget.SearchItem;
+//import com.lapism.searchview.widget.SearchView;
 
 public class MainController extends BaseController implements MainContract.View {
 
@@ -42,21 +46,31 @@ public class MainController extends BaseController implements MainContract.View 
     private String[] pageTitles = {"آرشیو", "آخرین اخبار", "منتخب شما"};
     private String[] pageIcons = {"H", "S", "R"};
 
-
     private int NUMBER_OF_TABS = 3;
 
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
     @BindView(R.id.view_pager)
     ViewPager viewPager;
+    @BindView(R.id.search_icon_container)
+    ConstraintLayout searchIconContainer;
+
+    @OnClick(R.id.search_icon_container)
+    public void searchContainerOnClick() {
+        getRouter().pushController(
+                RouterTransaction.with(SearchController.newInstance())
+                        .pushChangeHandler(new FadeChangeHandler())
+                        .popChangeHandler(new FadeChangeHandler())
+        );
+    }
 
     public static MainController newInstance() {
         return new MainController();
     }
 
-    private SearchAdapter searchAdapter;
-    private List<SearchItem> suggestionsList;
-    private SearchView mSearchView;
+    //    private SearchAdapter searchAdapter;
+//    private List<SearchItem> suggestionsList;
+//    private SearchView mSearchView;
     private String lastQuery = null;
 
     private MainContract.Presenter presenter;
@@ -123,7 +137,7 @@ public class MainController extends BaseController implements MainContract.View 
         presenter = new MainPresenter(PreferenceManager.getInstance(getActivity()), DataRepository.getInstance(), this);
         presenter.start();
 
-        setupSearchView(view);
+//        setupSearchView(view);
 
         setUpTabLayout();
     }
@@ -158,6 +172,7 @@ public class MainController extends BaseController implements MainContract.View 
         });
     }
 
+    /*
     private void setupSearchView(View view) {
         mSearchView = view.findViewById(R.id.searchView); // from API 26
         if (mSearchView != null) {
@@ -206,6 +221,7 @@ public class MainController extends BaseController implements MainContract.View 
 //            use mSearchView.getFiltersStates() to consider filter when performing search
         }
     }
+*/
 
     @Override
     protected View inflateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container) {
@@ -262,6 +278,7 @@ public class MainController extends BaseController implements MainContract.View 
             Log.d("TAG", "abcd--- " + str);
         }
 
+        /*
         suggestionsList.clear();
 
         for (String suggestion : suggestions) {
@@ -281,5 +298,6 @@ public class MainController extends BaseController implements MainContract.View 
         Log.d("TAG", "abcd sizeeeeee 222 " + searchAdapter.getSuggestionsList().size());
         searchAdapter.notifyDataSetChanged();
         Log.d("TAG", "abcd sizeeeeee 333 " + searchAdapter.getSuggestionsList().size());
+        */
     }
 }
