@@ -69,18 +69,4 @@
             android:visibility="visible" />
     </LinearLayout>
 
-    <!--<TextView-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="64dp"-->
-    <!--android:background="@color/colorPrimary" />-->
-
-    <!--<com.lapism.searchview.widget.SearchView-->
-    <!--android:id="@+id/searchView"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent" />-->
-
-    <!--<com.lapism.searchview.widget.SearchBar-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent" />-->
-
 </RelativeLayout>

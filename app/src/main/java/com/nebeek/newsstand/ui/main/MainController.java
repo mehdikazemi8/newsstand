@@ -1,11 +1,9 @@
 package com.nebeek.newsstand.ui.main;
 
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,23 +18,13 @@ import com.nebeek.newsstand.controller.base.BaseBackStackController;
 import com.nebeek.newsstand.controller.base.BaseController;
 import com.nebeek.newsstand.data.DataRepository;
 import com.nebeek.newsstand.data.local.PreferenceManager;
-import com.nebeek.newsstand.data.models.Topic;
 import com.nebeek.newsstand.ui.bookmark.BookmarkController;
 import com.nebeek.newsstand.ui.explore.ExploreController;
 import com.nebeek.newsstand.ui.search.SearchController;
 import com.nebeek.newsstand.ui.subscribes.SubscribesController;
-import com.nebeek.newsstand.ui.topic.TopicController;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-
-//import com.lapism.searchview.Search;
-//import com.lapism.searchview.widget.SearchAdapter;
-//import com.lapism.searchview.widget.SearchItem;
-//import com.lapism.searchview.widget.SearchView;
 
 public class MainController extends BaseController implements MainContract.View {
 
@@ -67,11 +55,6 @@ public class MainController extends BaseController implements MainContract.View 
     public static MainController newInstance() {
         return new MainController();
     }
-
-    //    private SearchAdapter searchAdapter;
-//    private List<SearchItem> suggestionsList;
-//    private SearchView mSearchView;
-    private String lastQuery = null;
 
     private MainContract.Presenter presenter;
     private final RouterPagerAdapter pagerAdapter;
@@ -137,8 +120,6 @@ public class MainController extends BaseController implements MainContract.View 
         presenter = new MainPresenter(PreferenceManager.getInstance(getActivity()), DataRepository.getInstance(), this);
         presenter.start();
 
-//        setupSearchView(view);
-
         setUpTabLayout();
     }
 
@@ -172,57 +153,6 @@ public class MainController extends BaseController implements MainContract.View 
         });
     }
 
-    /*
-    private void setupSearchView(View view) {
-        mSearchView = view.findViewById(R.id.searchView); // from API 26
-        if (mSearchView != null) {
-
-            mSearchView.setVersionMargins(Search.VersionMargins.TOOLBAR);
-            mSearchView.setHint(R.string.search_in_categories);
-            mSearchView.setOnQueryTextListener(
-                    new Search.OnQueryTextListener() {
-                        @Override
-                        public void onQueryTextChange(CharSequence newText) {
-//                            if (newText.equals(lastQuery)) {
-//                                return false;
-//                            }
-                            lastQuery = newText.toString();
-                            presenter.getTopics(newText.toString());
-                        }
-
-                        @Override
-                        public boolean onQueryTextSubmit(CharSequence query) {
-                            // when search icon on keyboard is clicked
-                            Log.d("TAG", "abcd query " + query);
-                            return false;
-                        }
-                    }
-            );
-
-            suggestionsList = new ArrayList<>();
-//            searchAdapter = new SearchAdapter(getActivity(), suggestionsList);
-            searchAdapter = new SearchAdapter(getActivity());
-            searchAdapter.setSuggestionsList(suggestionsList);
-            searchAdapter.setOnSearchItemClickListener((position, title, subtitle) -> {
-                Log.d("TAG", "onSearchItemClick " + title);
-                Log.d("TAG", "onSearchItemClick " + searchAdapter.getItemCount());
-
-                mSearchView.close();
-                mSearchView.setQuery("", false);
-                presenter.onSuggestionClicked(title.toString());
-            });
-
-            mSearchView.setAdapter(searchAdapter);
-
-//            List<SearchFilter> filter = new ArrayList<>();
-//            filter.add(new SearchFilter("Filter1", true));
-//            filter.add(new SearchFilter("Filter2", true));
-//            mSearchView.setFilters(filter);
-//            use mSearchView.getFiltersStates() to consider filter when performing search
-        }
-    }
-*/
-
     @Override
     protected View inflateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container) {
         return inflater.inflate(R.layout.controller_main, container, false);
@@ -251,53 +181,5 @@ public class MainController extends BaseController implements MainContract.View 
         super.onDestroyView(view);
     }
 
-    @Override
-    public void showSearchUI(Topic topic) {
-        getRouter().pushController(
-                RouterTransaction.with(TopicController.newInstance(topic))
-                        .pushChangeHandler(new FadeChangeHandler())
-                        .popChangeHandler(new FadeChangeHandler())
-        );
-    }
 
-    private void fakeAddSuggestions(String newText) {
-        List<String> items = new ArrayList<>();
-        for (int i = 0; i < 7; i++) {
-            items.add(newText + i);
-        }
-
-        Handler handler = new Handler();
-        handler.postDelayed(() -> showSuggestions(items), 200);
-    }
-
-    @Override
-    public void showSuggestions(List<String> suggestions) {
-
-        Log.d("TAG", "abcd--- " + suggestions.size());
-        for (String str : suggestions) {
-            Log.d("TAG", "abcd--- " + str);
-        }
-
-        /*
-        suggestionsList.clear();
-
-        for (String suggestion : suggestions) {
-            SearchItem item = new SearchItem(getActivity());
-//            item.setSubtitle(suggestion);
-            item.setTitle(suggestion + lastQuery);
-//            item.set
-            suggestionsList.add(item);
-        }
-
-//        SearchHistoryTable searchHistoryTable = new SearchHistoryTable(getActivity());
-//        searchHistoryTable.getAllItems();
-//
-        Log.d("TAG", "abcd sizeeeeee 111 " + suggestionsList.size());
-        // todo use setData, check if it animates
-        searchAdapter.setSuggestionsList(suggestionsList);
-        Log.d("TAG", "abcd sizeeeeee 222 " + searchAdapter.getSuggestionsList().size());
-        searchAdapter.notifyDataSetChanged();
-        Log.d("TAG", "abcd sizeeeeee 333 " + searchAdapter.getSuggestionsList().size());
-        */
-    }
 }

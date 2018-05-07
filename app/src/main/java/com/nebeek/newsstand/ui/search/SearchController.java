@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,10 +93,6 @@ public class SearchController extends BaseController implements SearchContract.V
         topicList.clear();
         topicList.addAll(suggestions);
         topicViewAdapter.notifyDataSetChanged();
-
-        for (Topic topic : suggestions) {
-            Log.d("TAG", "abcd topic " + topic.getNames().get(0).getFa());
-        }
     }
 
     @Override
