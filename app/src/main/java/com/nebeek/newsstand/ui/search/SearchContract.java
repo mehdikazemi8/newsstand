@@ -17,6 +17,10 @@ public class SearchContract {
         void clearSuggestions();
 
         void showTopicUI(Topic topic);
+
+        void showNoResultMessage();
+
+        void hideNoResultMessage();
     }
 
     interface Presenter extends BasePresenter {

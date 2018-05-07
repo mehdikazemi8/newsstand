@@ -31,7 +31,13 @@ public class SearchPresenter implements SearchContract.Presenter {
         dataRepository.getAllTopics(query, new DataSource.TopicsResponseCallback() {
             @Override
             public void onResponse(List<Topic> myList) {
-                searchView.showSuggestions(myList);
+                if (myList.size() == 0) {
+                    searchView.clearSuggestions();
+                    searchView.showNoResultMessage();
+                } else {
+                    searchView.hideNoResultMessage();
+                    searchView.showSuggestions(myList);
+                }
             }
 
             @Override

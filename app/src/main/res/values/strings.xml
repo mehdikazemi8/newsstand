@@ -46,4 +46,5 @@
     </string-array>
 
     <string name="info_template" formatted="false">%s %s</string>
+    <string name="no_result_found">نتیجه ای یافت نشد!</string>
 </resources>

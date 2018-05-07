@@ -17,6 +17,19 @@
         android:paddingLeft="@dimen/space_8"
         android:paddingRight="@dimen/space_8" />
 
+    <TextView
+        android:id="@+id/no_result_message"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/material_actionbar_size"
+        android:fontFamily="@font/iransans"
+        android:gravity="center_vertical"
+        android:padding="@dimen/space_8"
+        android:text="@string/no_result_found"
+        android:visibility="invisible"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_input" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/suggestions"
         android:layout_width="0dp"

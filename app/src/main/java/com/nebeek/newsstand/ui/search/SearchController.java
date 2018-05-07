@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.bluelinelabs.conductor.RouterTransaction;
 import com.bluelinelabs.conductor.changehandler.FadeChangeHandler;
@@ -34,6 +35,8 @@ public class SearchController extends BaseController implements SearchContract.V
     EditText searchInput;
     @BindView(R.id.suggestions)
     RecyclerView suggestions;
+    @BindView(R.id.no_result_message)
+    TextView noResultMessage;
 
     private TopicViewAdapter topicViewAdapter;
     private List<Topic> topicList = new ArrayList<>();
@@ -108,5 +111,15 @@ public class SearchController extends BaseController implements SearchContract.V
                         .pushChangeHandler(new FadeChangeHandler())
                         .popChangeHandler(new FadeChangeHandler())
         );
+    }
+
+    @Override
+    public void showNoResultMessage() {
+        noResultMessage.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideNoResultMessage() {
+        noResultMessage.setVisibility(View.INVISIBLE);
     }
 }
