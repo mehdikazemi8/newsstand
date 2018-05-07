@@ -13,11 +13,11 @@ import java.util.List;
 public class SubscribesPresenter implements SubscribesContract.Presenter {
 
     private DataRepository dataRepository;
-    private SubscribesContract.View libraryView;
+    private SubscribesContract.View subscribesView;
 
-    public SubscribesPresenter(DataRepository dataRepository, SubscribesContract.View libraryView) {
+    public SubscribesPresenter(DataRepository dataRepository, SubscribesContract.View subscribesView) {
         this.dataRepository = dataRepository;
-        this.libraryView = libraryView;
+        this.subscribesView = subscribesView;
 
         RxBus.getInstance().toObservable().subscribe(object -> {
             if (object instanceof NewSubscription) {
@@ -29,7 +29,7 @@ public class SubscribesPresenter implements SubscribesContract.Presenter {
     @Override
     public void start() {
 
-        libraryView.showLoading();
+        subscribesView.showLoading();
 
         dataRepository.getSubscribes(new DataSource.GetSubscribesCallback() {
             @Override
@@ -37,22 +37,22 @@ public class SubscribesPresenter implements SubscribesContract.Presenter {
 
                 Log.d("TAG", "onResponse 111");
 
-                if (!libraryView.isActive()) {
+                if (!subscribesView.isActive()) {
                     return;
                 }
-                libraryView.hideLoading();
+                subscribesView.hideLoading();
 
-                libraryView.showSubscribes(topicList);
+                subscribesView.showSubscribes(topicList);
             }
 
             @Override
             public void onFailure() {
                 Log.d("TAG", "onFailure 111");
 
-                if (!libraryView.isActive()) {
+                if (!subscribesView.isActive()) {
                     return;
                 }
-                libraryView.hideLoading();
+                subscribesView.hideLoading();
 
             }
 
@@ -60,10 +60,10 @@ public class SubscribesPresenter implements SubscribesContract.Presenter {
             public void onNetworkFailure() {
                 Log.d("TAG", "onNetworkFailure 111");
 
-                if (!libraryView.isActive()) {
+                if (!subscribesView.isActive()) {
                     return;
                 }
-                libraryView.hideLoading();
+                subscribesView.hideLoading();
 
             }
         });
@@ -74,6 +74,6 @@ public class SubscribesPresenter implements SubscribesContract.Presenter {
         dataRepository.updateTopicReadCount(topic.getContents(), topic.getId());
 
         topic.setInLibrary(true);
-        libraryView.showSearchUI(topic);
+        subscribesView.showSearchUI(topic);
     }
 }
