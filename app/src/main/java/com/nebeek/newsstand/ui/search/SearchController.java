@@ -73,7 +73,10 @@ public class SearchController extends BaseController implements SearchContract.V
     private void initView() {
         topicViewAdapter = new TopicViewAdapter(
                 topicList,
-                topic -> presenter.onSuggestionClicked(topic),
+                topic -> {
+                    presenter.onSuggestionClicked(topic);
+                    closeKeyboard();
+                },
                 R.layout.template_topic,
                 false
         );
@@ -121,5 +124,17 @@ public class SearchController extends BaseController implements SearchContract.V
     @Override
     public void hideNoResultMessage() {
         noResultMessage.setVisibility(View.INVISIBLE);
+    }
+
+    public void closeKeyboard() {
+        try {
+            View view = getActivity().getCurrentFocus();
+            if (view != null) {
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
     }
 }
