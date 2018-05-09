@@ -24,7 +24,7 @@ public class DateManager {
             long diff = now - date;
 
             // todo
-//            diff -= 3600 * 3 + 1800;
+            diff -= 3600 * 4 + 1800;
 
             if (diff > 86400) {
                 return String.valueOf(diff / 86400) + " روز پیش ";
