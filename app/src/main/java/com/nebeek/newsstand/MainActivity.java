@@ -12,6 +12,7 @@ import com.bluelinelabs.conductor.Router;
 import com.bluelinelabs.conductor.RouterTransaction;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.nebeek.newsstand.data.DataRepository;
 import com.nebeek.newsstand.data.local.AppDatabase;
@@ -26,9 +27,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
+
+    private FirebaseAnalytics firebaseAnalytics;
+
     private Router router;
 
     private void init() {
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }

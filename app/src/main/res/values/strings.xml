@@ -28,6 +28,7 @@
     <string name="personalized_list_grid">R</string>
     <string name="newspaper">S</string>
 
+    <string name="topic_name">%s (%s)</string>
     <string name="dash">-</string>
     <string name="nothing_added_to_archive_yet">هنوز خبری به آرشیو اضافه نکردی!</string>
     <string name="search_in_categories">جست و جو در دسته ها</string>

@@ -2,7 +2,6 @@ package com.nebeek.newsstand.ui.subscribes;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,23 +51,30 @@ public class TopicViewAdapter extends RecyclerView.Adapter<TopicViewAdapter.View
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        Topic currentTopic = items.get(position);
+
         try {
-            Log.d("TAG", "hhhh " + (items.get(position).getNames().get(0).getFa()));
-            holder.content.setText(items.get(position).getNames().get(0).getFa());
+            if (currentTopic.getDisambiguation() != null &&
+                    currentTopic.getDisambiguation().getFa() != null) {
+                holder.content.setText(context.getString(R.string.topic_name,
+                        currentTopic.getNames().get(0).getFa(),
+                        currentTopic.getDisambiguation().getFa()));
+            } else {
+                holder.content.setText(currentTopic.getNames().get(0).getFa());
+            }
         } catch (Exception e) {
-            Log.d("TAG", "hhhh bbbbb");
             e.printStackTrace();
         }
 
-        if (items.get(position).getPhotoURL() == null) {
-            items.get(position).setPhotoURL(generatePhotoUrl(position));
+        if (currentTopic.getPhotoURL() == null) {
+            currentTopic.setPhotoURL(generatePhotoUrl(position));
         }
 
         try {
             holder.followersCount.setText(
                     context.getString(
                             R.string.followers_count,
-                            items.get(position).getSubscribes().getSize()
+                            currentTopic.getSubscribes().getSize()
                     )
             );
         } catch (Exception e) {
@@ -76,7 +82,7 @@ public class TopicViewAdapter extends RecyclerView.Adapter<TopicViewAdapter.View
         }
 
         try {
-            GlideApp.with(context).load(ApiService.BASE_URL + items.get(position).getImages().get(0).getImages().get(0).getData())
+            GlideApp.with(context).load(ApiService.BASE_URL + currentTopic.getImages().get(0).getImages().get(0).getData())
 //                .apply(RequestOptions.circleCropTransform())
                     .placeholder(R.drawable.loading_circle)
                     .circleCrop()
@@ -91,7 +97,7 @@ public class TopicViewAdapter extends RecyclerView.Adapter<TopicViewAdapter.View
         if (!showUnreadCount) {
             holder.unreadCount.setVisibility(View.INVISIBLE);
         } else {
-            int unreadCount = items.get(position).getContents().getSize() - items.get(position).getReadCount().getSize();
+            int unreadCount = currentTopic.getContents().getSize() - currentTopic.getReadCount().getSize();
             if (unreadCount == 0) {
                 holder.unreadCount.setVisibility(View.INVISIBLE);
             } else {

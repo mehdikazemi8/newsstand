@@ -7,12 +7,13 @@ import android.arch.persistence.room.TypeConverters;
 import android.support.annotation.NonNull;
 
 import com.nebeek.newsstand.data.local.converter.AppSizeConverter;
+import com.nebeek.newsstand.data.local.converter.AppTextConverter;
 import com.nebeek.newsstand.data.local.converter.ListAppTextConverter;
 
 import java.util.List;
 
 @Entity
-@TypeConverters({ListAppTextConverter.class, AppSizeConverter.class})
+@TypeConverters({ListAppTextConverter.class, AppSizeConverter.class, AppTextConverter.class})
 public class Topic extends BaseModel {
 
     @PrimaryKey
@@ -22,6 +23,8 @@ public class Topic extends BaseModel {
     private AppSize subscribes = new AppSize(0);
     private AppSize contents = new AppSize(0);
     private AppSize readCount = new AppSize(0);
+
+    private AppText disambiguation;
 
     private Integer likes;
     private String deleteId;
@@ -36,6 +39,14 @@ public class Topic extends BaseModel {
 
     @Ignore
     private List<AppImageSet> images = null;
+
+    public AppText getDisambiguation() {
+        return disambiguation;
+    }
+
+    public void setDisambiguation(AppText disambiguation) {
+        this.disambiguation = disambiguation;
+    }
 
     public String getOnboarding() {
         return onboarding;
