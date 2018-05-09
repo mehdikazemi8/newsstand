@@ -17,9 +17,12 @@ import com.bluelinelabs.conductor.changehandler.FadeChangeHandler;
 import com.nebeek.newsstand.R;
 import com.nebeek.newsstand.controller.base.BaseController;
 import com.nebeek.newsstand.controller.base.BaseMessageListPresenter;
+import com.nebeek.newsstand.customview.SquareImageView;
 import com.nebeek.newsstand.data.DataRepository;
 import com.nebeek.newsstand.data.models.Topic;
+import com.nebeek.newsstand.data.remote.ApiService;
 import com.nebeek.newsstand.util.GlobalToast;
+import com.nebeek.newsstand.util.imagehandler.GlideApp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +40,8 @@ public class TopicController extends BaseController implements TopicContract.Vie
     RecyclerView messages;
     @BindView(R.id.add_button)
     TextView addButton;
+    @BindView(R.id.photo)
+    SquareImageView photo;
 
     private int PAGE_SIZE = 10;
     private LinearLayoutManager layoutManager;
@@ -73,6 +78,18 @@ public class TopicController extends BaseController implements TopicContract.Vie
             } else {
                 addButton.setText(getResources().getString(R.string.icon_add_circle));
             }
+        }
+
+        try {
+            GlideApp.with(getActivity()).load(ApiService.BASE_URL + topicObject.getImages().get(0).getImages().get(0).getData())
+                    .placeholder(R.drawable.loading_circle)
+                    .circleCrop()
+                    .into(photo);
+        } catch (Exception e) {
+            GlideApp.with(getActivity()).load("")
+                    .placeholder(R.drawable.loading_circle)
+                    .circleCrop()
+                    .into(photo);
         }
 
         keywordContent.setText(keyword);
