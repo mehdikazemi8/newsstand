@@ -32,7 +32,7 @@ public class MessageListPresenter implements BaseMessageListPresenter {
     @Override
     public void onBindRowViewAtPosition(int position, MessageRowView view, boolean showDeleteButton) {
 
-        if(showDeleteButton) {
+        if (showDeleteButton) {
             view.removeBookmarkButton();
             view.addDeleteButton();
         } else {
@@ -66,6 +66,7 @@ public class MessageListPresenter implements BaseMessageListPresenter {
 
         if (messageList.get(position).getImages() != null && messageList.get(position).getImages().size() > 0) {
             try {
+                view.makePhotoVisible();
                 view.setPhoto(
                         messageList.get(position)
                                 .getImages().get(0)
@@ -74,7 +75,6 @@ public class MessageListPresenter implements BaseMessageListPresenter {
                         messageList.get(position).getImages().get(0).getImages().get(0).getHeight(),
                         ApiService.BASE_URL + messageList.get(position).getImages().get(0).getImages().get(0).getData()
                 );
-                view.makePhotoVisible();
             } catch (Exception e) {
                 view.makePhotoInvisible();
             }

@@ -5,6 +5,12 @@ public class AppImage {
     private Integer width;
     private Integer height;
 
+    public AppImage(String url, Integer width, Integer height) {
+        this.url = url;
+        this.width = width;
+        this.height = height;
+    }
+
     public AppImage(String url) {
         this.url = url;
     }

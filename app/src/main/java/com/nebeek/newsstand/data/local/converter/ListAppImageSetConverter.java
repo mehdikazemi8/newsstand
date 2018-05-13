@@ -17,7 +17,11 @@ public class ListAppImageSetConverter {
         }
 
         List<AppImageSet> list = new ArrayList<>();
-        list.add(new AppImageSet().addImage(new AppImage(str)));
+
+        String[] result = str.split("###");
+        AppImage appImage = new AppImage(result[0], Integer.parseInt(result[1]), Integer.parseInt(result[2]));
+
+        list.add(new AppImageSet().addImage(appImage));
         return list;
     }
 
@@ -27,6 +31,8 @@ public class ListAppImageSetConverter {
             return null;
         }
 
-        return list.get(0).getImages().get(0).getData();
+        return list.get(0).getImages().get(0).getData() + "###" +
+                list.get(0).getImages().get(0).getWidth() + "###" +
+                list.get(0).getImages().get(0).getHeight();
     }
 }
