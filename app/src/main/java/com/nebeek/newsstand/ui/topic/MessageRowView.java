@@ -35,4 +35,12 @@ public interface MessageRowView {
     void hideLikeCount();
 
     void setLikeCount(Integer likeCount);
+
+    void removeBookmarkButton();
+
+    void addBookmarkButton();
+
+    void removeDeleteButton();
+
+    void addDeleteButton();
 }

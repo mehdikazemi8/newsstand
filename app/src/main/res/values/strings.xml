@@ -27,6 +27,8 @@
     <string name="horizontal_three_dots">Q</string>
     <string name="personalized_list_grid">R</string>
     <string name="newspaper">S</string>
+    <string name="icon_delete">T</string>
+
 
     <string name="topic_name">%s (%s)</string>
     <string name="dash">-</string>

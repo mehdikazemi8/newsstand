@@ -30,7 +30,15 @@ public class MessageListPresenter implements BaseMessageListPresenter {
     }
 
     @Override
-    public void onBindRowViewAtPosition(int position, MessageRowView view) {
+    public void onBindRowViewAtPosition(int position, MessageRowView view, boolean showDeleteButton) {
+
+        if(showDeleteButton) {
+            view.removeBookmarkButton();
+            view.addDeleteButton();
+        } else {
+            view.addBookmarkButton();
+            view.removeDeleteButton();
+        }
 
         if (dataRepository.isMessageLiked(messageList.get(position).getId())) {
             view.showLikeIcon();
@@ -136,6 +144,13 @@ public class MessageListPresenter implements BaseMessageListPresenter {
     public void removeBookmark(int position) {
         messageList.get(position).setBookmarked(false);
         dataRepository.removeBookmark(messageList.get(position).getId());
+    }
+
+    @Override
+    public void deleteBookmark(int position) {
+        messageList.get(position).setBookmarked(false);
+        dataRepository.removeBookmark(messageList.get(position).getId());
+        messageList.remove(position);
     }
 
     @Override

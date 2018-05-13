@@ -42,20 +42,32 @@ public class MessageViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private Topic parentTopic;
     private OnItemSelectedListener<Topic> relatedTopicSelectedListener;
     private BaseMessageListPresenter messageListPresenter;
+    private boolean showDeleteButton = false;
 
     public MessageViewAdapter(Topic parentTopic, List<Topic> topics,
                               ShowUrlCallback showUrlCallback,
                               @Nullable OnItemSelectedListener<Topic> relatedTopicSelectedListener,
                               BaseMessageListPresenter messageListPresenter) {
         this.parentTopic = parentTopic;
-
         // todo remove this, just for now it must be hidden
 //        this.topics = topics;
         this.topics = null;
-
         this.showUrlCallback = showUrlCallback;
         this.relatedTopicSelectedListener = relatedTopicSelectedListener;
         this.messageListPresenter = messageListPresenter;
+    }
+
+    public MessageViewAdapter(Topic parentTopic, List<Topic> topics,
+                              ShowUrlCallback showUrlCallback,
+                              @Nullable OnItemSelectedListener<Topic> relatedTopicSelectedListener,
+                              BaseMessageListPresenter messageListPresenter,
+                              boolean showDeleteButton) {
+        this.parentTopic = parentTopic;
+        this.topics = null;
+        this.showUrlCallback = showUrlCallback;
+        this.relatedTopicSelectedListener = relatedTopicSelectedListener;
+        this.messageListPresenter = messageListPresenter;
+        this.showDeleteButton = showDeleteButton;
     }
 
     @Override
@@ -115,7 +127,7 @@ public class MessageViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     private void bindData(RecyclerView.ViewHolder holder, int position) {
         // todo remove
-        messageListPresenter.onBindRowViewAtPosition(position, (MessageRowView) holder);
+        messageListPresenter.onBindRowViewAtPosition(position, (MessageRowView) holder, showDeleteButton);
     }
 
     private Pair<Integer, Integer> findStartEnd(String message, String url) {
@@ -205,6 +217,28 @@ public class MessageViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         ImageView playButton;
         @BindView(R.id.like_count)
         TextView likeCount;
+        @BindView(R.id.delete_button)
+        TextView deleteButton;
+
+        @Override
+        public void removeBookmarkButton() {
+            bookmarkButton.setVisibility(View.INVISIBLE);
+        }
+
+        @Override
+        public void addBookmarkButton() {
+            bookmarkButton.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        public void removeDeleteButton() {
+            deleteButton.setVisibility(View.INVISIBLE);
+        }
+
+        @Override
+        public void addDeleteButton() {
+            deleteButton.setVisibility(View.VISIBLE);
+        }
 
         @Override
         public void setLikeCount(Integer likeCountInt) {
@@ -240,6 +274,12 @@ public class MessageViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         @Override
         public void hideBookmark() {
             bookmarkButton.setText(context.getString(R.string.icon_bookmark_empty));
+        }
+
+        @OnClick(R.id.delete_button)
+        public void deleteOnClick() {
+            messageListPresenter.deleteBookmark(getAdapterPosition());
+            notifyItemRemoved(getAdapterPosition());
         }
 
         @OnClick(R.id.play_button)
@@ -311,21 +351,29 @@ public class MessageViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         @Override
         public void setSourcePhoto(String sourcePhotoUrl) {
-            sourcePhoto.setVisibility(View.VISIBLE);
-            GlideApp.with(context)
-                    .load(sourcePhotoUrl)
-                    .circleCrop()
-                    .into(sourcePhoto);
+            try {
+                sourcePhoto.setVisibility(View.VISIBLE);
+                GlideApp.with(context)
+                        .load(sourcePhotoUrl)
+                        .circleCrop()
+                        .into(sourcePhoto);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         @Override
         public void setPhoto(int width, int height, String photoUrl) {
-            photo.setVisibility(View.VISIBLE);
-            GlideApp.with(context)
-                    .load(photoUrl)
-                    .placeholder(R.drawable.loading)
-                    .override(width, height)
-                    .into(photo);
+            try {
+                photo.setVisibility(View.VISIBLE);
+                GlideApp.with(context)
+                        .load(photoUrl)
+                        .placeholder(R.drawable.loading)
+                        .override(width, height)
+                        .into(photo);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         @Override

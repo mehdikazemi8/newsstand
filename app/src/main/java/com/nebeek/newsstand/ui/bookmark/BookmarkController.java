@@ -52,7 +52,7 @@ public class BookmarkController extends BaseBackStackController implements Bookm
     }
 
     private void initView() {
-        messageViewAdapter = new MessageViewAdapter(null, null, this::openWebView, null, (BaseMessageListPresenter) presenter);
+        messageViewAdapter = new MessageViewAdapter(null, null, this::openWebView, null, (BaseMessageListPresenter) presenter, true);
         layoutManager = new LinearLayoutManager(getActivity());
         messages.setLayoutManager(layoutManager);
         messages.setAdapter(messageViewAdapter);
@@ -86,7 +86,11 @@ public class BookmarkController extends BaseBackStackController implements Bookm
 
     @Override
     public void hideEmptyListMessage() {
-        emptyListMessage.setVisibility(View.GONE);
+        try {
+            emptyListMessage.setVisibility(View.GONE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
