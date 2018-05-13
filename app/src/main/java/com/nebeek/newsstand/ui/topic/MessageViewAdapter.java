@@ -229,7 +229,7 @@ public class MessageViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         @Override
         public void hidePlayButton() {
-            playButton.setVisibility(View.INVISIBLE);
+            playButton.setVisibility(View.GONE);
         }
 
         @Override
@@ -291,6 +291,7 @@ public class MessageViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         @Override
         public void makePhotoInvisible() {
             photo.setVisibility(View.GONE);
+            playButton.setVisibility(View.GONE);
         }
 
         @Override
@@ -310,6 +311,7 @@ public class MessageViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         @Override
         public void setSourcePhoto(String sourcePhotoUrl) {
+            sourcePhoto.setVisibility(View.VISIBLE);
             GlideApp.with(context)
                     .load(sourcePhotoUrl)
                     .circleCrop()
@@ -318,7 +320,7 @@ public class MessageViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         @Override
         public void setPhoto(int width, int height, String photoUrl) {
-
+            photo.setVisibility(View.VISIBLE);
             GlideApp.with(context)
                     .load(photoUrl)
                     .placeholder(R.drawable.loading)
