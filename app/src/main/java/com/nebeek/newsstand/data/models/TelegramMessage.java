@@ -7,6 +7,7 @@ import android.arch.persistence.room.TypeConverters;
 import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
+import com.nebeek.newsstand.data.local.converter.AppSizeConverter;
 import com.nebeek.newsstand.data.local.converter.AppTextConverter;
 import com.nebeek.newsstand.data.local.converter.ChannelConverter;
 import com.nebeek.newsstand.data.local.converter.ListAppImageSetConverter;
@@ -14,7 +15,7 @@ import com.nebeek.newsstand.data.local.converter.ListAppImageSetConverter;
 import java.util.List;
 
 @Entity
-@TypeConverters({AppTextConverter.class, ChannelConverter.class, ListAppImageSetConverter.class})
+@TypeConverters({AppSizeConverter.class, AppTextConverter.class, ChannelConverter.class, ListAppImageSetConverter.class})
 public class TelegramMessage {
 
     @PrimaryKey
@@ -37,7 +38,6 @@ public class TelegramMessage {
     private Boolean bookmarked;
     private Long bookmarkTime;
 
-    @Ignore
     private AppSize likes = null;
 
     public AppSize getLikes() {

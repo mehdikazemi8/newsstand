@@ -242,7 +242,7 @@ public class MessageViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         @Override
         public void setLikeCount(Integer likeCountInt) {
-            likeCount.setText(String.format("+%d", likeCountInt));
+            likeCount.setText(String.format("+%d", Math.max(1, likeCountInt)));
         }
 
         @Override
@@ -300,7 +300,9 @@ public class MessageViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         @OnClick(R.id.like_button)
         public void likeOnClick() {
-
+            if (likeButton.getText().toString().equals(context.getString(R.string.thumb_up_full))) {
+                return;
+            }
 
             messageListPresenter.likeMessage(getAdapterPosition());
 //            notifyItemChanged(getAdapterPosition());
@@ -308,6 +310,7 @@ public class MessageViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             // todo
             showLikeCount();
+
             String likeStr = likeCount.getText().toString();
             if (likeStr == null || likeStr.isEmpty()) {
                 likeStr = "+1";
