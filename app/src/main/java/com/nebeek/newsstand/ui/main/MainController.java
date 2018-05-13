@@ -31,8 +31,8 @@ public class MainController extends BaseController implements MainContract.View 
 //    private String[] pageTitles = {"پروفایل", "آرشیو", "آخرین اخبار", "منتخب شما"};
 //    private String[] pageIcons = {"Q", "H", "S", "R"};
 
-    private String[] pageTitles = {"آرشیو", "آخرین اخبار", "منتخب شما"};
-    private String[] pageIcons = {"H", "S", "R"};
+    private String[] pageTitles = {"آرشیو", "منتخب شما", "آخرین اخبار"};
+    private String[] pageIcons = {"H", "R", "S"};
 
     private int NUMBER_OF_TABS = 3;
 
@@ -93,11 +93,11 @@ public class MainController extends BaseController implements MainContract.View 
                 break;
 
             case 1:
-                controllers[1] = new ExploreController();
+                controllers[1] = new SubscribesController();
                 break;
 
             default:
-                controllers[2] = new SubscribesController();
+                controllers[2] = new ExploreController();
                 break;
         }
 
