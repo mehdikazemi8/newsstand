@@ -169,7 +169,11 @@ public class TopicController extends BaseController implements TopicContract.Vie
 
     @Override
     public void hideLoading() {
-        progressBar.setVisibility(View.INVISIBLE);
+        try {
+            progressBar.setVisibility(View.INVISIBLE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
