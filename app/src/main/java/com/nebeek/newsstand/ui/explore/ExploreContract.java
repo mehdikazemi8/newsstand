@@ -2,7 +2,6 @@ package com.nebeek.newsstand.ui.explore;
 
 import com.nebeek.newsstand.controller.BaseMessageView;
 import com.nebeek.newsstand.controller.base.BasePresenter;
-import com.nebeek.newsstand.controller.base.BaseView;
 
 public class ExploreContract {
 
@@ -14,5 +13,7 @@ public class ExploreContract {
     public interface Presenter extends BasePresenter {
 
         void loadOlderMessages();
+
+        void trackMessages(int firstItem, int lastItem);
     }
 }

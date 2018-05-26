@@ -1,12 +1,11 @@
 package com.nebeek.newsstand.ui.explore;
 
-import android.os.CountDownTimer;
-import android.util.Log;
-
 import com.nebeek.newsstand.controller.base.MessageListPresenter;
 import com.nebeek.newsstand.data.DataRepository;
 import com.nebeek.newsstand.data.DataSource;
+import com.nebeek.newsstand.data.local.PreferenceManager;
 import com.nebeek.newsstand.data.models.TelegramMessage;
+import com.nebeek.newsstand.data.models.TrackedMessages;
 import com.nebeek.newsstand.data.remote.response.MessagesResponse;
 
 import java.util.ArrayList;
@@ -18,17 +17,16 @@ public class ExplorePresenter extends MessageListPresenter implements ExploreCon
     private ExploreContract.View exploreView;
     private int offset = 0;
     private boolean isLoading = false;
+    private PreferenceManager preferenceManager;
 
-    private CountDownTimer countDownTimer;
-
-    public ExplorePresenter(ExploreContract.View exploreView, DataRepository dataRepository) {
+    public ExplorePresenter(ExploreContract.View exploreView, DataRepository dataRepository, PreferenceManager preferenceManager) {
         super(dataRepository);
         this.exploreView = exploreView;
+        this.preferenceManager = preferenceManager;
     }
 
     @Override
     public void start() {
-
         loadOlderMessages();
 
 //        countDownTimer = new CountDownTimer(300000, 8000) {
@@ -102,9 +100,9 @@ public class ExplorePresenter extends MessageListPresenter implements ExploreCon
             @Override
             public void onResponse(MessagesResponse response) {
 
-                for(TelegramMessage m : response.getResults()) {
-                    Log.d("Tag", "hhh " + m.getLink());
-                }
+//                for(TelegramMessage m : response.getResults()) {
+//                    Log.d("Tag", "hhh " + m.getLink());
+//                }
 
                 isLoading = false;
                 Collections.reverse(response.getResults());
@@ -126,9 +124,19 @@ public class ExplorePresenter extends MessageListPresenter implements ExploreCon
     }
 
     @Override
-    protected void finalize() throws Throwable {
-        super.finalize();
-
-        countDownTimer.cancel();
+    public void trackMessages(int firstItem, int lastItem) {
+        TrackedMessages trackedMessages = preferenceManager.getTrackedMessages();
+        if (firstItem != -1 && lastItem != -1) {
+            if (firstItem < lastItem - 1) {
+                for (int i = firstItem + 1; i < lastItem; i++) {
+                    trackedMessages.addId(messageList.get(i).getId());
+                }
+            } else {
+                for (int i = firstItem; i <= lastItem; i++) {
+                    trackedMessages.addId(messageList.get(i).getId());
+                }
+            }
+        }
+        preferenceManager.putTrackedMessages(trackedMessages);
     }
 }

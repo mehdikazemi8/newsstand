@@ -8,6 +8,7 @@ import com.google.gson.GsonBuilder;
 import com.nebeek.newsstand.data.AutoValueGsonTypeAdapterFactory;
 import com.nebeek.newsstand.data.MyAdapterFactory;
 import com.nebeek.newsstand.data.models.BaseModel;
+import com.nebeek.newsstand.data.models.TrackedMessages;
 import com.nebeek.newsstand.data.models.User;
 import com.nebeek.newsstand.data.remote.request.FCMRequest;
 import com.nebeek.newsstand.data.remote.response.TokenResponse;
@@ -23,7 +24,8 @@ public class PreferenceManager {
         TOKEN,
         FCM_ID,
         UNIQUE_ID,
-        HAS_SELECTED_TOPICS
+        HAS_SELECTED_TOPICS,
+        TRACK_IDS
     }
 
     public static PreferenceManager getInstance(Context context) {
@@ -175,6 +177,21 @@ public class PreferenceManager {
 
     public boolean hasSelectedOnboardingTopics() {
         return getBoolean(Key.HAS_SELECTED_TOPICS);
+    }
+
+    //*************************************************************
+
+    public void putTrackedMessages(TrackedMessages trackedMessages) {
+        put(Key.TRACK_IDS, trackedMessages);
+    }
+
+    public TrackedMessages getTrackedMessages() {
+        TrackedMessages result = get(Key.TRACK_IDS, TrackedMessages.class);
+        if (result == null) {
+            return new TrackedMessages();
+        } else {
+            return result;
+        }
     }
 }
 
